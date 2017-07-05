@@ -11,8 +11,7 @@ L.Control.SearchControl = L.Control.extend({
 		html: '<span id="span_bt_Find" class="fa fa-search"></span>',
 		idInputText: 'ctr_cerca',
 		inputplaceholderText: 'Cercar llocs al món o coordenades  ...',
-		tooltip: 'right',
-		resultsContainer : ''
+		tooltip: 'right'
 	},
 	
 	initialize: function(options){
@@ -64,9 +63,7 @@ L.Control.SearchControl = L.Control.extend({
 			idInputText : '#'+options.idInputText,
 			zoom : 14,
 			textSize : 22,
-			autoCollapseTime: 3200,
-			resultsContainer: options.resultsContainer,
-			disableAutoCollapse: options.disableAutoCollapse
+			autoCollapseTime: 3200
 		}).addTo(map);
 		
 		return container;
@@ -137,36 +134,6 @@ L.Control.SearchControl = L.Control.extend({
 		this[collapsed ? 'show' : 'hide']();
 		$.publish('analyticsEvent',{event:['visor','button#cercaTopo','label cercaTopo', 6]});
 	},
-
-	moveToSidebar: function(sidebarId)
-	{
-
-		var self = this;
-		var buttonHTML = '<li><a href="#searchPanel" id="searchTab" role="tab">' +
-			self.options.html + '</a></li>';
-
-		var bodyHTML = '<div id="searchPanel" class="sidebar-pane sidebar-outer-pane">' +
-			'<h1 class="sidebar-header" lang="ca">' +
-				self.options.title + 
-				'<span class="sidebar-close" id="infoClose"><i class="fa fa-caret-left"></i></span>' +
-			'</h1><div class="scrollable-pane"><div id="search-content"></div></div></div>';
-		
-		$(sidebarId + ' .leftTopBar').append(buttonHTML);
-		$(sidebarId + ' .sidebar-content').append(bodyHTML);
-		$('#searchBar').appendTo('#search-content');
-		$('<div id="search-results-panel"></div').appendTo('#search-content');
-		$('#' + self.options.resultsContainer).appendTo('#search-results-panel');
-		$('#searchBar').css('width', 'calc(100% - 35px)');
-		$('#searchBar').css('position', 'relative');
-		$('#searchBar').css('top', '0px');
-		$('#searchBar').css('height', '50px');
-		$('#searchBar .leaflet-center').css('width', '100%');
-		$('#searchBar .leaflet-control-search').css('width', '100%');
-		$('#search-input').css('width', '100%');
-		$('#searchBar').show();
-		$('#' + self.options.id).remove();
-
-	}
 });
 
 L.control.searchControl = function(options){

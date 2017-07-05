@@ -138,8 +138,7 @@ gulp.task('styles', function() {
     config.dirCssVendors+'/leaflet/leaflet.label.css',
     config.dirCssVendors+'/leaflet.timedimension.control.css',
     config.dirCssVendors+'/leaflet/leaflet-routing-machine.css',
-    config.dirCssVendors+'/leaflet/lrm-mapzen.css',
-    config.dirCssVendors+'/leaflet/leaflet-sidebar.min.css'
+    config.dirCssVendors+'/leaflet/lrm-mapzen.css'
   ], 'leaflet.css');
 
   pipeline.add([
@@ -226,7 +225,6 @@ gulp.task('scripts', function() {
     config.dirJsVendors+'/leaflet/plugin/leaflet-routing-machine.js',
     config.dirJsVendors+'/leaflet/plugin/lrm-mapzen.js',
     config.dirJsVendors+'/leaflet/plugin/Control.Geocoder.js',
-    config.dirJsVendors+'/leaflet/plugin/leaflet-sidebar.min.js',
     config.dirJsVendors+'/leaflet/plugin/leaflet-pip.js',
     config.dirJsVendors+'/leaflet/plugin/toGeoJSON.js'
   ], 'leaflet.js');

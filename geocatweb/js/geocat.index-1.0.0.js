@@ -40,25 +40,25 @@ function weball_tornarInici(){
 	jQuery("#back-top").hide();
 	jQuery('#fes-mapa-inici').hide();
 		
-	jQuery(function () {
-		jQuery(window).scroll(function () {
-			if (jQuery(this).scrollTop() > 150) {
-				jQuery('#back-top').fadeIn();
-				jQuery('#fes-mapa-inici').fadeIn();
-			} else {
-				jQuery('#back-top').fadeOut();
-				jQuery('#fes-mapa-inici').fadeOut();
-			}
-		});
+		jQuery(function () {
+			jQuery(window).scroll(function () {
+				if (jQuery(this).scrollTop() > 150) {
+					jQuery('#back-top').fadeIn();
+					jQuery('#fes-mapa-inici').fadeIn();
+				} else {
+					jQuery('#back-top').fadeOut();
+					jQuery('#fes-mapa-inici').fadeOut();
+				}
+			});
 
-		jQuery('#back-top button').click(function () {
-			jQuery('body,html').animate({
-				scrollTop: 0
-			}, 800);
-			return false;
+			jQuery('#back-top button').click(function () {
+				jQuery('body,html').animate({
+					scrollTop: 0
+				}, 800);
+				return false;
+			});
+			jQuery('#fes-mapa-inici').click(function () {
+				window.open("../geocatweb/mapa.html","_self");
+			});
 		});
-		jQuery('#fes-mapa-inici').click(function () {
-			window.open("../geocatweb/mapa.html","_self");
-		});
-	});
-}
+	}

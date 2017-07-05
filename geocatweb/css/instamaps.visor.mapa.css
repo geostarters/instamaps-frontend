@@ -2191,6 +2191,10 @@ i.fa {
 
 #layer-data-table th, #layer-data-table td {width: 100%;}
 
+.mCustomScrollBox > .mCSB_scrollTools {
+    width: 5px;
+}
+
 /*control fons*/
 /*
 .control-btn-fons{

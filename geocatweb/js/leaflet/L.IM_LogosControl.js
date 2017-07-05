@@ -71,7 +71,7 @@ L.Control.Logos = L.Control.extend({
 				container.removeChild(elements[i]);
 			}
 		}
-	},
+	}
 
 });
 

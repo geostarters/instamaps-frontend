@@ -42,9 +42,7 @@ L.Control.Search = L.Control.extend({
 		textEdit:'Edit',//error message
 		textLoad:'',
 		scope:'visor',
-		position: 'topcenter',
-		resultsContainer: '',
-		disableAutoCollapse: false
+		position: 'topcenter'
 		//TODO add option collapsed, like control.layers
 	},
 //FIXME option condition problem {autoCollapse: true, markerLocation: true} not show location
@@ -94,7 +92,6 @@ L.Control.Search = L.Control.extend({
 		this._input = this._createInput(this.options.text, 'search-input');
 		this._icon= this._createIcon('fa fa-search iconSearch');
 		this._tooltip = this._createTooltip('search-tooltip');
-
 		this._alert = this._createAlert('search-alert');
 		this._edit = this._createEdit(this.options.textEdit,'search-edit');
 		this._loadv = this._createLoad(this.options.textLoad,'search-load');
@@ -162,15 +159,10 @@ L.Control.Search = L.Control.extend({
 		this._alert.style.display = 'block';
 		this._alert.innerHTML = text;
 		clearTimeout(this.timerAlert);
-		var that = this;
-		if(!this.options.disableAutoCollapse)
-		{
-		
-			this.timerAlert = setTimeout(function() {
-				that.hideAlert();
-			},this.options.autoCollapseTime);
-
-		}
+		var that = this;		
+		this.timerAlert = setTimeout(function() {
+			that.hideAlert();
+		},this.options.autoCollapseTime);
 		$.publish('analyticsEvent',{event:[this.options.scope,'input#cercaTopoFAIL',this._input.value, 8]});
 		return this;
 	},
@@ -181,15 +173,10 @@ L.Control.Search = L.Control.extend({
 		this._loadv.style.display = 'block';
 		this._loadv.innerHTML = text;
 		clearTimeout(this.timerAlert);
-		var that = this;
-		if(!this.options.disableAutoCollapse)
-		{
-		
-			this.timerAlert = setTimeout(function() {
-				that.hideAlert();
-			},this.options.autoCollapseTime);
-
-		}
+		var that = this;		
+		this.timerAlert = setTimeout(function() {
+			that.hideAlert();
+		},this.options.autoCollapseTime);
 		return this;
 	},
 	
@@ -254,14 +241,9 @@ L.Control.Search = L.Control.extend({
 		if (!this.options.autoCollapse) return this;
 		var that = this;
 		clearTimeout(this.timerCollapse);
-		if(!this.options.disableAutoCollapse)
-		{
-
-			this.timerCollapse = setTimeout(function() {
-				that.collapse();
-			}, this.options.autoCollapseTime);
-
-		}
+		this.timerCollapse = setTimeout(function() {
+			that.collapse();
+		}, this.options.autoCollapseTime);
 		return this;		
 	},
 
@@ -353,18 +335,8 @@ L.Control.Search = L.Control.extend({
 	},
 
 	_createTooltip: function(className) {
-
-		var self = this;
-		var tool = null;
-
-		if('' === self.options.resultsContainer)
-			tool = L.DomUtil.create('div', className, this._container);
-		else
-			tool = L.DomUtil.get(self.options.resultsContainer);
-
-		if (tool!=null ) {
-			tool.style.display = 'none';
-		
+		var tool = L.DomUtil.create('div', className, this._container);
+		tool.style.display = 'none';
 
 		var that = this;
 		L.DomEvent
@@ -377,7 +349,6 @@ L.Control.Search = L.Control.extend({
 			.on(tool, 'mouseover', function(e) {
 				that.collapseDelayedStop();
 			}, this);
-		}
 		return tool;
 	},
 

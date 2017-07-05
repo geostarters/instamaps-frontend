@@ -164,8 +164,6 @@
         	this._addHtmlModalPublicar();
         	this._addHtmlModalIframePublicar();
 
-        	$('#optDescripcio').summernote();
-
         	//require web
         	if (isRandomUser(this.uid)){
         		this.button.on('click',function(){
@@ -195,19 +193,6 @@
         	}
         },
 
-        _setDescriptionColor: function(color)
-        {
-
-        	var self = this;
-        	$('.note-editable').css('background-color', color.toHexString());
-
-        	if(!self.mapConfig.options)
-        		self.mapConfig.options = {};
-
-        	self.mapConfig.options.descriptionColor = color.toHexString();
-
-        },
-
         _updateModalPublicar: function(){
         	//actualizar los campos del dialogo publicar
         	//require utils
@@ -231,9 +216,6 @@
 					$('#map_clau').val('');
 				}
 			}
-
-			var backgroundColor = "#fff";
-
 			if(self.mapConfig.options){
 				$('#optDescripcio').val(self.mapConfig.options.description);
 				$('#optTags').val(self.mapConfig.options.tags);
@@ -263,39 +245,7 @@
 					}
 
 				}
-
-				if(self.mapConfig.options.description)
-    			{
-
-    				$('#optDescripcio').summernote('code', self.mapConfig.options.description);
-
-    			}
-
-    			if(self.mapConfig.options.descriptionAsAtlas)
-    			{
-    			
-    				$('#cbAtles').prop('checked', self.mapConfig.options.descriptionAsAtlas);
-
-    			}
-
-    			if(self.mapConfig.options.descriptionColor)
-    			{
-
-    				//Convert from hex to rgb
-    				backgroundColor = self.mapConfig.options.descriptionColor;
-    				self._setDescriptionColor(tinycolor(backgroundColor));
-
-    			}
-
 			}
-
-			$('#colorSelector').spectrum({
-				color: backgroundColor,
-				cancelText: window.lang.translate("Cancel·lar"),
-				chooseText: window.lang.translate("Acceptar"),
-				hide: function(color) { self._setDescriptionColor(color); },
-				move: function(color) { self._setDescriptionColor(color); }
-			});
 
 			self._createModalConfigDownload();
 
@@ -593,22 +543,6 @@
     				self._loadPublicarData(false);
     			});
 
-    			$('#optDescripcio').summernote({
-    				lang: 'ca-ES',
-    				toolbar: [
-    					['font', ['color', 'bold', 'italic', 'underline', 'fontname', 'fontsize']],
-    					['paragraph', ['ol', 'ul', 'paragraph']],
-    					['style', ['table', 'link', 'hr']],
-    					['insert', ['picture', 'video']],
-    					['extra', ['codeview', 'fullscreen', 'undo', 'redo']]
-    				],
-    				dialogsInBody: true,
-    				disableDragAndDrop: true,
-    				height: 250
-    			});
-
-    			$('.note-group-select-from-files').hide();	//Hide the file chooser
-
         	});
 
         	$.get("templates/modalPublicarRandom.html",function(data){
@@ -712,14 +646,12 @@
 
         _publicarMapa: function(){
 
-			$.publish('analyticsEvent',{event:['mapa', '1#bt_publicar', 'publicar_mapa', 10]});
+      $.publish('analyticsEvent',{event:['mapa', '1#bt_publicar', 'publicar_mapa', 10]});
         	var self = this;
         	var options = {};
         	var _map = this.map;
         	options.tags = $('#dialgo_publicar #optTags').val();
-        	options.description = $('#dialgo_publicar #optDescripcio').summernote('code');
-        	options.descriptionAsAtlas = $('#dialgo_publicar #cbAtles').is(':checked');
-        	if (self.mapConfig.options && self.mapConfig.options.descriptionColor) options.descriptionColor = self.mapConfig.options.descriptionColor;
+        	options.description = $('#dialgo_publicar #optDescripcio').val();
 
 			options.mapa3D=estatMapa3D;
 			if(estatMapa3D){
@@ -812,7 +744,7 @@
         		return {businessId: this.id.replace('input-',''), activa: $(this).is(':checked')};
         	}).get();
 
-			$.publish('analyticsEvent',{event:['mapa', '1#num_capes_publicades', layers.length, 10]});
+  $.publish('analyticsEvent',{event:['mapa', '1#num_capes_publicades', layers.length, 10]});
 
         	//Atencio miro estat de les capes
         	//reOrderGroupsAndLayers(true);
