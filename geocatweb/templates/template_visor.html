@@ -130,7 +130,30 @@
 	</div>
 	<!-- / Fixed navbar -->
 
-    <div id="searchBar" class="input-group"></div><!-- /input-group -->
+   <!-- / Fixed navbar -->
+	<div id="leftSidebar" class="sidebar collapsed">
+		<div class="sidebar-tabs">
+			<ul role="tablist" class="leftTopBar">
+				<li lang="ca" title="Informació" data-lang-title="Informació">
+					<a href="#infoPanel" role="tab">
+						<span id="infoMap" class="glyphicon glyphicon-info-sign"></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="sidebar-content">
+			<div id="infoPanel" class="sidebar-pane sidebar-outer-pane">
+				<h1 class="sidebar-header" lang="ca">
+					Informació 
+					<span class="sidebar-close" id="infoClose"><i class="fa fa-caret-left"></i></span>
+				</h1>
+			</div>
+		</div>
+	</div>
+
+	<div id="searchBar" class="input-group"></div>
+	<div id="searchResults"></div>
+	<div id="socialShare_visor" class="div_gr5"></div>
 
 	<div id="map" class="visor"></div>
 

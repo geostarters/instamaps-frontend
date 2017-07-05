@@ -978,7 +978,7 @@ div.leaflet-routing-geocoder input:-moz-placeholder { opacity: 0.8; }
 }
 
 #dv_bt_Location-btn {
-	margin-top: -18px;
+	/*margin-top: -18px;*/
 	margin-left: 7px;
 }
 

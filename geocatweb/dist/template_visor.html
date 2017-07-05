@@ -25,7 +25,7 @@
 <!-- Le styles -->
 <link href="/geocatweb/dist/css/jquery.css?v=195288c163" rel="stylesheet" type="text/css" />
 <link href="/geocatweb/dist/css/leaflet.css?v=09a929ba02" rel="stylesheet" type="text/css" />
-<link href="/geocatweb/dist/css/instamaps.css?v=db14df40e8" rel="stylesheet" type="text/css" />
+<link href="/geocatweb/dist/css/instamaps.css?v=b216ac3669" rel="stylesheet" type="text/css" />
 <!-- /Le styles -->
 
 <!-- KISSMETRICS SNIPPET -->
@@ -130,7 +130,30 @@
 	</div>
 	<!-- / Fixed navbar -->
 
-    <div id="searchBar" class="input-group"></div><!-- /input-group -->
+   <!-- / Fixed navbar -->
+	<div id="leftSidebar" class="sidebar collapsed">
+		<div class="sidebar-tabs">
+			<ul role="tablist" class="leftTopBar">
+				<li lang="ca" title="Informació" data-lang-title="Informació">
+					<a href="#infoPanel" role="tab">
+						<span id="infoMap" class="glyphicon glyphicon-info-sign"></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="sidebar-content">
+			<div id="infoPanel" class="sidebar-pane sidebar-outer-pane">
+				<h1 class="sidebar-header" lang="ca">
+					Informació 
+					<span class="sidebar-close" id="infoClose"><i class="fa fa-caret-left"></i></span>
+				</h1>
+			</div>
+		</div>
+	</div>
+
+	<div id="searchBar" class="input-group"></div>
+	<div id="searchResults"></div>
+	<div id="socialShare_visor" class="div_gr5"></div>
 
 	<div id="map" class="visor"></div>
 
