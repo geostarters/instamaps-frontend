@@ -508,11 +508,11 @@
                     value = calculateObjectValue(that.header, that.header.sorters[index], [aa, bb]);
 
                 if (value !== undefined) {
-                    return order * value;
+                	return order * value;
                 }
 
                 if (value !== undefined) {
-                    return order * value;
+                	return order * value;
                 }
 
                 // Fix #161: undefined or null string sort bug.
@@ -529,13 +529,14 @@
                     aa = parseFloat(aa);
                     bb = parseFloat(bb);
                     if (aa < bb) {
+                    	 console.debug(order*-1);  
                         return order * -1;
                     }
                     return order;
                 }
                 
                 if (aa === bb) {
-                    return 0;
+                	return 0;
                 }
 
                 // If value is not a string, convert to string
@@ -543,11 +544,12 @@
                 {
                     aa = aa.toString();
                 }
-
-                if (aa.localeCompare(bb) === -1) {
-                    return order * -1;
+                if (aa.indexOf("dataTableSelect")>-1 || bb.indexOf("dataTableSelect")>-1) {
+                	return -1;
                 }
-                    
+                else if (aa.localeCompare(bb) === -1) {
+                	return order * -1;
+                }
                 return order;
             });
         }
