@@ -55,8 +55,8 @@ var subDomainsA=['a','b','c'];
 //var urlServerTiles="http://www.{s}.instamaps.cat"
 //var urlServerTilesW="http://www.instamaps.cat"
 
-var urlServerTiles="http://{s}.tilemaps.icgc.cat";
-var urlServerTilesW="http://{s}.tilemaps.icgc.cat";
+var urlServerTiles="http://{s}tilemaps.icgc.cat";
+var urlServerTilesW="http://{s}tilemaps.icgc.cat";
 
 
 var urlApp=document.location.href;
@@ -97,15 +97,15 @@ var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 var mapaUrl = {
 	topoMapMON:urlServerTiles+'/mapfactory/wmts/mon_cat/MON3857/{z}/{x}/{y}.png',
 	topoMapOSM:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-	topoMapICGC:'http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg',
+	topoMapICGC:'https://geoserveis.icgc.cat/icc_mapesmultibase/noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg',
 	topoMapSuauOSM:urlServerTiles+'/mapfactory/wmts/osm_suau/CAT3857_15/{z}/{x}/{y}.png',
 	topoMapSuauICGC:urlServerTiles+'/mapfactory/wmts/topo_suau/CAT3857/{z}/{x}/{y}.png',
-	ortoEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+	ortoEsri:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 	ortoInstamaps:urlServerTiles+'/mapfactory/wmts/orto_8_12/CAT3857/{z}/{x}/{y}.png',
 	ortoAugmentada:urlServerTilesW+'/mapfactory/wmts/orto_augmentada/CAT3857/{z}/{x}/{y}.jpeg',
-	ortoICGC:"http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg",
+	ortoICGC:"https://geoserveis.icgc.cat/icc_mapesmultibase/noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg",
 	hibridInstamaps:urlServerTiles+'/mapfactory/wmts/hibrida/CAT3857/{z}/{x}/{y}.png',
-	terrainEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
+	terrainEsri:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
 	terrainInstamaps:urlServerTiles+'/mapfactory/wmts/relleu/CAT3857/{z}/{x}/{y}.png',
 	ombraInstamaps:urlServerTiles+'/mapfactory/wmts/h_ombra/CAT3857/{z}/{x}/{y}.png',
 	orto46ICGC:urlServerTiles+'/mapfactory/wmts/orto46/CAT3857/{z}/{x}/{y}.png',
