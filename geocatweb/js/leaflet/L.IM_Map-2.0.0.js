@@ -55,6 +55,7 @@ var subDomainsA=['a','b','c'];
 //var urlServerTiles="http://www.{s}.instamaps.cat"
 //var urlServerTilesW="http://www.instamaps.cat"
 
+
 var urlServerTiles="https://{s}tilemaps.icgc.cat";
 var urlServerTilesW="https://{s}tilemaps.icgc.cat";
 
