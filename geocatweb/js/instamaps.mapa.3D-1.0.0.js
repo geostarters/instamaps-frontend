@@ -29,7 +29,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.in
 	 //_urlTerrenys = 'http://imtilemapsdev.icgc.local/terrenys/dem2out';
 	_urlTerrenys = 'https://tilemaps.icgc.cat/terrenys/demextes';
 }
-var _urlModels3D='http://tilemaps.icgc.cat/terrenys/model3D/test/Prova1_cesium.json';
+var _urlModels3D='https://tilemaps.icgc.cat/terrenys/model3D/test/Prova1_cesium.json';
 var appl='mapa';
 var factorNavegador=1000;
 
