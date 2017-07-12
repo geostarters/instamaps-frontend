@@ -1092,6 +1092,14 @@ function createPopupWindow(layer,type, editant,propFormat){
 			PopupManager().createMergedDataPopup(e.target, e, controlCapes).then(function() {
 				var html = reFillCmbCapesUsr(layer.options.tipus, layer.properties.capaBusinessId);
 				jQuery('#cmbCapesUsr-'+layer._leaflet_id+'-'+layer.options.tipus+'-'+layer.properties.capaLeafletId).html(html);
+				$.each( controlCapes._layers, function(i,val) {//refresquem resta de capes
+					 html = reFillCmbCapesUsr(layer.options.tipus, layer.properties.capaBusinessId);
+					 var layer2 = val.layer.options;
+					 $.each( val.layer._layers, function(i2,val2) {
+						 jQuery('#cmbCapesUsr-'+val2._leaflet_id+'-'+layer2.geometryType+'-'+val.layer._leaflet_id).html(html);
+					 });
+					 
+				});
 				/*if (layer.properties.data.nom){
 					jQuery('#titol_pres').text(layer.properties.data.nom).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 				}
