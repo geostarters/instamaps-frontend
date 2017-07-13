@@ -144,7 +144,7 @@
 		},
 		_addGeometriesProps: function(feature, type){
 			var html = "";
-			if (type==t_marker && undefined!=feature.geometry && feature.geometry.type==t_point) {
+			if ((type==t_marker || type === "Point") && undefined!=feature.geometry && (feature.geometry.type==t_point || feature.geometry.type=="Point")) {
 				html+=this._addLatLongToMarker(feature);
 			}
 			else if(type == t_polyline && feature.properties.mida &&  undefined!=feature.geometry && feature.geometry.type==t_linestring){
@@ -248,8 +248,8 @@
 			if (this._getNameField(feature)!='') html+='<h4 class="my-text-center">'+this._getNameField(feature)+'</h4>';
 			html+='<div class="div_popup_visor"><div class="popup_pres">';
 			html+=this._getPropertiesHtml(feature,data,estil_do);			
-			if(!dadesObertes && !dinamic) html+=this._addGeometriesProps(feature,data.type);
-			if(!dadesObertes && !dinamic) html+=this._addActionButtons(feature,data);
+			if((undefined==dadesObertes && undefined==dinamic) || (dadesObertes!=undefined && !dadesObertes) || (dinamic!=undefined && !dinamic)) html+=this._addGeometriesProps(feature,data.type);
+			if((undefined==dadesObertes && undefined==dinamic) || (dadesObertes!=undefined && !dadesObertes) || (dinamic!=undefined && !dinamic)) html+=this._addActionButtons(feature,data);
 			html+='</div>'; //.popup_pres
 			html+='</div>';//.div_popup_visor
 			return html;

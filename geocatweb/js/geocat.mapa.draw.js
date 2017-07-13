@@ -1090,13 +1090,12 @@ function createPopupWindow(layer,type, editant,propFormat){
 		else{
 			//actualitzem popup
 			PopupManager().createMergedDataPopup(e.target, e, controlCapes).then(function() {
-				var html = reFillCmbCapesUsr(layer.options.tipus, layer.properties.capaBusinessId);
-				jQuery('#cmbCapesUsr-'+layer._leaflet_id+'-'+layer.options.tipus+'-'+layer.properties.capaLeafletId).html(html);
-				$.each( controlCapes._layers, function(i,val) {//refresquem resta de capes
-					 html = reFillCmbCapesUsr(layer.options.tipus, layer.properties.capaBusinessId);
-					 var layer2 = val.layer.options;
+				$.each( controlCapes._layers, function(i,val) {//refresquem combo de totes les capes del mapa
+					var layer2 = val.layer.options;
+					html = reFillCmbCapesUsr(layer2.geometryType, layer2.businessId);
+					
 					 $.each( val.layer._layers, function(i2,val2) {
-						 jQuery('#cmbCapesUsr-'+val2._leaflet_id+'-'+layer2.geometryType+'-'+val.layer._leaflet_id).html(html);
+						 jQuery('#cmbCapesUsr-'+val2._leaflet_id+'-'+layer2.geometryType+'-'+val2.properties.capaLeafletId).html(html);
 					 });
 					 
 				});
@@ -1972,7 +1971,7 @@ function modeEditText(){
 	var txtTitol=jQuery('#titol_pres').text();
 	var txtDesc=jQuery('#descrText').html();
 	jQuery('#titol_edit').val(txtTitol);	
-	jQuery('#des_edit').val(txtDesc);
+	jQuery('#des_edit').text(txtDesc);
 	jQuery('.popup_pres').hide();
 	jQuery('.popup_edit').show();	
 }
