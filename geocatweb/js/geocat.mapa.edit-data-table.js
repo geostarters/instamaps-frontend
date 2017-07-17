@@ -4,7 +4,8 @@ var geomBusinessId = '-1';
 var geomRowIndex = 0;
 var numRows = 0;
 var dataFormatter = new DataFormatter();
-var options={};
+var optionsF={};
+var hiHaError = false;
 
 function reloadSingleLayer(capaEdicio, layerServidor) {
 
@@ -62,9 +63,9 @@ function addFuncioEditDataTable(){
 //		console.debug(controlCapes);
 		//Update options amb les propietats de cada camp
 		
-		if (!$.isEmptyObject(options)){
+		if (!$.isEmptyObject(optionsF)){
 			var optionsNoves = {
-					propFormat: options	
+					propFormat: optionsF	
 				};
 			var data={
 					businessId:  capaEdicio.layer.options.businessId,
@@ -72,15 +73,17 @@ function addFuncioEditDataTable(){
 					options:  JSON.stringify(optionsNoves)					
 			};
 			updateServidorWMSOptions(data).then(function(results){
+				$('#modal_data_table').data("layerServidor", results.results);
 				var layerServidor = $('#modal_data_table').data("layerServidor");				
-				layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();				
+				layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();		
+				optionsF={};
 				//Eliminem la capa de controlCapes i mapa
 				reloadSingleLayer(capaEdicio, layerServidor);
 			});
 		}
 		
 		//si hem editat dades recarreguem la capa per visualitzar els canvis
-		if(editat && $.isEmptyObject(options)){
+		if(editat && $.isEmptyObject(optionsF)){
 			var layerServidor = $('#modal_data_table').data("layerServidor");
 			layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
 			//Eliminem la capa de controlCapes i mapa
@@ -99,17 +102,22 @@ function addFuncioEditDataTable(){
 function editableColumnFormatter(inValue, row, index, name, pk) {
 
 	var value = inValue;
+	
+	var format = $('.dataTableSelect[data-column="' + name + '"]').val();
 	//console.debug(value);
 	if(0 == index) {
 		//Data type row
 	}
 	else {
 
-		value = dataFormatter.formatValue(inValue);
+		value = dataFormatter.formatValue(inValue,format);
+		if (value.indexOf("error")>-1) {
+			value=inValue;
+		}
 		return ['<a href="javascript:void(0)"',
 			' data-name="' + name + '"',
 			' data-pk="' + pk + '"',
-			' data-value="' + value + '"',
+			' data-value="' + value.replace("<span style='color:red'>","").replace("</span>","") + '"',
 			'>' + value + '</a>'
 			].join('');
 	}
@@ -119,7 +127,6 @@ function editableColumnFormatter(inValue, row, index, name, pk) {
 }
 
 function nonEditableColumnFormatter(inValue, row, index, name, pk) {
-
 	var value = inValue;
 
 	if(0 == index) {
@@ -127,9 +134,10 @@ function nonEditableColumnFormatter(inValue, row, index, name, pk) {
 	}
 	else {
 		value = dataFormatter.formatValue(inValue);
+		if (value.indexOf("error")>-1) value=inValue;
 	}
 
-	return inValue;
+	return value;
 
 }
 
@@ -373,7 +381,7 @@ function fillModalDataTable(obj, geomBid){
 				return false;
 			});
 			
-			//return false;
+			return false;
 		});	
 	}
 	else {//Primer cop que dibuixem una geometria
@@ -518,7 +526,13 @@ function fillModalDataTable(obj, geomBid){
 					$.each( result, function( key, value ) {
 						if (key.toLowerCase()!="geomorigen"){
 							if (propFormat!=undefined && propFormat[key]!=undefined){
-								 result[key]= dataFormatter.formatValue(value, propFormat[key]);
+								var formatValue=dataFormatter.formatValue(value, propFormat[key]);
+								if (formatValue.indexOf("error")>-1) {
+									result[key]= value;
+								}
+								else {
+									result[key]= formatValue;
+								}
 							}
 							else {
 								var valorStr=value.toString();
@@ -535,6 +549,7 @@ function fillModalDataTable(obj, geomBid){
 							delete result[key];
 						}
 					});
+					
 					resultatsMod[resultI]=result;
 					
 					resultI++;
@@ -548,7 +563,10 @@ function fillModalDataTable(obj, geomBid){
 						var nameF = name.field.toLowerCase();
 						if("accions" != nameF && "geometryid"!= nameF && "latitud"!= nameF && "longitud"!= nameF
 								&& "geometryBBOX"!= nameF && "geometrybid"!= nameF) {						
-							if (propFormat!=undefined && propFormat[name.field]!=undefined){
+							if (!$.isEmptyObject(optionsF) && optionsF[name.field]!=undefined){
+								selectsRow[name.field] = dataFormatter.createOptions(name.field, optionsF[name.field]);
+							}
+							else if (propFormat!=undefined && propFormat[name.field]!=undefined){
 								selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field]);
 							}
 							else{
@@ -594,24 +612,35 @@ function fillModalDataTable(obj, geomBid){
 					event.stopImmediatePropagation();					
 					
 					if(isValidValue(name)){
-						
-						var dataUpdate ={
-								uid:Cookies.get('uid'),
-								geometryid: row["geometryid"],
-								key:  name,
-								newValue: row[name]
-							};
-//						console.debug(dataUpdate);
-						updateGeometriaProperties(dataUpdate).then(function(results){
-							if (results.status == "OK"){
-//								console.debug(results);
-								editat = true;
-							}else{
+						var newValue = row[name];
+						var format = $('.dataTableSelect[data-column="' + name + '"]').val();
+						var formatValue = dataFormatter.formatValue(row[name], format);
+						if (formatValue.indexOf("error")>-1){
+							alert("Format no permés. Adapta’l al format 123.45,67 o 12345,67.");
+							hiHaError = false;
+							dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'), false);
+						}
+						else{
+							//Trigger an update to format the value
+							//If we had the cell name we could modify it directly...
+							//dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'));
+							var dataUpdate ={
+									uid:Cookies.get('uid'),
+									geometryid: row["geometryid"],
+									key:  name,
+									newValue: row[name]
+								};
+							updateGeometriaProperties(dataUpdate).then(function(results){
+								if (results.status == "OK"){
+									editat = true;
+									row[name] = formatValue;
+								}else{
+									console.debug('error updateGeometriaProperties');
+								}
+							},function(results){
 								console.debug('error updateGeometriaProperties');
-							}
-						},function(results){
-							console.debug('error updateGeometriaProperties');
-						});							
+							});		
+						}
 					}
 				});	
 				
@@ -647,27 +676,58 @@ function fillModalDataTable(obj, geomBid){
 	
 }
 
-function dataTableSelectChanged(ctx) {
+function dataTableSelectChanged(ctx, showAlert) {
+	var doAlert = (undefined == showAlert ? true : showAlert);
 	var format = $(ctx).val();
 	var $elem = $('#modal_data_table_body #layer-data-table');
 	var data = $elem.bootstrapTable('getData', false);
 	var column = $(ctx).data('column');
+	var totalErrors = 0;
 	for(var i=1, len=data.length; i<len; ++i)
 	{
-		var formatValue = dataFormatter.formatValue(data[i][column], format);
-		if (formatValue=="error"){//TODO
-			data[i][column]="<span id='error' style='color:red'>"+data[i][column]+"</span>";
+		var formatValue = dataFormatter.formatValue(dataFormatter.removeErrorSpan(data[i][column]), format);
+			
+		if (formatValue.indexOf("error")>-1 || formatValue.indexOf("span") > -1){//TODO
+			if(-1 == data[i][column].indexOf("span"))
+				data[i][column]="<span style='color:red'>"+data[i][column]+"</span>";
+
+			totalErrors++;
+			hiHaError=true;
 		}
 		else
-		{
+		{		
 			data[i][column] =formatValue;
 		}
 
 	}
+
+	if (hiHaError){
+		$('.dataTableSelect[data-column="' + column + '"]').val("t");
+	}
+
+	if (totalErrors>0 && doAlert) {
+		if (totalErrors>1) alert("Hem remarcat en vermell " +totalErrors +" valors dubtosos. Si us plau, adapta’ls al format 12.345,67 o 12345,67, i torna a canviar el format de la columna.");
+		else alert("Hem remarcat en vermell " +totalErrors +" valor dubtós. Si us plau, adapta’l al format 12.345,67 o 12345,67, i torna a canviar el format de la columna.");
+	}
+
 	$elem.bootstrapTable('load', data);
-	options[column]=format;
-	$('.dataTableSelect[data-column=' + column + ']').val(format);
-	$('.dataTableSelect').on('change', function() {
+
+	if (!hiHaError) {
+		optionsF[column]=format;
+		$.each(optionsF, function(i) {
+			$('.dataTableSelect[data-column="' + i + '"]').val(optionsF[i]);
+		});
+		$('.dataTableSelect[data-column="' + column + '"]').val(format);
+	}
+	else {
+		$('.dataTableSelect[data-column="' + column + '"]').val("t");
+		totalErrors=0;
+		hiHaError = false;
+	}
+
+	var options1=optionsF;
+
+	$('.dataTableSelect').on('change', function() {	//Afegim altre cop l'event pq el bootstrapTable('load') refà la taula
 		dataTableSelectChanged(this);
 	});
 }

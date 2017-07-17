@@ -1431,17 +1431,30 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 		loadVisualitzacioCluster(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva, defer);
 	}else{
 		var capaVisualitzacio = new L.FeatureGroup();
-		if(layOptions && layOptions.group){
-			capaVisualitzacio.options = {
-				businessId : layer.businessId,
-				nom : layer.serverName,
-				tipus : layer.serverType,
-				tipusRang: visualitzacio.tipus, 
-				geometryType: visualitzacio.geometryType,
-				estil: visualitzacio.estil,
-				group: layOptions.group,
-				propFormat: layOptions.propFormat
-			};
+		if(layOptions){
+			if ( layOptions.group) {
+				capaVisualitzacio.options = {
+					businessId : layer.businessId,
+					nom : layer.serverName,
+					tipus : layer.serverType,
+					tipusRang: visualitzacio.tipus, 
+					geometryType: visualitzacio.geometryType,
+					estil: visualitzacio.estil,
+					group: layOptions.group,
+					propFormat: layOptions.propFormat
+				};
+			}
+			else{
+				capaVisualitzacio.options = {
+						businessId : layer.businessId,
+						nom : layer.serverName,
+						tipus : layer.serverType,
+						tipusRang: visualitzacio.tipus, 
+						geometryType: visualitzacio.geometryType,
+						estil: visualitzacio.estil,
+						propFormat: layOptions.propFormat
+					};
+			}
 		}else{
 			capaVisualitzacio.options = {
 				businessId : layer.businessId,
@@ -1449,8 +1462,7 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 				tipus : layer.serverType,
 				tipusRang: visualitzacio.tipus, 
 				geometryType: visualitzacio.geometryType,
-				estil: visualitzacio.estil,
-				propFormat: layOptions.propFormat
+				estil: visualitzacio.estil
 			};
 		}
 		

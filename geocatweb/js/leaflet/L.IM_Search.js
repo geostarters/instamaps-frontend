@@ -856,7 +856,7 @@ L.Control.Search = L.Control.extend({
 					
 				}
 				marker.setLatLng(latlng);
-				marker.addTo(map);
+				
 				
 				
 				capaUsrActiva = new L.FeatureGroup();
@@ -869,8 +869,8 @@ L.Control.Search = L.Control.extend({
 					tipus : t_visualitzacio,
 					geometryType: t_marker
 				};
+				
 				map.addLayer(capaUsrActiva);
-				capaUsrActiva.on('layeradd',objecteUserAdded);
 				marker.properties={
 						'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
 						'capaBusinessId':capaUsrActiva.options.businessId,
@@ -881,8 +881,9 @@ L.Control.Search = L.Control.extend({
 						'nom':nom,
 						'text':title,
 				};
-				capaUsrActiva.addLayer(marker);
 				
+				capaUsrActiva.on('layeradd',objecteUserAdded);
+				capaUsrActiva.addLayer(marker);
 				
 			}
 			else {

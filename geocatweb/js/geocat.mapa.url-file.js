@@ -48,9 +48,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	if(dinamic){
 		busy = false;
 		var propName = "";
+		var urlFileHttps=urlFile;
+		var isHttps=false;
 		if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+			isHttps=true;
 			urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
-        	//urlFile = httpOrhttps(urlFile,false);
+        	//urlFile = httpOrhttps(urlFile,true);
 		}
 		
 		var param_url = paramUrl.urlFileDin	+"tipusFile=" + tipusFile+
@@ -268,6 +271,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}';
 
 									//Un cop tinc la capa a client, la creo a servidor
+									if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+										urlFile = urlFileHttps;
+									}
 									var data = {
 										uid:Cookies.get('uid'),
 										mapBusinessId: url('?businessid'),
@@ -496,6 +502,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						capaURLfile.addData(data);
 					}catch(err){
 						console.debug(err);
+					}
+					
+					//Un cop tinc la capa a client, la creo a servidor
+					if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+						urlFile = urlFileHttps;
 					}
 					
 					var llista_options = '{"tipusFile":"'+tipusFile+
@@ -1153,6 +1164,11 @@ function loadURLfileLayer(layer){
 	var urlFile = layer.url;
 	var dinamic = options.dinamic;
 	
+	if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+		urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
+    	//urlFile = httpOrhttps(urlFile,true);
+	}
+	
 	var estil_do = options.estil_do;
 	if(options.tem == tem_heatmap){
 		estil_do = retornaEstilaDO(t_url_file); //TODO revisar si se puede quitar esto
@@ -1192,12 +1208,12 @@ function loadURLfileLayer(layer){
 			"&tipusFont="+tipusFont+
 			"&nomCampCodi="+nomCampCodi;
 
-		//SOCRATA		
+		//SOCRATA	
 		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-				&& (urlFile.indexOf("dropbox")==-1)) 	{
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
 			param_url = urlFile;
 		}
-		
+				
 		var optionsVis =  options;
 		if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta"){
 			style.opacity=0;
@@ -1448,7 +1464,11 @@ function loadURLfileLayer(layer){
 			"&nomCampCodi="+nomCampCodi;
 
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
+			param_url = urlFile;
+		}
+		//if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
 		
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
@@ -1591,7 +1611,10 @@ function loadURLfileLayer(layer){
 	else if(options.tem == tem_cluster){
 		param_url += "&tem="+tem_cluster;	
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
+			param_url = urlFile;
+		}
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
 			tipus : layer.serverType,
@@ -1684,7 +1707,10 @@ function loadURLfileLayer(layer){
 				
 		param_url += "&tem="+tem_heatmap;	
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
+			param_url = urlFile;
+		}
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
 			tipus : layer.serverType,
@@ -1711,10 +1737,10 @@ function loadURLfileLayer(layer){
 		
 		if(options.tem == null || options.tem == tem_simple){
 			self.options = options;
-			addLayerUrlToMap(self, layer, controlCapes, options.origen, map);
+			addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, options.origen, map);
 		}else if(options.tem == tem_clasic || options.tem == tem_size){
 			self.options = options;
-			addLayerUrlToMap(self, layer, controlCapes, options.origen, map);
+			addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, options.origen, map);
 			if ($(location).attr('href').indexOf('/mapa.html')!=-1){
 				loadMapLegendEdicioDinamics(self);
 			}
@@ -1722,11 +1748,11 @@ function loadURLfileLayer(layer){
 			var clusterLayer = L.markerClusterGroup({
 				singleMarkerMode : true
 			});
-			self.eachLayer(function(layer) {
+			capaURLfileLoad.eachLayer(function(layer) {
 				var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 					title : layer._leaflet_id
 				});
-				marker.bindPopup(layer._popup._content);
+				marker.bindPopup(layer.properties.popupData);
 				clusterLayer.addLayer(marker);
 			});
 			
@@ -1745,7 +1771,7 @@ function loadURLfileLayer(layer){
 		}else if(options.tem == tem_heatmap){
 			var arrP=[];
 			self.options = options;
-			self.eachLayer(function(layer){
+			capaURLfileLoad.eachLayer(function(layer){
 				var d = [layer.getLatLng().lat,layer.getLatLng().lng,1];	
 				arrP.push(d);	
 			});

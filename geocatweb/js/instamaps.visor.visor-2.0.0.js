@@ -1325,6 +1325,16 @@
 			return self;
 		},
 
+		_drawControlsVisorBuit:function(){
+			var self=this;
+			self.addMousePositionControl();
+			self.addScaleControl();
+			self.addMinimapControl();
+			self.addFonsControl();
+			self.addLocationControl();
+			self.addSearchControl();
+			return self;
+		},
 		draw: function(){
 			var self = this,
 			   	_map = self.map;
@@ -1355,7 +1365,9 @@
 					self.drawMap().resizeMap().drawControls()._loadUrlFile()._hideLoading();
 				}
 				else{
-					self.loadErrorPage();
+					//self.loadErrorPage();
+					//Carreguem visor buit
+					self.drawMap().resizeMap()._drawControlsVisorBuit()._hideLoading();
 				}
 			}
 
@@ -1364,6 +1376,7 @@
 			}
 			return self;
 		},
+		
 
 		_loadUrlFile: function() {
 			
@@ -1581,16 +1594,35 @@
 				if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
 				if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
 				if (tipusFile.toLowerCase().indexOf("csv")>-1) tipusFile=".csv";
+				if (tipusFile.toLowerCase().indexOf("xls")>-1) {
+					if (tipusFile.toLowerCase().indexOf("xlsx")>-1) tipusFile=".xlsx";
+					else tipusFile=".xls";
+				}						
+				if (tipusFile.toLowerCase().indexOf("txt")>-1) tipusFile=".txt";
+				
+				var epsg ="EPSG:4326";
+				
+				if (self.epsg && self.epsg!="") epsg=self.epsg;
+				
+				if (epsg.indexOf("4326")>-1) epsg="EPSG:4326";
+				else if (epsg.indexOf("23031")>-1) epsg="EPSG:23031";
+				else if (epsg.indexOf("25831")>-1) epsg="EPSG:25831";
+				else if (epsg.indexOf("4258")>-1) epsg="EPSG:4258";
+				else if (epsg.indexOf("4230")>-1) epsg="EPSG:4230";
+				else if (epsg.indexOf("32631")>-1) epsg="EPSG:32631";
+				else if (epsg.indexOf("3857")>-1) epsg="EPSG:3857";
+				
 				
 				var param_url = paramUrl.urlFileDin	+
 				"tipusFile=" + tipusFile+				
-				"&epsgIN=EPSG:4326"+			
+				"&epsgIN="+ epsg+				
 				"&dinamic=true"+
 				"&uploadFile="+paramUrl.uploadFile+		
 				"&uid="+Cookies.get('uid')+
 				"&colX="+colX+
 				"&colY="+colY+
-				"&urlFile="+encodeURIComponent(urlFile);
+				"&urlFile="+encodeURIComponent(urlFile)+
+				"&tipusAcc=coordenades";
 				
 				if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
 						urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)

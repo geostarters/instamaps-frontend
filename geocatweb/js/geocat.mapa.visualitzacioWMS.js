@@ -38,15 +38,6 @@ function loadVisualitzacioWmsLayer(layer){
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	var optionsWMS = {
 	        layers : layer.businessId,
 	        crs : L.CRS.EPSG3857,
@@ -61,10 +52,13 @@ function loadVisualitzacioWmsLayer(layer){
 	    	group: jsonOptions.group,
 	    	businessId: layer.businessId	        	
 	}
-	var wmsLayer = new L.tileLayer.betterWms(layer.url, optionsWMS);
+	var url = layer.url;
+	if (url.indexOf("http://www.instamaps.cat")>-1) url = url.replace("http","https");
+	
+	var wmsLayer = new L.tileLayer.betterWms(url, optionsWMS);
 
 	var optionsUtfGrid = createOptionsUtfGrid(layer, jsonOptions);
-	var utfGridLayer = createUtfGridLayer(layer.url,optionsUtfGrid, false);
+	var utfGridLayer = createUtfGridLayer(url,optionsUtfGrid, false);
 	
 //	var utfGrid = new L.UtfGrid(layer.url,optionsUtfGrid);
 	//Mostrar informacio
@@ -149,7 +143,9 @@ function loadVisualitzacioWmsLayerSenseUtfGrid(layer){
 	    	zIndex :  parseInt(layer.capesOrdre),	    
 	    	businessId: layer.businessId	        	
 	}
-	var wmsLayer =L.tileLayer.betterWms(layer.url, optionsWMS);
+	var url = layer.url;
+	if (url.indexOf("http://www.instamaps.cat")>-1) url = url.replace("http","https");
+	var wmsLayer =L.tileLayer.betterWms(url, optionsWMS);
 	map.addLayer(wmsLayer);
 	
 	var jsonOptions;
