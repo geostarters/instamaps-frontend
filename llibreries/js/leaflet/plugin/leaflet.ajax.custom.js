@@ -554,7 +554,7 @@ L.Util.ajax = function(url, options) {
 			if (request.readyState === 4) {
 				if((request.status < 400&&options.local)|| request.status===200) {
 					if (window.JSON) {
-						response = JSON.parse(request.responseText);
+						response = JSON.parse(request.responseText.replace(/\n/g, "").replace(/\r/g, ""));
 					} else if (options.evil) {
 						response = eval('(' + request.responseText + ')');
 					}

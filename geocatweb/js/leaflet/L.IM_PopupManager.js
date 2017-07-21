@@ -80,7 +80,7 @@
 			var esVisor=data.esVisor;
 			var origen=data.origen;
 			var properties;
-			if (feature.properties.data!=undefined) properties=feature.properties.data;
+			if (feature.properties.data!=undefined && ("string" !== typeof feature.properties.data)) properties=feature.properties.data;
 			else if (feature.properties!=undefined) properties=feature.properties;
 			$.each( properties, function( key, value ) {
 				if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
