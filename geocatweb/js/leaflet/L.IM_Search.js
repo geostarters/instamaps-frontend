@@ -789,6 +789,57 @@ L.Control.Search = L.Control.extend({
 		return str;
 
 	},
+
+	_areCoordinates: function(input) {
+
+		var latlng = (/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/).test(input);
+		var lnglat = (/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?),\s*[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/).test(input);
+		var deg = (/^([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s|\s*,\s*)([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/).test(input);
+		var etrs89 = (/^([2-5]\d{5}(\.\d*))(\s+|\s*,\s*)(\d{7}(\.\d*))$/).test(input);
+
+		return latlng || lnglat || deg || etrs89;
+
+	},
+
+	_convertCoordinates: function(input) {
+
+		var coords = [];
+		var latlng = (/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/).test(input);
+		var lnglat = (/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?),\s*[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/).test(input);
+		var deg = (/^([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s|\s*,\s*)([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/).test(input);
+		var etrs89 = (/^([2-5]\d{5}(\.\d*))(\s+|\s*,\s*)(\d{7}(\.\d*))$/).test(input);
+
+		if (latlng) {
+
+			var matches = input.match(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/);
+			coords = [parseFloat(matches[1]), parseFloat(matches[4])];
+
+		} else if (lnglat) {
+
+			var matches = input.match(/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?),\s*[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/);
+			coords = [parseFloat(matches[1]), parseFloat(matches[7])];
+
+		} else if (deg) {
+
+			var matches = input.match(/^(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*(\d{1,2})['|\u2019|\s])?(\s*(\d{1,2})[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s|\s*,\s*)(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*(\d{1,2})['|\u2019|\s])?(\s*(\d{1,2})[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/);
+			var lat = parseFloat(matches[2]) + (undefined != matches[4] ? parseFloat(matches[4])/60 : 0) + (undefined != matches[6] ? parseFloat(matches[6])/3600 : 0);
+			var lon = parseFloat(matches[10]) + (undefined != matches[12] ? parseFloat(matches[12])/60 : 0) + (undefined != matches[14] ? parseFloat(matches[14])/3600 : 0);
+
+			coords = [lat, lon];
+
+		} else if (etrs89) {
+
+			proj4.defs('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
+			var matches = input.match(/^([2-5]\d{5}(\.\d*))(\s+|\s*,\s*)(\d{7}(\.\d*))$/);
+			coords = proj4('EPSG:25831', 'WGS84', [matches[1], matches[4]]);
+
+		}
+
+		var coordsStr = coords[1].toFixed(5) + "," + coords[0].toFixed(5);
+		var nomCoords = coords[0].toFixed(5) + "," + coords[1].toFixed(5)
+		return {resposta: JSON.stringify({ resultats: [{coordenades: coordsStr, nom: nomCoords}]}), status: "OK"};;
+
+	},
 	
 	_fillRecordsCache: function() {
 		//that.hideAlert();
@@ -803,51 +854,66 @@ L.Control.Search = L.Control.extend({
 //	like this: _recordsCache = {"text-key1": {loc:[lat,lng], ..other attributes.. }, {"text-key2": {loc:[lat,lng]}...}, ...}
 //	in this mode every record can have a free structure of attributes, only 'loc' is required
 		var inputText = this._removeDiacritics(this._input.value),
-			that;
+			that = this;
 		
 		L.DomUtil.addClass(this._container, 'search-load');
 
-		if(this.options.callData)	//CUSTOM SEARCH CALLBACK(USUALLY FOR AJAX SEARCHING)
-		{
-			that = this;
-			this.options.callData(inputText, function(jsonraw) {
+		if(this._areCoordinates(inputText)) {
 
-				that._recordsCache = that._filterJSON(jsonraw);
+			//Convert coordinates in the client side instead of doing a request to the server
+			var jsonraw = this._convertCoordinates(inputText);
 
-				that.showTooltip();
-
-				L.DomUtil.removeClass(that._container, 'search-load');
-			});
-		}
-		else if(this.options.url)	//JSONP/AJAX REQUEST
-		{	if(this.options.jsonpParam)
-			{
-				that = this;
-				
-				this._recordsFromJsonp(inputText, function(data) {// is async request then it need callback
-					
-					
-					that._recordsCache = data;
-					that.showTooltip();
-					L.DomUtil.removeClass(that._container, 'search-load');
-				});
-			}
-			else
-			{
-				that = this;
-				this._recordsFromAjax(inputText, function(data) {// is async request then it need callback
-					that._recordsCache = data;
-					that.showTooltip();
-					L.DomUtil.removeClass(that._container, 'search-load');
-				});
-			}
-		}
-		else if(this.options.layer)	//SEARCH ELEMENTS IN PRELOADED LAYER
-		{
-			this._recordsCache = this._recordsFromLayer();	//fill table key,value from markers into layer				
+			//If we can convert, disable show the tooltip and remove the search icon
+			that._recordsCache = that._filterJSON(jsonraw);
 			this.showTooltip();
 			L.DomUtil.removeClass(this._container, 'search-load');
+
+		} else {
+
+			if(this.options.callData)	//CUSTOM SEARCH CALLBACK(USUALLY FOR AJAX SEARCHING)
+			{
+
+				this.options.callData(inputText, function(jsonraw) {
+
+					that._recordsCache = that._filterJSON(jsonraw);
+
+					that.showTooltip();
+
+					L.DomUtil.removeClass(that._container, 'search-load');
+				});
+			}
+			else if(this.options.url)	//JSONP/AJAX REQUEST
+			{	if(this.options.jsonpParam)
+				{
+
+					
+					this._recordsFromJsonp(inputText, function(data) {// is async request then it need callback
+						
+						
+						that._recordsCache = data;
+						that.showTooltip();
+						L.DomUtil.removeClass(that._container, 'search-load');
+					});
+				}
+				else
+				{
+
+					this._recordsFromAjax(inputText, function(data) {// is async request then it need callback
+						that._recordsCache = data;
+						that.showTooltip();
+						L.DomUtil.removeClass(that._container, 'search-load');
+					});
+				}
+			}
+			else if(this.options.layer)	//SEARCH ELEMENTS IN PRELOADED LAYER
+			{
+				this._recordsCache = this._recordsFromLayer();	//fill table key,value from markers into layer				
+				this.showTooltip();
+				L.DomUtil.removeClass(this._container, 'search-load');
+			}
+
 		}
+
 	},
 	
 	_handleAutoresize: function() {	//autoresize this._input

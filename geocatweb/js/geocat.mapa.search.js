@@ -11,6 +11,9 @@ function filterJSON(rawjson) {
 	sortedResults.sort(
 		function compare(a, b) {
 
+			if (undefined === a.source || undefined === b.source)
+				return 0;
+
 			if ("PELIAS" == a.source && "ICGC" == b.source) {
 				return -1;
 			}
