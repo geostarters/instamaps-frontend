@@ -1476,16 +1476,8 @@ function loadURLfileLayer(layer){
 			geometryType: geometryType,
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
-				var estilGeom=self.estil_do;  //ficat default point style????
-				$.each( estil_do.estils, function( index, estil ) {
-					if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
-							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
-						estilGeom = { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
-						return false;	
-					}
-
-				});
-				var geom = L.circleMarker(latlng, estilGeom);		 
+				var estilGeom=estil_do;  //ficat default point style????
+				var geom = null;	 
 				var pp = feature.properties;
 				var dataFieldValue = "";
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
@@ -1515,7 +1507,14 @@ function loadURLfileLayer(layer){
 				});	
 				html+='</div></div>';    	
 
-				
+				$.each( estil_do.estils, function( index, estil ) {
+					if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
+							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
+						geom = L.circleMarker(latlng, { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.9, isCanvas: true });
+						return;
+					}
+
+				});
 				   	
 				feature.properties.capaNom=layer.serverName;
 				feature.properties.popupData=html;
@@ -1582,6 +1581,7 @@ function loadURLfileLayer(layer){
 								opacity: 1
 							});
 						}
+
 						return false;	
 					}
 				});	
