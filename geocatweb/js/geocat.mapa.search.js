@@ -6,18 +6,37 @@ function filterJSON(rawjson) {
 	var json = {},
 	key, loc, disp = [];
 	//console.debug(jsonData);
+
+	var sortedResults = jsonData.resultats;
+	sortedResults.sort(
+		function compare(a, b) {
+
+			if (undefined === a.source || undefined === b.source)
+				return 0;
+
+			if ("PELIAS" == a.source && "ICGC" == b.source) {
+				return -1;
+			}
+			if ("PELIAS" == b.source && "ICGC" == a.source) {
+				return 1;
+			}
+
+			return 0;
+			
+		}
+	);
 	
-	if (jsonData.resultats.length>1){
-		for (var i = 0; i < jsonData.resultats.length; i++) {
-		    var resultat = jsonData.resultats[i];
+	if (sortedResults.length>1){
+		for (var i = 0; i < sortedResults.length; i++) {
+		    var resultat = sortedResults[i];
 		    var coordsSplit = resultat.coordenades.split(",");
 		    json[ resultat.nom ] = L.latLng(coordsSplit[0], coordsSplit[1]);
 		}
 	}
 	else {
-		if (jsonData.resultats.length>0){
-			var coords= jsonData.resultats[0].coordenades;
-			var nom = jsonData.resultats[0].nom;
+		if (sortedResults.length>0){
+			var coords= sortedResults[0].coordenades;
+			var nom = sortedResults[0].nom;
 			//console.debug(jsonData);
 			var coordsSplit = [];
 			if (coords) {

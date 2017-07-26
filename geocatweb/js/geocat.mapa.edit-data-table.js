@@ -381,7 +381,7 @@ function fillModalDataTable(obj, geomBid){
 				return false;
 			});
 			
-			//return false;
+			return false;
 		});	
 	}
 	else {//Primer cop que dibuixem una geometria

@@ -4919,6 +4919,16 @@ a.leaflet-control-timecontrol:hover {
 	cursor: pointer;
 }
 
+.iconHelp{
+	position:absolute;
+	margin-top:1px;
+	padding:10.5px;
+	background-color:white;
+	cursor: pointer;
+	right: -67px;
+	height: 32px;
+}
+
 
 .llista-dadesInstamaps{
 	max-height: 190px;
