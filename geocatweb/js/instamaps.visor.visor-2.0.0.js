@@ -1035,8 +1035,8 @@
 			var parsed = hashControl.parseHash(hash);
 
 			if(lat && lng && zoom)
-				parsed = hashControl.parseHash("#" + zoom + "/" + lng + "/" + lat);
-
+				parsed = hashControl.parseHash("#" + zoom + "/" + lat + "/" + lng);
+			
 			self._mapConfig = {
 				tipusAplicacioId : TIPUS_APLIACIO_INSTAMAPS,
 				nomAplicacio : (self.appname ? self.appname : ""),
