@@ -1022,9 +1022,17 @@
 			self.zoomcontrol = self.zoomcontrol || false;
 			self.fons = self.fons || "hibridMap";
 
+			var lat = url('?lat');
+			var lng = url('?lng');
+			var zoom = url('?zoom');
+
 			var hash = location.hash;
 			hashControl = new L.Hash(self.map);
 			var parsed = hashControl.parseHash(hash);
+
+			if(lat && lng && zoom)
+				parsed = hashControl.parseHash("#" + zoom + "/" + lng + "/" + lat);
+			
 			self._mapConfig = {
 				tipusAplicacioId : TIPUS_APLIACIO_INSTAMAPS,
 				nomAplicacio : (self.appname ? self.appname : ""),
