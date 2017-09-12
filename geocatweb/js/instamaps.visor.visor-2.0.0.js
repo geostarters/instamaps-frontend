@@ -1026,6 +1026,10 @@
 			var lng = url('?lng');
 			var zoom = url('?zoom');
 
+			var lat = url('?lat');
+			var lng = url('?lng');
+			var zoom = url('?zoom');
+
 			var hash = location.hash;
 			hashControl = new L.Hash(self.map);
 			var parsed = hashControl.parseHash(hash);
