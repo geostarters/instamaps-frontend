@@ -1736,7 +1736,9 @@ function createPopUpContent(player,type, editant, propFormat){
 		var crs=new L.Proj.CRS('EPSG:25831',  '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
 		var _CRS = crs.project( {lat:auxLat,lng:auxLon});
 		auxX =  L.Util.formatNum(_CRS.x, 6);
+		auxX = auxX.toFixed(2);
 	    auxY = L.Util.formatNum(_CRS.y, 6);
+	    auxY = auxY.toFixed(2);
 	}
 	var html='<div class="div_popup">' 
 	+'<div class="popup_pres">'							
