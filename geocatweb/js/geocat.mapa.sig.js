@@ -52,7 +52,7 @@ function creaPopOverMesFuncionsGIS() {
 	var html = '<div id="div_menusig" class="div_gr3_fons">'
 		+ '<div id="buffer" lang="ca" class="div_sig_1" data-toggle="tooltip" data-lang-title="Àrea d\'influència" title="Àrea d\'influència"></div>'
 		+  '<div id="interseccio" lang="ca" class="div_sig_2" data-toggle="tooltip" data-lang-title="Intersecar" title="Intersecar"></div>'
-		+  '<div id="tag" lang="ca" class="div_sig_3" data-toggle="tooltip" data-lang-title="Transmissió (tag)" title="Transmissió (tag)"></div>'
+		//+  '<div id="tag" lang="ca" class="div_sig_3" data-toggle="tooltip" data-lang-title="Transmissió (tag)" title="Transmissió (tag)"></div>'
 		+  '<div id="centroide" lang="ca" class="div_sig_4" data-toggle="tooltip" data-lang-title="Centre geomètric" title="Centre geomètric"></div>'
 		+ '</div>';
 	
@@ -83,10 +83,10 @@ function creaPopOverMesFuncionsGIS() {
 		if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc.") {
 		   // is Google chrome
 		  jQuery(".popover").css('height','60px');
-		  jQuery(".popover").css('width','190px');
+		  jQuery(".popover").css('width','150px');
 		} else { 
 			 jQuery(".popover").css('height','60px');
-			 jQuery(".popover").css('width','190px');
+			 jQuery(".popover").css('width','150px');
 		}
 				
 		jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
