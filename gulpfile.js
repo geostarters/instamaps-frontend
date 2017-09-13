@@ -192,7 +192,8 @@ gulp.task('scripts', function() {
     config.dirJsVendors+'/easeljs-0.8.0.min.js',
     config.dirJsVendors+'/chroma.min.js',
     config.dirJsVendors+'/DateFormat.js',
-    config.dirJsVendors+'/iso8601.js'
+    config.dirJsVendors+'/iso8601.js',
+    config.dirJsVendors+'/proj4js/proj4.2.4.3.js',
   ], 'jquery.js');
 
   pipeline.add([

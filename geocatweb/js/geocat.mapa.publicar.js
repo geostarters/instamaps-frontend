@@ -1,7 +1,3 @@
-/*
- * Funcionalitat de publicació del mapa
- * require: jquery, geocat.web, geocat.ajax, geocat.utils, geocat.canvas, geocat.legend, geocat.config, dropzone, share, lang, bootstrap.switch, bootstrap.formhelpers, bootstrap.colorpallete, jquery.url
- */
 (function ( $, window, document, undefined ) {
    "use strict";
    	var Publicar = {
@@ -387,10 +383,10 @@
 				urlMap=urlMap+"&3D="+estatMapa3D;
 
 			 }
-			console.info(urlMap);
 			if(isSostenibilitatUser(false)){				
 					urlMap=urlMap +"&appmodul=sostenibilitat";			
-			}	
+			}
+															  
 
 			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
@@ -586,11 +582,11 @@
         	
         	if (v_url.indexOf("mapacolaboratiu=si")>-1) v_url=v_url.replace("&mapacolaboratiu=si","");
         	//require ajax
-			
+   
 			
 			if(isSostenibilitatUser(false)){				
 					v_url=v_url +"&appmodul=sostenibilitat";			
-			}	
+			}				  
 			
         	shortUrl(v_url).then(function(results){
         		//require share
@@ -740,7 +736,7 @@
         	options.downloadable = this.downloadableData;
         	options.params = this.paramsData;
 
-			
+   
 			if(isSostenibilitatUser(false)){
 				
 				try{
@@ -750,14 +746,14 @@
 				}catch(Err){
 				console.log(Err);
 				}					
-			}
-			
-			
-			
+			}					   
+	
+																				 																  	  										  	   
+     
         	options = JSON.stringify(options);
 
-				
-			
+	
+   
         	var newMap = true;
 
         	if ($('#businessId').val() != ""){
@@ -776,6 +772,8 @@
         	var nomApp = $('#nomAplicacio').html();
 
         	if(!self.fromCompartir) nomApp = $('#dialgo_publicar #nomAplicacioPub').val();
+        	
+        	nomApp = nomApp.replaceAll("/","_");
 
         	var nomIndexacio=nomApp;
         	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;
@@ -907,8 +905,8 @@
         	}else{
         		data.businessId = $('#businessId').val();
         		//require ajax
-				
-				
+					
+	
         		updateMap(data).then(function(results){
         			if (results.status == "ERROR"){
         				//TODO Mensaje de error
@@ -930,9 +928,9 @@
         					self.mapConfig.nom_visor = results.results.nom_visor;
         					var urlMap ="";
         					 var nomVisor = self.mapConfig.nom_visor;
-							 
-							
-							 
+		
+	   
+		
         					 if (nomVisor!=null) {
         						 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
         						 urlMap = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
@@ -948,10 +946,13 @@
 
         					 }
         					
-									
-					if(isSostenibilitatUser(false)){				
-							urlMap=urlMap +"&appmodul=sostenibilitat";			
-					}	
+        					
+							if(isSostenibilitatUser(false)){				
+								urlMap=urlMap +"&appmodul=sostenibilitat";			
+							}
+										 
+													
+	   
 
         					$("#urlVisorMap a").attr("href", urlMap);
         					$('#urlMap').val(urlMap);
@@ -1207,3 +1208,4 @@
    	//Initialize the whole thing. Can be referenced anywhere in your code after it has been declared.
    	window.Publicar = Publicar.init();
 })( jQuery, window, document );
+

@@ -80,7 +80,7 @@
 			var esVisor=data.esVisor;
 			var origen=data.origen;
 			var properties;
-			if (feature.properties.data!=undefined) properties=feature.properties.data;
+			if (feature.properties.data!=undefined && ("string" !== typeof feature.properties.data)) properties=feature.properties.data;
 			else if (feature.properties!=undefined) properties=feature.properties;
 			$.each( properties, function( key, value ) {
 				if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
@@ -146,6 +146,7 @@
 			var html = "";
 			if ((type==t_marker || type === "Point") && undefined!=feature.geometry && (feature.geometry.type==t_point || feature.geometry.type=="Point")) {
 				html+=this._addLatLongToMarker(feature);
+				html+=this._addETRS89ToMarker(feature);
 			}
 			else if(type == t_polyline && feature.properties.mida &&  undefined!=feature.geometry && feature.geometry.type==t_linestring){
 				html+=this._addLengthToLine(feature);
@@ -174,6 +175,31 @@
 				auxLon = auxLon.toFixed(5);			
 				html+='<div id="mida_pres"><b>'+window.lang.translate('Longitud')+':</b> '+auxLon+',<b>'+window.lang.translate('Latitud')+':</b> '+auxLat+'</div>';
 				return html;
+		},
+		_addETRS89ToMarker:function(feature){
+		    var html="";
+			var auxLat = "";
+			if (feature._latlng!=undefined) auxLat = feature._latlng.lat;
+			else if (feature.geometry!=undefined){
+				if(feature.geometry.coordinates!=undefined){
+					auxLat = feature.geometry.coordinates[0];
+				}
+			}
+			auxLat = auxLat.toFixed(5);
+			var auxLon = "";
+			if (feature._latlng!=undefined) auxLon = feature._latlng.lng;
+			else if (feature.geometry!=undefined){
+				if(feature.geometry.coordinates!=undefined){
+					auxLon = feature.geometry.coordinates[1];
+				}
+			}				
+			auxLon = auxLon.toFixed(5);		
+			proj4.defs('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
+			var coords = proj4('EPSG:25831', 'WGS84', [auxLat, auxLon]);
+			var auxX=coords[0];
+			var auxY=coords[1];
+			html+='<div id="mida_pres"><b>'+window.lang.translate('ETRS89_X')+':</b> '+auxX+',<b>'+window.lang.translate('ETRS89_Y')+':</b> '+auxY+'</div>';
+			return html;
 		},
 		_addLengthToLine: function(feature){
 			var html="";

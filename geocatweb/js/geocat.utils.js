@@ -15,7 +15,7 @@ function isValidEmailAddress(emailAddress) {
 }
 
 function isValidURL(url) {
-	var pattern = /((http(s)?|ftp):\/\/.)?(www\.)?[-a-zA-Z:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z%_:?\+.~#&//=]*)/;
+	var pattern = /((http(s)?|ftp):\/\/.)?(((www\.)?[-a-zA-Z:%._\+~#=]{2,256}\.[a-z]{2,6}\b)|(\d+.\d+.\d+.\d+(:\d{4})?))([-a-zA-Z%_:?\+.~#&//=]*)/;
 	return pattern.test(url);
 }
 

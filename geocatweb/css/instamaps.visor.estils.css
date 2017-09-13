@@ -894,6 +894,16 @@ div.leaflet-routing-geocoder input:-moz-placeholder { opacity: 0.8; }
 	padding:10.5px;
 	background-color:white;
 	cursor: pointer;
+	right: -33px;
+}
+
+.searchHelpLink {
+	position: absolute;
+    margin-top: 1px;
+    padding: 6.0px;
+    background-color: white;
+    cursor: pointer;
+    right: -61px;
 }
 
 .color_etiqueta {

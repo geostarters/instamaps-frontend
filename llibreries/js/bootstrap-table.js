@@ -1104,7 +1104,11 @@
                     value = typeof value === 'undefined' || value === null ?
                         that.options.undefinedText : value;
                     
-                    if (value.indexOf("undefined")>-1) value=String(value).replace('undefined','-');
+                    try{
+                    	if (value.indexOf("undefined")>-1) value=String(value).replace('undefined','-');
+                    }catch(e){
+                    	
+                    }
                     
                     if (!getModeMapa() && value.toString().indexOf("zoomTo")==-1){
                     	value = String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
