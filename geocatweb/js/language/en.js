@@ -64,6 +64,7 @@ jquery_lang_js.prototype.lang.en = {
 
 ,"Caixetí":"Text box"
 ,"CAL CAP LLOC":"NOWHERE PLACE"	
+,"Cal donar un nom al mapa": "Map name is mandatory"
 ,"Cal indicar el camp que conté l'adreça":"Point out address field"
 ,"Cal indicar el camp que conté el codi":"Point out the code field"
 ,"Cal indicar el sistema de referència":"Point out the reference system"

@@ -64,6 +64,7 @@ jquery_lang_js.prototype.lang.es = {
 
 ,"Caixetí":"Cajetín"
 ,"CAL CAP LLOC":"PÁRAMO DESOLADO"
+,"Cal donar un nom al mapa": "Hay que indicar un nombre del mapa"
 ,"Cal indicar el camp que conté el codi":"Tienes que indicar el campo que contiene el código"
 ,"Cal indicar el camp que conté l'adreça":"Tienes que indicar el campo que contiene la dirección"
 ,"Cal indicar el sistema de referència":"Tienes que indicar els sistema de referéncia"
