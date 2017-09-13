@@ -403,7 +403,7 @@ L.Control.Search = L.Control.extend({
 	},
 
 	_createHelpIcon: function ( className) {
-		var anchor = L.DomUtil.create('a', '', this._container);
+		var anchor = L.DomUtil.create('a', 'searchHelpLink', this._container);
 		anchor.setAttribute('target', '_blank');
 		anchor.setAttribute('href', 'http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#capçacerca');
 		var icon = L.DomUtil.create('i', className, anchor);
@@ -793,11 +793,10 @@ L.Control.Search = L.Control.extend({
 	_areCoordinates: function(input) {
 
 		var latlng = (/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/).test(input);
-		var lnglat = (/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?),\s*[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/).test(input);
 		var deg = (/^([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s|\s*,\s*)([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/).test(input);
-		var etrs89 = (/^([2-5]\d{5}(\.\d*))(\s+|\s*,\s*)(\d{7}(\.\d*))$/).test(input);
+		var etrs89 = (/^([2-5]\d{5}(\.\d+)?)(\s+|\s*,\s*)(\d{7}(\.\d+)?)$/).test(input);
 
-		return latlng || lnglat || deg || etrs89;
+		return latlng || deg || etrs89;
 
 	},
 
@@ -805,19 +804,13 @@ L.Control.Search = L.Control.extend({
 
 		var coords = [];
 		var latlng = (/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/).test(input);
-		var lnglat = (/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?),\s*[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/).test(input);
 		var deg = (/^([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s|\s*,\s*)([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/).test(input);
-		var etrs89 = (/^([2-5]\d{5}(\.\d*))(\s+|\s*,\s*)(\d{7}(\.\d*))$/).test(input);
+		var etrs89 = (/^([2-5]\d{5}(\.\d+)?)(\s+|\s*,\s*)(\d{7}(\.\d+)?)$/).test(input);
 
 		if (latlng) {
 
 			var matches = input.match(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/);
 			coords = [parseFloat(matches[1]), parseFloat(matches[4])];
-
-		} else if (lnglat) {
-
-			var matches = input.match(/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?),\s*[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/);
-			coords = [parseFloat(matches[1]), parseFloat(matches[7])];
 
 		} else if (deg) {
 
