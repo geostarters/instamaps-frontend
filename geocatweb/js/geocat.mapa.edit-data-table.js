@@ -203,7 +203,7 @@ function fillModalDataTable(obj, geomBid){
 						else if (!isADrawMarker) isADrawMarker=false;
 					}
 				}
-				if (isADrawMarker && feature.geometry.type=="Point") totalColumns = totalColumns + 2;
+				if (isADrawMarker && feature.geometry.type=="Point") totalColumns = totalColumns + 4;
 				
 				 widthColumn = 100/totalColumns;
 				//console.debug(feature);
@@ -287,7 +287,7 @@ function fillModalDataTable(obj, geomBid){
 							}
 						}
 					}
-					if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt
+					if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt. Afegim ETRS89
 						var obj = {
 								title: "latitud".toUpperCase(),
 								field: "latitud".toLowerCase(),
@@ -298,6 +298,20 @@ function fillModalDataTable(obj, geomBid){
 						 obj = {
 									title: "longitud".toUpperCase(),
 									field: "longitud".toLowerCase(),
+									sortable: true,
+									width:widthColumn+"% !important"
+								}
+						 columNames.push(obj);
+						 obj = {
+									title: "etrs89_x".toUpperCase(),
+									field: "etrs89_x".toLowerCase(),
+									sortable: true,
+									width:widthColumn+"% !important"
+								}
+						 columNames.push(obj);
+						 obj = {
+									title: "etrs89_y".toUpperCase(),
+									field: "etrs89_y".toLowerCase(),
 									sortable: true,
 									width:widthColumn+"% !important"
 								}
@@ -363,6 +377,20 @@ function fillModalDataTable(obj, geomBid){
 						 obj = {
 									title: "longitud".toUpperCase(),
 									field: "longitud".toLowerCase(),
+									sortable: true,
+									width:widthColumn+"% !important"
+								}
+						 columNames.push(obj);
+						 obj = {
+									title: "etrs89_x".toUpperCase(),
+									field: "etrs89_x".toLowerCase(),
+									sortable: true,
+									width:widthColumn+"% !important"
+								}
+						 columNames.push(obj);
+						 obj = {
+									title: "etrs89_y".toUpperCase(),
+									field: "etrs89_y".toLowerCase(),
 									sortable: true,
 									width:widthColumn+"% !important"
 								}
@@ -440,7 +468,7 @@ function fillModalDataTable(obj, geomBid){
 				
 			columNames.push(obj2);
 			
-			if (isADrawMarker && options.geometryType=="marker"){ //Nomes pintem longitud/latitud quan és un punt
+			if (isADrawMarker && options.geometryType=="marker"){ //Nomes pintem longitud/latitud quan és un punt. Afegim ETRS89
 				var obj2 = {
 						title: "latitud".toUpperCase(),
 						field: "latitud".toLowerCase(),
@@ -453,6 +481,20 @@ function fillModalDataTable(obj, geomBid){
 							field: "longitud".toLowerCase(),
 							width:widthColumn+"% !important",
 							sortable: true
+						}
+				 columNames.push(obj2);
+				 obj2 = {
+							title: "etrs89_x".toUpperCase(),
+							field: "etrs89_x".toLowerCase(),
+							sortable: true,
+							width:widthColumn+"% !important"
+						}
+				 columNames.push(obj2);
+				 obj2 = {
+							title: "etrs89_y".toUpperCase(),
+							field: "etrs89_y".toLowerCase(),
+							sortable: true,
+							width:widthColumn+"% !important"
 						}
 				 columNames.push(obj2);
 			}
@@ -523,6 +565,14 @@ function fillModalDataTable(obj, geomBid){
 					var lat = parseFloat(coords[1]);
 					if (result.longitud==undefined)  result.longitud=lon.toFixed(5);
 					if (result.latitud==undefined)  result.latitud=lat.toFixed(5);
+					var crs=new L.Proj.CRS('EPSG:25831',  '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
+					var _CRS = crs.project( {lat:lat,lng:lon});
+					auxX =  L.Util.formatNum(_CRS.x, 6);
+					auxX = auxX.toFixed(2);
+				    auxY = L.Util.formatNum(_CRS.y, 6);
+				    auxY = auxY.toFixed(2);
+					if (result.etrs89_x==undefined)  result.etrs89_x=auxX;
+					if (result.etrs89_y==undefined)  result.etrs89_y=auxY;
 					$.each( result, function( key, value ) {
 						if (key.toLowerCase()!="geomorigen"){
 							if (propFormat!=undefined && propFormat[key]!=undefined){
@@ -562,7 +612,7 @@ function fillModalDataTable(obj, geomBid){
 					$.each(columNames, function(i, name) {
 						var nameF = name.field.toLowerCase();
 						if("accions" != nameF && "geometryid"!= nameF && "latitud"!= nameF && "longitud"!= nameF
-								&& "geometryBBOX"!= nameF && "geometrybid"!= nameF) {						
+								&& "geometryBBOX"!= nameF && "geometrybid"!= nameF  && "etrs89_x"!= nameF && "etrs89_y"!= nameF) {						
 							if (!$.isEmptyObject(optionsF) && optionsF[name.field]!=undefined){
 								selectsRow[name.field] = dataFormatter.createOptions(name.field, optionsF[name.field]);
 							}

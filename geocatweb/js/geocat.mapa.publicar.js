@@ -752,6 +752,8 @@
         	var nomApp = $('#nomAplicacio').html();
 
         	if(!self.fromCompartir) nomApp = $('#dialgo_publicar #nomAplicacioPub').val();
+        	
+        	nomApp = nomApp.replaceAll("/","_");
 
         	var nomIndexacio=nomApp;
         	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;

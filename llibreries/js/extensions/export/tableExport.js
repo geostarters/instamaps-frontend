@@ -1087,59 +1087,61 @@
           var rowColspan = 0;
           var rowColIndex = 0;
 
-          $row.each(function (colIndex) {
-            if ($(this).data("tableexport-display") == 'always' ||
-                ($(this).css('display') != 'none' &&
-                 $(this).css('visibility') != 'hidden' &&
-                 $(this).data("tableexport-display") != 'none')) {
-              if (isColumnIgnored($row, colIndex) === false) {
-                if (typeof (cellcallback) === "function") {
-                  var c, Colspan = 0;
-                  var r, Rowspan = 0;
-
-                  // handle rowspans from previous rows
-                  if (typeof rowspans[rowIndex] != 'undefined' && rowspans[rowIndex].length > 0) {
-                    for (c = 0; c <= colIndex; c++) {
-                      if (typeof rowspans[rowIndex][c] != 'undefined') {
-                        cellcallback(null, rowIndex, c);
-                        delete rowspans[rowIndex][c];
-                        colIndex++;
-                      }
-                    }
-                  }
-                  rowColIndex = colIndex;
-
-                  if ($(this).is("[colspan]")) {
-                    Colspan = parseInt($(this).attr('colspan'));
-                    rowColspan += Colspan > 0 ? Colspan - 1 : 0;
-                  }
-
-                  if ($(this).is("[rowspan]"))
-                    Rowspan = parseInt($(this).attr('rowspan'));
-
-                  // output content of current cell
-                  cellcallback(this, rowIndex, colIndex);
-
-                  // handle colspan of current cell
-                  for (c = 0; c < Colspan - 1; c++)
-                    cellcallback(null, rowIndex, colIndex + c);
-
-                  // store rowspan for following rows
-                  if (Rowspan) {
-                    for (r = 1; r < Rowspan; r++) {
-                      if (typeof rowspans[rowIndex + r] == 'undefined')
-                        rowspans[rowIndex + r] = [];
-
-                      rowspans[rowIndex + r][colIndex + rowColspan] = "";
-
-                      for (c = 1; c < Colspan; c++)
-                        rowspans[rowIndex + r][colIndex + rowColspan - c] = "";
-                    }
-                  }
-                }
-              }
-            }
-          });
+          if ($row[0].outerHTML.indexOf("dataTableSelect")==-1){
+	          $row.each(function (colIndex) {
+	            if ($(this).data("tableexport-display") == 'always' ||
+	                ($(this).css('display') != 'none' &&
+	                 $(this).css('visibility') != 'hidden' &&
+	                 $(this).data("tableexport-display") != 'none')) {
+	              if (isColumnIgnored($row, colIndex) === false) {
+	                if (typeof (cellcallback) === "function") {
+	                  var c, Colspan = 0;
+	                  var r, Rowspan = 0;
+	
+	                  // handle rowspans from previous rows
+	                  if (typeof rowspans[rowIndex] != 'undefined' && rowspans[rowIndex].length > 0) {
+	                    for (c = 0; c <= colIndex; c++) {
+	                      if (typeof rowspans[rowIndex][c] != 'undefined') {
+	                        cellcallback(null, rowIndex, c);
+	                        delete rowspans[rowIndex][c];
+	                        colIndex++;
+	                      }
+	                    }
+	                  }
+	                  rowColIndex = colIndex;
+	
+	                  if ($(this).is("[colspan]")) {
+	                    Colspan = parseInt($(this).attr('colspan'));
+	                    rowColspan += Colspan > 0 ? Colspan - 1 : 0;
+	                  }
+	
+	                  if ($(this).is("[rowspan]"))
+	                    Rowspan = parseInt($(this).attr('rowspan'));
+	
+	                  // output content of current cell
+	                  cellcallback(this, rowIndex, colIndex);
+	
+	                  // handle colspan of current cell
+	                  for (c = 0; c < Colspan - 1; c++)
+	                    cellcallback(null, rowIndex, colIndex + c);
+	
+	                  // store rowspan for following rows
+	                  if (Rowspan) {
+	                    for (r = 1; r < Rowspan; r++) {
+	                      if (typeof rowspans[rowIndex + r] == 'undefined')
+	                        rowspans[rowIndex + r] = [];
+	
+	                      rowspans[rowIndex + r][colIndex + rowColspan] = "";
+	
+	                      for (c = 1; c < Colspan; c++)
+	                        rowspans[rowIndex + r][colIndex + rowColspan - c] = "";
+	                    }
+	                  }
+	                }
+	              }
+	            }
+	          });
+           }
           // handle rowspans from previous rows
           if (typeof rowspans[rowIndex] != 'undefined' && rowspans[rowIndex].length > 0) {
             for (var c = 0; c <= rowspans[rowIndex].length; c++) {
