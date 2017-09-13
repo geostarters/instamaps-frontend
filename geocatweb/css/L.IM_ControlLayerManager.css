@@ -517,8 +517,12 @@ input[type='radio'].checkbox_styled + label:before,
 input[type='radio'].checkbox_styled + label:after{
     position: relative;
     top: 1px;
-    display: inline-block;   
-    font-family: 'Glyphicons Halflings';    
+    display: inline-block;  
+/*	
+    font-family: 'Glyphicons Halflings'; 
+*/
+font-family: 'FontAwesome';
+	
     font-style: normal;
     font-size: 13px;
     font-style: normal;
@@ -532,12 +536,12 @@ input[type='radio'].checkbox_styled + label:after{
 
 
 input[type='radio'].checkbox_styled + label:before{
- content:"\e017";
+ content:"\f10c";
  color:red;  
 }
 
 input[type='radio']:checked.checkbox_styled + label:before{
-  content:"\e017";
+  content:"\f192";
   color:#00FF00;	
 }
 
