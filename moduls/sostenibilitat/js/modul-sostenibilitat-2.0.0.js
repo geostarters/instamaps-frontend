@@ -196,13 +196,13 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			this.controlDraw.setDrawingOptions({
 				rectangle: {
 					shapeOptions: {
-						color: '#FFCC00'
+						color: '#a94442'
 					},
 					repeatMode: true
 				},
 				polygon: {
 					shapeOptions: {
-						color: '#FFCC00'
+						color: '#a94442'
 					},
 					repeatMode: true
 				},
@@ -220,7 +220,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			});
 
 			L.drawLocal.draw.toolbar.actions.title = "Aturar selecció";
-			L.drawLocal.draw.toolbar.actions.text = "X";
+			L.drawLocal.draw.toolbar.actions.text = "Aturar";
 
 			L.drawLocal.draw.toolbar.undo.title = "";
 			L.drawLocal.draw.toolbar.undo.text = "&nbsp";
@@ -589,7 +589,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 					});
 				}
 				//sendRequestToCalculadora
-				htmlArrayText.push('<h5>Potencial d\'aprofitament FV</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="regular"><label>Regular</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
+				htmlArrayText.push('<div class="tit_sos_div">Potencial d\'aprofitament FV</div> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="regular"><label>Regular</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
 					 + '</table>  	<table class="tbl_dades"><tr><td>Irradiació global:</td><td><span id="fv_global">' + this.addCommas(peticioSOS.resultset.OUTPUT.Irradiacio_global) + '</span> kWh/any</td></tr>'
 					 + '</table>  <table class="tbl_dades"><tr><td>Àrea total:</td><td><span id="fv_area_t">' + this.addCommas(peticioSOS.resultset.OUTPUT.Area_total) + '</span> m&sup2;</td></tr>'
 					 + '<tr><td>Àrea instalada:</td><td><span id="fv_area_i">' + this.addCommas( peticioSOS.resultset.OUTPUT.Area_instalada )+ '</span> m&sup2;</td></tr>'
@@ -626,7 +626,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 				
 				
 				
-				htmlArrayText.push('<h5>Potencial d\'aprofitament FV</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="regular"><label>Regular</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
+				htmlArrayText.push('<div class="tit_sos_div">Potencial d\'aprofitament FV</div> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="regular"><label>Regular</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
 					 + '</table>  	<table class="tbl_dades"><tr><td>Irradiació global:</td><td><span id="fv_global">' + this.addCommas( peticioSOS.resultset.OUTPUT.Irradiacio_global )+ '</span> kWh/any</td></tr>'
 					 + '</table>  <table class="tbl_dades"><tr><td>Àrea total:</td><td><span id="fv_area_t">' + this.addCommas(peticioSOS.resultset.OUTPUT.Area_total) + '</span> m&sup2;</td></tr>'
 					 + '<tr><td>Inclinació:</td><td><span id="fv_inclina">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_inclina )+ '</span> &deg;</td></tr>'
@@ -665,7 +665,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 				
 				
 				
-				htmlArrayText.push('<h5>Potencial d\'aprofitament solar tèrmic</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat_ts"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
+				htmlArrayText.push('<div class="tit_sos_div">Potencial d\'aprofitament solar tèrmic</div> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat_ts"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
 					 + '</table><table class="tbl_dades"><tr><td>Irradiació global:</td><td><span id="fv_global">' + this.addCommas( peticioSOS.resultset.OUTPUT.Irradiacio_global )+ '</span> kWh/any</td></tr></table>'
 					 + '<table class="tbl_dades"><tr><td>Àrea total:</td><td><span id="fv_area_t">' + this.addCommas(peticioSOS.resultset.OUTPUT.Area_total )+ '</span> m&sup2;</td></tr><tr><td>Àrea instalada:</td><td><span id="fv_area_i">' + this.addCommas( peticioSOS.resultset.OUTPUT.Area_instalada )+ '</span> m&sup2;</td></tr>'
 					 + '<tr><td>Nombre de panells:</td> <td><span id="fv_num_panells_span"><input  id="fv_num_panells" size="4"  type="text" value="' + this.addCommas( peticioSOS.resultset.OUTPUT.Nombre_de_panells_EDIT) + '"></span></td></tr>'
@@ -701,7 +701,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 				}
 				
 				
-				htmlArrayText.push('<h5>Potencial d\'aprofitament solar tèrmic</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat_ts"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
+				htmlArrayText.push('<div class="tit_sos_div">Potencial d\'aprofitament solar tèrmic</div> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat_ts"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
 					 + '</table><table class="tbl_dades"><tr><td>Irradiació global:</td><td><span id="fv_global">' + this.addCommas( peticioSOS.resultset.OUTPUT.Irradiacio_global )+ '</span> kWh/any</td></tr></table><table class="tbl_dades"><tr><td>Àrea total:</td><td><span id="fv_area_t">' + this.addCommas( peticioSOS.resultset.OUTPUT.Area_total )+ '</span> m&sup2;</td></tr>'
 					 + '<tr><td>Inclinació:</td><td><span id="fv_inclina">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_inclina )+ '</span> &deg;</td></tr>'
 					 + '<tr><td>Orientació:</td><td><span id="fv_azimut">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_azimut )+ '</span> &deg;</td></tr>'
