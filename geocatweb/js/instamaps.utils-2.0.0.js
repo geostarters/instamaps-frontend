@@ -942,6 +942,9 @@ function refrescarPopUp(nom,props,_leaflet_id,type,capaLeafletId){
 }
 
 function changeWMSQueryable(queryable){	
+
+
+
 	map.eachLayer(function (layer) { 
 	  try{	 
 	 

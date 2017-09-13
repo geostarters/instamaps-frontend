@@ -5288,3 +5288,7 @@ li >.label-dof:focus {
 .noOverflow {
 	overflow: hidden;
 }
+
+#li_sostenibilitat{
+	display: none;
+}	

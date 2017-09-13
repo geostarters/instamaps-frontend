@@ -629,7 +629,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Sense resposta del catàleg INSPIRE":"No response from Inspire catalog"
 ,"Sense resultats":"No results found"
 ,"Serveis JSON":"JSON services"
-,"Serveis WMS":"WMS services"
+,"Geoserveis":"Geoservices"
 ,"Serveis WMS per Estat":"View Services by countries"
 ,"Sessió caducada":"Session expired"
 ,"Si":"Yes"

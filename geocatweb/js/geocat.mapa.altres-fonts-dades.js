@@ -81,7 +81,7 @@ function cercaCapes(e){
     						}else if(servertype == t_visualitzacio){
     							loadVisualitzacioLayer(value);
     						}	
-    						console.info(1);
+    					
     						$('#dialog_dades_ex').modal('hide');
     						activaPanelCapes(true);
     					}
@@ -173,7 +173,7 @@ function cercaCapesBtn(){
 							}else if(servertype == t_visualitzacio){
 								loadVisualitzacioLayer(value);
 							}	
-							console.info(2);
+							
 							$('#dialog_dades_ex').modal('hide');
 							activaPanelCapes(true);
 						}
@@ -188,8 +188,15 @@ function cercaCapesBtn(){
 
 function addControlAltresFontsDades() {
 	
+
 	addHtmlInterficieDadesExt();
 	addHtmlModalDadesExt();
+	
+	if(isSostenibilitatUser(true)){
+		_Sostenibilitat=new IM_Sostenibilitat();
+		_Sostenibilitat.initSostenibilitatUserMapa();
+	}	
+	
 	var _DadesOficials=new IM_DadesOficials();
 	jQuery(".div_dades_ext").on('click', function() {
 		//gestionaPopOver(this);
@@ -236,19 +243,22 @@ function addControlAltresFontsDades() {
 			}else if(tbA == "#id_srvw"){
 				$.publish('analyticsEvent',{event:['mapa', tipus_user+'tab_serveis_wms', 'modal_click_tab', 1]});
 				jQuery(tbA).empty();
-				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
+				jQuery(tbA).html(_htmlServeisWMS.join(' '));
+						//'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
 				var instamapsWms = InstamapsWms({container:$('#div_controlWMS'), botons: $('#div_emptyWMS'),proxyUrl: paramUrl.ows2json, callback: addWmsToMap});
 				jQuery(tbA+" a.label-wms").on('click', function(e) {
-					
-					
-					
-					if(e.target.id !="id_srvw"){
-						instamapsWms.getLayers({url: e.target.id, name: $(e.target).text()})
-						
+														
+					if(e.target.id !="id_srvw"){			
+						$('#cmd_geoserveis_list').val('WMS');					
+						instamapsWms.getLayers({url: e.target.id, name: $(e.target).text()})						
 					}
 				});
 	
 			}else if(tbA == "#id_xs"){//Xarxes socials
+				
+			
+				
+			
 				
 				
 				
@@ -259,11 +269,22 @@ function addControlAltresFontsDades() {
 				jQuery(tbA).html('<div class="input-group txt_capes"><input type="text" lang="ca" class="form-control" placeholder="Entrar el nom de la capa que es vol buscar" style="height:33px" id="txt_capesInstamaps" onkeyup="cercaCapes(event);" >'+ 
 						'<span class="input-group-btn"><button type="button" id="bt_capesInstamaps" class="btn btn-success" onclick="cercaCapesBtn();"><span class="glyphicon glyphicon-play"></span></button></span> </div>');				
 				
-			}
-			else if(tbA == "#id_url_file"){
+			}else if(tbA == "#id_sostenibilitat"){//sostenibilitat
+				
+					if(isSostenibilitatUser(false)){			
+				
+					jQuery(tbA).empty();
+					jQuery(tbA).html(_Sostenibilitat.generaOpcionsHTMLSostenibilitat());
+					jQuery('#bt_sos_config').on('click', function(e) {
+						_Sostenibilitat.desaConfigSostenibilitat(true);
+					
+						});	
+					}
+				
+			}else if(tbA == "#id_url_file"){
 				$.publish('analyticsEvent',{event:['mapa', tipus_user+'tab_dades_externes', 'modal_click_tab', 1]});
 				jQuery(tbA).empty();
-var label_xarxes = "La informació de les xarxes socials es mostra en funció de l'àrea geogràfica visualitzada."
+				var label_xarxes = "La informació de les xarxes socials es mostra en funció de l'àrea geogràfica visualitzada."
 				//Carreguem exemples de dades externes 
 
 				var lDadesExternes = '<ul class="bs-dadesO panel-heading llista-dadesExternes">';
@@ -367,6 +388,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 
 function addHtmlModalDadesExt(){
 	
+	
 	jQuery('#mapa_modals').append(
 	'	<!-- Modal Dades Externes -->'+
 	'		<div class="modal fade" id="dialog_dades_ex" style="width:105%">'+
@@ -381,9 +403,10 @@ function addHtmlModalDadesExt(){
 	'					<ul class="nav nav-tabs etiqueta">'+
 	'						<li><a href="#id_ofi" lang="ca" data-toggle="tab">Dades oficials</a></li>'+
 	'						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades obertes</a></li>'+
-	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
-	'						<li><a href="#id_capes_instamaps" lang="ca" data-toggle="tab">Capes reutilitzables</a></li>'+
-	'						<li><a href="#id_url_file" data-toggle="tab"><span lang="ca">Dades externes</span></a></li>'+
+	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Geoserveis</a></li>'+
+	'						<li><a href="#id_capes_instamaps" lang="ca" data-toggle="tab">Dades usuaris</a></li>'+
+	'						<li><a href="#id_url_file" data-toggle="tab"><span lang="ca">Dades núvol</span></a></li>'+
+	'						<li id="li_sostenibilitat"><a href="#id_sostenibilitat" data-toggle="tab"><span lang="ca">Sostenibilitat</span></a></li>'+
 	'					</ul>'+
 	'					<div class="tab-content tab-content-margin5px">'+
 	'						<div class="tab-pane fade" id="id_ofi"></div>'+
@@ -392,6 +415,7 @@ function addHtmlModalDadesExt(){
 	'						<div class="tab-pane fade" id="id_srvw"></div>'+
 	'						<div class="tab-pane fade" id="id_capes_instamaps"></div>'+
 	'						<div class="tab-pane fade" id="id_url_file"></div>'+
+	'                       <div class="tab-pane fade" id="id_sostenibilitat"></div>'+
 	'					</div>'+
 	'				</div>'+
 	'				<div class="modal-footer">'+

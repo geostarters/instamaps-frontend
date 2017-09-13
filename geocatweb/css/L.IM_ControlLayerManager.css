@@ -513,6 +513,34 @@ input[type='checkbox']:checked.checkbox_styled + label:before{
 }
 
 
+input[type='radio'].checkbox_styled + label:before,
+input[type='radio'].checkbox_styled + label:after{
+    position: relative;
+    top: 1px;
+    display: inline-block;   
+    font-family: 'Glyphicons Halflings';    
+    font-style: normal;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor:pointer;
+    color:white;
+}
+
+
+input[type='radio'].checkbox_styled + label:before{
+ content:"\e017";
+ color:red;  
+}
+
+input[type='radio']:checked.checkbox_styled + label:before{
+  content:"\e017";
+  color:#00FF00;	
+}
+
 
 
 

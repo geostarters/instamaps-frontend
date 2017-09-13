@@ -1,13 +1,3 @@
-body {
-  padding-top: 10px;
-}
-
-.footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-top: 20px;
-  border-top: 1px solid #eee;
-}
 
 
 /* Customize the nav-justified links to be fill the entire space of the .navbar */
@@ -95,3 +85,102 @@ body {
     padding-left: 0;
   }
 }
+
+
+
+.txt_sostenibilitat{
+	font-size: 0.9em;
+    font-weight: bold;
+    font-style: italic;		
+}	
+
+.row_sos{	
+	border-bottom: 3px solid #ffffff;
+}
+
+.color_sos_wms{
+	background-color:#dedbd5;	
+}	
+
+.color_sos_wfs{
+	background-color: #f1ece8;	
+}
+
+.color_sos_calculadora{
+	background-color: #ffeddb;	
+}
+
+.psolar_info{
+ background-color: white;
+    border: 1px dashed #bbbbbb;
+    display: none;
+    
+    z-index: 200;
+    display:none;
+	
+	    left: 47px;
+    max-height: 750px;
+    overflow: auto;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    width: 341px;
+    z-index: 200;
+    height: 722px;
+	
+}
+
+
+.psolar_infoLL{
+ background-color: white;
+    border: 1px dashed #bbbbbb;
+    z-index: 200;
+    display:none;
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+    border-radius: 0;
+    color: #ffffff;
+}
+
+
+
+
+
+.tbl_dades{
+	 border-bottom: 2px solid #333333;
+    font-weight: bold;
+    margin: 5px;
+    padding: 10px;
+    width: 95%;
+	font-size: 11px;
+	}
+	
+.tbl_dades td{
+ width: 50%;
+}
+
+
+.tbl_chk {
+ width: 99%;
+ font-size: 12px !important;
+     text-align: center;
+}
+
+.tbl_dades input{
+ background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+
+
+#pobre label{ color:#c2c2c2;}
+#regular label{ color:#c2c2c2;}
+#pobre{ background: rgba(59, 27, 0,1);}
+#regular{ background: rgba(187, 105, 16,1);}
+#adequat{ background: rgba(255, 176, 2,1);}
+#adequat_ts{ background: rgba(187, 105, 17,1);}
+#optim{ background: rgba(255, 255, 0,1);}
+
+td label{margin-left: 5px;}

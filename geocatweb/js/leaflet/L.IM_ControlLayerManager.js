@@ -59,7 +59,17 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},
 	
 	removeLayer : function(obj) {
-		var id = L.stamp(obj.layer);
+		
+	var id;
+		try{
+			id = L.stamp(obj.layer);
+		}catch(Err){
+			if ("undefined" == typeof id) {					
+				id = (obj._leaflet_id);
+			}	
+		}	
+		
+		
 		if (!obj.sublayer) {
 			delete this._layers[id];
 		} else {
@@ -779,6 +789,15 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			input.id = 'input-' + obj.layer.options.businessId;
 			input.type = 'checkbox';
 			input.className = 'checkbox_styled hide leaflet-control-layers-selector';
+			
+			if(obj.layer && 
+				obj.layer.options && 
+				obj.layer.options.sostenibilitat){
+				input.type = 'radio';	
+				input.name = 'r_sostenibilitat';
+				input.className = 'checkbox_styled hide leaflet-control-layers-selector';				
+				}
+						
 			
 			if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) != -1) {
 				if (obj.layer.options.wmstime == true) {

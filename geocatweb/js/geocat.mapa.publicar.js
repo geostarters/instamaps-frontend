@@ -387,8 +387,10 @@
 				urlMap=urlMap+"&3D="+estatMapa3D;
 
 			 }
-			
-			
+			console.info(urlMap);
+			if(isSostenibilitatUser(false)){				
+					urlMap=urlMap +"&appmodul=sostenibilitat";			
+			}	
 
 			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
@@ -584,6 +586,12 @@
         	
         	if (v_url.indexOf("mapacolaboratiu=si")>-1) v_url=v_url.replace("&mapacolaboratiu=si","");
         	//require ajax
+			
+			
+			if(isSostenibilitatUser(false)){				
+					v_url=v_url +"&appmodul=sostenibilitat";			
+			}	
+			
         	shortUrl(v_url).then(function(results){
         		//require share
         		$('#socialSharePublicar').share({
@@ -732,8 +740,24 @@
         	options.downloadable = this.downloadableData;
         	options.params = this.paramsData;
 
+			
+			if(isSostenibilitatUser(false)){
+				
+				try{
+					if(self.mapConfig.options && self.mapConfig.options.sostenibilitat){
+					options.sostenibilitat=self.mapConfig.options.sostenibilitat;
+					}
+				}catch(Err){
+				console.log(Err);
+				}					
+			}
+			
+			
+			
         	options = JSON.stringify(options);
 
+				
+			
         	var newMap = true;
 
         	if ($('#businessId').val() != ""){
@@ -883,6 +907,8 @@
         	}else{
         		data.businessId = $('#businessId').val();
         		//require ajax
+				
+				
         		updateMap(data).then(function(results){
         			if (results.status == "ERROR"){
         				//TODO Mensaje de error
@@ -904,6 +930,9 @@
         					self.mapConfig.nom_visor = results.results.nom_visor;
         					var urlMap ="";
         					 var nomVisor = self.mapConfig.nom_visor;
+							 
+							
+							 
         					 if (nomVisor!=null) {
         						 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
         						 urlMap = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
@@ -919,7 +948,10 @@
 
         					 }
         					
-        					
+									
+					if(isSostenibilitatUser(false)){				
+							urlMap=urlMap +"&appmodul=sostenibilitat";			
+					}	
 
         					$("#urlVisorMap a").attr("href", urlMap);
         					$('#urlMap').val(urlMap);
