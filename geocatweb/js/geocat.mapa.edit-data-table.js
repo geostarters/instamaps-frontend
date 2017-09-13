@@ -568,7 +568,9 @@ function fillModalDataTable(obj, geomBid){
 					var crs=new L.Proj.CRS('EPSG:25831',  '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
 					var _CRS = crs.project( {lat:lat,lng:lon});
 					auxX =  L.Util.formatNum(_CRS.x, 6);
+					auxX = auxX.toFixed(2);
 				    auxY = L.Util.formatNum(_CRS.y, 6);
+				    auxY = auxY.toFixed(2);
 					if (result.etrs89_x==undefined)  result.etrs89_x=auxX;
 					if (result.etrs89_y==undefined)  result.etrs89_y=auxY;
 					$.each( result, function( key, value ) {
