@@ -1711,6 +1711,7 @@ function createPopUpContent(player,type, editant, propFormat){
 	var auxNom = window.lang.translate('Nom');
 	var auxText = window.lang.translate('Descripció');
 	var auxLon,auxLat;
+	var auxX,auxY;
 	if(player.properties.data.nom) {
 		auxNom = player.properties.data.nom;
 		if (propFormat!=undefined && propFormat['nom']!=undefined){
@@ -1732,6 +1733,12 @@ function createPopUpContent(player,type, editant, propFormat){
 		auxLat= auxLat.toFixed(5);
 		auxLon = player._latlng.lng;
 		auxLon= auxLon.toFixed(5);
+		var crs=new L.Proj.CRS('EPSG:25831',  '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
+		var _CRS = crs.project( {lat:auxLat,lng:auxLon});
+		auxX =  L.Util.formatNum(_CRS.x, 6);
+		auxX = auxX.toFixed(2);
+	    auxY = L.Util.formatNum(_CRS.y, 6);
+	    auxY = auxY.toFixed(2);
 	}
 	var html='<div class="div_popup">' 
 	+'<div class="popup_pres">'							
@@ -1739,8 +1746,13 @@ function createPopUpContent(player,type, editant, propFormat){
 	+'<div id="des_pres">'+auxText+' <i class="glyphicon glyphicon-pencil gris-semifosc"></i></div>';
 	
 	if (player.options.tipus=="marker" && auxLat!=undefined && auxLon!=undefined) {
-		html+='<div id="auxLat">'+auxLat+'</div>'
-		+'<div id="auxLon">'+auxLon+'</div>';
+		html+='<div id="coordsBox">';
+		if (auxX!=undefined && auxY!=undefined){
+			html+='ETRS89 UTM 31N: '+auxX+','+auxY;
+		}
+		html +='<br/>WGS84: '+ auxLon+','+auxLat;
+		
+		html += '</div>';
 	}
 
 	
@@ -1796,6 +1808,10 @@ function createPopUpContent(player,type, editant, propFormat){
 	if (player.options.tipus=="marker" && auxLat!=undefined && auxLon!=undefined) {
 		html+='<input class="form-control" id="lat" type="text" value="'+auxLat+'" placeholder="" disabled>'
 		+'<input class="form-control" id="lon" type="text" value="'+auxLon+'" placeholder="" disabled>';
+		if (auxX!=undefined && auxY!=undefined){
+			html+='<input class="form-control" id="x" type="text" value="'+auxX+'" placeholder="" disabled>'
+			+'<input class="form-control" id="y" type="text" value="'+auxY+'" placeholder="" disabled>';
+		}
 	}
 	html+='</div>'	
 	+'<div  style="display:block" id="capa_txt">'
