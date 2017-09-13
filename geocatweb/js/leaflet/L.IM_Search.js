@@ -823,7 +823,7 @@ L.Control.Search = L.Control.extend({
 		} else if (etrs89) {
 
 			proj4.defs('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
-			var matches = input.match(/^([2-5]\d{5}(\.\d*))(\s+|\s*,\s*)(\d{7}(\.\d*))$/);
+			var matches = input.match(/^([2-5]\d{5}(\.\d*)?)(\s+|\s*,\s*)(\d{7}(\.\d*)?)$/);
 			coords = proj4('EPSG:25831', 'WGS84', [matches[1], matches[4]]);
 
 		}
