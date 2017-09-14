@@ -792,8 +792,8 @@ L.Control.Search = L.Control.extend({
 
 	_areCoordinates: function(input) {
 
-		var latlng = (/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/).test(input);
-		var deg = (/^([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s|\s*,\s*)([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/).test(input);
+		var latlng = (/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)(\s+|\s*,\s*)[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/).test(input);
+		var deg = (/^(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}(\.\d+)?[\"|\u201d|″|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s+|\s*,\s*)(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}(\.\d+)?[\"|\u201d|″|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/).test(input);
 		var etrs89 = (/^([2-5]\d{5}(\.\d+)?)(\s+|\s*,\s*)(\d{7}(\.\d+)?)$/).test(input);
 
 		return latlng || deg || etrs89;
@@ -803,32 +803,34 @@ L.Control.Search = L.Control.extend({
 	_convertCoordinates: function(input) {
 
 		var coords = [];
-		var latlng = (/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/).test(input);
-		var deg = (/^([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s|\s*,\s*)([-|\+]?\d{1,3}[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/).test(input);
+		var latlng = (/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)(\s+|\s*,\s*)[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/).test(input);
+		var deg = (/^(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}(\.\d+)?[\"|\u201d|″|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s+|\s*,\s*)(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}(\.\d+)?[\"|\u201d|″|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/).test(input);
 		var etrs89 = (/^([2-5]\d{5}(\.\d+)?)(\s+|\s*,\s*)(\d{7}(\.\d+)?)$/).test(input);
 
 		if (latlng) {
 
-			var matches = input.match(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/);
-			coords = [parseFloat(matches[1]), parseFloat(matches[4])];
+			var matches = input.match(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)(\s+|\s*,\s*)[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/);
+			coords = [parseFloat(matches[1]), parseFloat(matches[5])];
 
 		} else if (deg) {
 
-			var matches = input.match(/^(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*(\d{1,2})['|\u2019|\s])?(\s*(\d{1,2})[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s|\s*,\s*)(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*(\d{1,2})['|\u2019|\s])?(\s*(\d{1,2})[\"|\u201d|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/);
-			var lat = parseFloat(matches[2]) + (undefined != matches[4] ? parseFloat(matches[4])/60 : 0) + (undefined != matches[6] ? parseFloat(matches[6])/3600 : 0);
-			var lon = parseFloat(matches[10]) + (undefined != matches[12] ? parseFloat(matches[12])/60 : 0) + (undefined != matches[14] ? parseFloat(matches[14])/3600 : 0);
+			var matches = input.match(/^(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}(\.\d+)?[\"|\u201d|″|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s+|\s*,\s*)(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}(\.\d+)?[\"|\u201d|″|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/);
+			var lat = parseFloat(matches[2]) + (undefined != matches[3] ? parseFloat(matches[3])/60 : 0) + (undefined != matches[4] ? parseFloat(matches[4])/3600 : 0);
+			var lon = parseFloat(matches[9]) + (undefined != matches[10] ? parseFloat(matches[10])/60 : 0) + (undefined != matches[11] ? parseFloat(matches[11])/3600 : 0);
 
 			coords = [lat, lon];
 
 		} else if (etrs89) {
 
 			proj4.defs('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
-			var matches = input.match(/^([2-5]\d{5}(\.\d*)?)(\s+|\s*,\s*)(\d{7}(\.\d*)?)$/);
-			coords = proj4('EPSG:25831', 'WGS84', [matches[1], matches[4]]);
+			var matches = input.match(/^([2-5]\d{5}(\.\d+)?)(\s+|\s*,\s*)(\d{7}(\.\d+)?)$/);
+			var wgs84 = proj4('EPSG:25831', 'WGS84', [matches[1], matches[4]]);
+			coords = [wgs84[1], wgs84[0]];
+
 
 		}
 
-		var coordsStr = coords[1].toFixed(5) + "," + coords[0].toFixed(5);
+		var coordsStr = coords[0].toFixed(5) + "," + coords[1].toFixed(5);
 		var nomCoords = coords[0].toFixed(5) + "," + coords[1].toFixed(5)
 		return {resposta: JSON.stringify({ resultats: [{coordenades: coordsStr, nom: nomCoords}]}), status: "OK"};;
 

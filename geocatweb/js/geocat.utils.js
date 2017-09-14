@@ -1115,4 +1115,13 @@ function generarScriptMarkupGoogle(url,nom,urlImage,autor,dataPublicacio,descrip
 	return generatedScript;
 }
 
+function latLngtoETRS89(lat, lng) {
 
+	var auxLat = lat.toFixed(5);
+	var auxLng = lng.toFixed(5);
+	var crs = new L.Proj.CRS('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
+	var _CRS = crs.project( {lat:auxLat, lng:auxLng} );
+
+	return {x: _CRS.x.toFixed(2), y: _CRS.y.toFixed(2)};
+
+}

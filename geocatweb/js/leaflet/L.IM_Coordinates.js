@@ -14,10 +14,9 @@ L.Control.Coordinates = L.Control.extend({
     position: 'bottomleft',
     separator: ' : ',
     emptyString: '',
-    lngFirst: true, //modifiquem el paràmetre per mostrar les coordenades igual que el Vissir (issue #554)
+    lngFirst: false,
     numDigits: 2,
     numDigits2: 6,
-	crs:new L.Proj.CRS('EPSG:25831',  '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs'),
     lngFormatter: undefined,
     latFormatter: undefined,
     prefix: "",
@@ -59,15 +58,11 @@ L.Control.Coordinates = L.Control.extend({
 	var map = this._map;  
 	
 	var sC=map.miraBBContains(map.getBounds());
-  
+
+  var etrs89 = latLngtoETRS89(e.latlng.lat, e.latlng.lng);
     
-	var _CRS=this.options.crs.project( {lat:e.latlng.lat,lng:e.latlng.lng});
-  
-    //var lng = this.options.lngFormatter ? this.options.lngFormatter(e.latlng.lng) : L.Util.formatNum(e.latlng.lng, this.options.numDigits);
-    //var lat = this.options.latFormatter ? this.options.latFormatter(e.latlng.lat) : L.Util.formatNum(e.latlng.lat, this.options.numDigits);
-    
-	var lng = this.options.lngFormatter ? this.options.lngFormatter(_CRS.x) : L.Util.formatNum(_CRS.x, this.options.numDigits);
-    var lat =this.options.latFormatter ? this.options.latFormatter(_CRS.y) : L.Util.formatNum(_CRS.y, this.options.numDigits);
+	var lng = this.options.lngFormatter ? this.options.lngFormatter(etrs89.y) : L.Util.formatNum(etrs89.y, this.options.numDigits);
+  var lat =this.options.latFormatter ? this.options.latFormatter(etrs89.x) : L.Util.formatNum(etrs89.x, this.options.numDigits);
 	
 	var value = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
 	

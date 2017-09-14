@@ -1729,16 +1729,9 @@ function createPopUpContent(player,type, editant, propFormat){
 		}
 	}
 	if (player.options.tipus=="marker" && player._latlng) {
-		auxLat = player._latlng.lat;
-		auxLat= auxLat.toFixed(5);
-		auxLon = player._latlng.lng;
-		auxLon= auxLon.toFixed(5);
-		var crs=new L.Proj.CRS('EPSG:25831',  '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
-		var _CRS = crs.project( {lat:auxLat,lng:auxLon});
-		auxX =  L.Util.formatNum(_CRS.x, 6);
-		auxX = auxX.toFixed(2);
-	    auxY = L.Util.formatNum(_CRS.y, 6);
-	    auxY = auxY.toFixed(2);
+		var etrs = latLngtoETRS89(player._latlng.lat, player._latlng.lng);
+		auxX = etrs.x;
+	    auxY = etrs.y;
 	}
 	var html='<div class="div_popup">' 
 	+'<div class="popup_pres">'							
