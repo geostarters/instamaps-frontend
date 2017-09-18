@@ -1729,6 +1729,10 @@ function createPopUpContent(player,type, editant, propFormat){
 		}
 	}
 	if (player.options.tipus=="marker" && player._latlng) {
+		auxLat = player._latlng.lat;
+		auxLat= auxLat.toFixed(5);
+		auxLon = player._latlng.lng;
+		auxLon= auxLon.toFixed(5);
 		var etrs = latLngtoETRS89(player._latlng.lat, player._latlng.lng);
 		auxX = etrs.x;
 	    auxY = etrs.y;
