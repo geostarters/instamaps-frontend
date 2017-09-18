@@ -2074,7 +2074,7 @@ function openSpatialJoinModal(){
 											var data2 = {
 												uid: Cookies.get('uid'),
 												mapBusinessId: url('?businessid'),
-												serverName:window.lang.translate("Punts dins de polígons:")+" "+data.nomCapaOrigen1+" "+data.nomCapaOrigen2,
+												serverName:$('#input-spatial-join-name').val(),
 												path:data.path,
 												tmpFilePath:data.tmpFilePath,
 												midaFitxer:data.midaFitxer,
