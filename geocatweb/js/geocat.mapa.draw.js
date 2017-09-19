@@ -1755,16 +1755,8 @@ function createPopUpContent(player,type, editant, propFormat){
 	+'<div class="popup_edit">'
 	+'<div style="display:block" id="feature_txt">'
 	+'<input class="form-control" id="titol_edit" type="text" value="'+auxNom+'" placeholder="">'
-	+'<textarea id="des_edit" class="form-control" rows="2">'+auxText+'</textarea>'	;
-	if (player.options.tipus=="marker" && auxLat!=undefined && auxLon!=undefined) {
-		html+='<input class="form-control" id="lat" type="text" value="'+auxLat+'" placeholder="" disabled>'
-		+'<input class="form-control" id="lon" type="text" value="'+auxLon+'" placeholder="" disabled>';
-		if (auxX!=undefined && auxY!=undefined){
-			html+='<input class="form-control" id="x" type="text" value="'+auxX+'" placeholder="" disabled>'
-			+'<input class="form-control" id="y" type="text" value="'+auxY+'" placeholder="" disabled>';
-		}
-	}
-	html+='</div>'	
+	+'<textarea id="des_edit" class="form-control" rows="2">'+auxText+'</textarea>'
+	+'</div>'	
 	+'<div  style="display:block" id="capa_txt">'
 	+'<div id="layer_accio"></div>'
 	+'<input class="form-control" id="capa_edit" type="text" value="'+player.properties.capaGrup+'" placeholder="">'
