@@ -451,7 +451,9 @@ function activaEdicioUsuari() {
 
 	map.on('draw:created',function(e){
 		map.on('click',function(e) {
-			PopupManager().createMergedDataPopup(e.target, e, controlCapes)
+			PopupManager().createMergedDataPopup(e.target, e, controlCapes).then(function() {
+				actualitzarComboCapes();				
+			});
 		});		
 	});
 	
@@ -1090,63 +1092,7 @@ function createPopupWindow(layer,type, editant,propFormat){
 		else{
 			//actualitzem popup
 			PopupManager().createMergedDataPopup(e.target, e, controlCapes).then(function() {
-				$.each( controlCapes._layers, function(i,val) {//refresquem combo de totes les capes del mapa
-					var layer2 = val.layer.options;
-					html = reFillCmbCapesUsr(layer2.geometryType, layer2.businessId);
-					
-					 $.each( val.layer._layers, function(i2,val2) {
-						 jQuery('#cmbCapesUsr-'+val2._leaflet_id+'-'+layer2.geometryType+'-'+val2.properties.capaLeafletId).html(html);
-					 });
-					 
-				});
-				/*if (layer.properties.data.nom){
-					jQuery('#titol_pres').text(layer.properties.data.nom).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
-				}
-				if (layer.properties.data.text){
-					var txt = layer.properties.data.text;
-					
-					if (!$.isNumeric(txt) && !validateWkt(txt)) {
-						txt = parseUrlTextPopUp(txt,"");
-						if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-							var auxText = layer.properties.data.text;
-							if (propFormat!=undefined && propFormat['text']!=undefined){
-								auxText= dataFormatter.formatValue(auxText, propFormat['text']);
-							}
-							jQuery('#des_pres').html('');
-							jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+auxText+'</span>');
-							jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
-						}else{
-							jQuery('#des_pres').html('');
-							jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+layer.properties.data.text+'</span>');
-							jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
-						}
-					}
-					else {
-						var auxText = layer.properties.data.text;
-						if (propFormat!=undefined && propFormat['text']!=undefined){
-							auxText= dataFormatter.formatValue(auxText, propFormat['text']);
-						}
-						jQuery('#des_pres').html('');
-						jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+auxText+'</span>');
-						jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
-					}
-					
-				}
-
-				if(layer.properties.mida)	
-				{
-
-					var text = window.lang.translate("Longitud");
-					if(layer.properties.tipusFeature == t_polygon)
-					{
-
-						text = window.lang.translate("Àrea");
-
-					}
-
-					$("#mida_pres").html("<b>" + text + ":</b> " + layer.properties.mida);
-
-				}*/
+				actualitzarComboCapes();				
 			});
 		}
 
@@ -1485,10 +1431,14 @@ function finishAddFeatureToTematic(layer){
 	layer.properties.popupData = html;
 	layer.properties.capaNom = capaUsrActiva.options.nom;
 	if (layer.properties.tipusFeature=="polygon" || layer.properties.tipusFeature=="polyline"){
-		PopupManager().createMergedDataPopup(layer, {latlng: layer._latlngs[0]}, controlCapes);
+		PopupManager().createMergedDataPopup(layer, {latlng: layer._latlngs[0]}, controlCapes).then(function() {
+			actualitzarComboCapes();				
+		});
 	}
 	else {
-		PopupManager().createMergedDataPopup(layer, {latlng: layer._latlng}, controlCapes);
+		PopupManager().createMergedDataPopup(layer, {latlng: layer._latlng}, controlCapes).then(function() {
+			actualitzarComboCapes();				
+		});
 	}
 
 }
@@ -1537,6 +1487,12 @@ function updateFeatureNameDescr(layer, titol, descr){
     
     updateGeometria(data).then(function(results){
 	    if(results.status == 'OK'){
+	    	//recarrego les sublayers de la capa modificada
+			var html = createPopupWindow(layer, "marker", true);
+			layer.properties.feature.properties.popupData = html;
+			layer.properties.popupData = html;
+			var capaEdicio = controlCapes._layers[layer.properties.capaLeafletId];
+			actualitzacioTematic(capaEdicio,layer.properties.capaBusinessId,"3124",null,features,"modificacioInfo");
 			jQuery('#titol_pres').text(titol).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 			var txt = descr;			
 			if (!$.isNumeric(txt) && !validateWkt(txt)) {
@@ -1558,11 +1514,9 @@ function updateFeatureNameDescr(layer, titol, descr){
 			}
 			
 			jQuery('.popup_pres').show();
-			jQuery('.popup_edit').hide();   
+			jQuery('.popup_edit').hide();  
 						
-			//recarrego les sublayers de la capa modificada
-			var capaEdicio = controlCapes._layers[layer.properties.capaLeafletId];
-			actualitzacioTematic(capaEdicio,layer.properties.capaBusinessId,"3124",null,features,"modificacioInfo");
+			
 	    }else{
 	        console.debug("updateGeometria ERROR");
 	    }
@@ -1945,10 +1899,14 @@ function moveFeatureToLayer(feature_businessId,layer_fromBusinessId,layer_toBusi
 			//feature.setPopupContent(html);
 			map.closePopup();
 			if (layer.properties.tipusFeature=="polygon" || layer.properties.tipusFeature=="polyline"){
-				PopupManager().createMergedDataPopup(feature, {latlng: feature._latlngs[0]}, controlCapes);
+				PopupManager().createMergedDataPopup(feature, {latlng: feature._latlngs[0]}, controlCapes).then(function() {
+					actualitzarComboCapes();				
+				});
 			}
 			else {
-				PopupManager().createMergedDataPopup(feature, {latlng: feature._latlng}, controlCapes);
+				PopupManager().createMergedDataPopup(feature, {latlng: feature._latlng}, controlCapes).then(function() {
+					actualitzarComboCapes();				
+				});
 			}
 			
 			//update rangs
@@ -2312,6 +2270,18 @@ function activarSnapping(capaEdicio){
 		 drawnItems.addLayer(capaEdicio.getLayers()[0]);
 		 // Add newly drawn feature to list of snappable features
 		guideLayers.push(capaEdicio.getLayers()[0]);
+}
+
+function actualitzarComboCapes(){
+	$.each( controlCapes._layers, function(i,val) {//refresquem combo de totes les capes del mapa
+		var layer2 = val.layer.options;
+		html = reFillCmbCapesUsr(layer2.geometryType, layer2.businessId);
+		
+		 $.each( val.layer._layers, function(i2,val2) {
+			 jQuery('#cmbCapesUsr-'+val2._leaflet_id+'-'+layer2.geometryType+'-'+val2.properties.capaLeafletId).html(html);
+		 });
+		 
+	});
 }
 
 
