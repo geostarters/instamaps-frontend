@@ -197,7 +197,8 @@ jquery_lang_js.prototype.lang.en = {
 ,"Creant temàtic bàsic":"Creating basic map"
 ,"Creant temàtic de mides":"Creating measurements map"
 ,"Crear una nova capa":"Create new layer"
-
+,"Ctrl+clic esborra vèrtex":"Ctrl+click delete vertex"
+	
 ,"D'acord":"Ok"
 ,"dades":"data"
 ,"Dades":"Data"
