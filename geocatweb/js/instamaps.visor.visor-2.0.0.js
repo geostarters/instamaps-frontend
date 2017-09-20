@@ -1021,6 +1021,10 @@
 			self.appmodul = self.appmodul || false;
 			self.zoomcontrol = self.zoomcontrol || false;
 			self.fons = self.fons || "hibridMap";
+			
+			var lat = url('?lat');
+			var lng = url('?lng');
+			var zoom = url('?zoom');
 
 			var lat = url('?lat');
 			var lng = url('?lng');

@@ -129,7 +129,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								$.each( pp, function( key, value ) {
 									propName = propName+key+",";
 									if(isValidValue(value) && !validateWkt(value)){
-										if ( key != 'businessId' && key != 'slotd50'){
+										if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+												key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 											var txt = value;
 												html+='<div class="popup_data_row">';
 												if (!$.isNumeric(txt)) {		    				
@@ -180,7 +181,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								$.each( pp, function( key, value ) {
 									propName = propName+key+",";
 									if(isValidValue(value) && !validateWkt(value)){
-										if ( key != 'businessId' && key != 'slotd50'){
+										if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+												key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 											
 											var txt = value;
 												html+='<div class="popup_data_row">';
@@ -395,7 +397,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				$.each( pp, function( key, value ) {
 					propName = propName+key+",";
 					if(isValidValue(value) && !validateWkt(value)){
-						if ( key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+								key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -445,7 +448,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				$.each( pp, function( key, value ) {
 					propName = propName+key+",";
 					if(isValidValue(value) && !validateWkt(value)){
-						if ( key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+								key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1231,7 +1235,8 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if ( key != 'businessId' && key != 'slotd50'){							
+						if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+								key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){							
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1318,7 +1323,8 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 						if(isValidValue(value) && !validateWkt(value)){
-							if ( key != 'businessId' && key != 'slotd50'){
+							if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+									key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 								html+='<div class="popup_data_row">';
 								var txt = value;
 								if (!$.isNumeric(txt)) {		    				
@@ -1483,7 +1489,8 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if ( key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+								key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1530,7 +1537,8 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if ( key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+								key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1627,7 +1635,8 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if ( key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+								key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1661,7 +1670,8 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if ( key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+								key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1859,7 +1869,8 @@ function constructLayer(layer, estil_do){
 		var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		$.each( pp, function( key, value ) {
 			if(isValidValue(value) && !validateWkt(value)){
-				if ( key != 'businessId' && key != 'slotd50'){
+				if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+						key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 					html+='<div class="popup_data_row">';
 					var txt = value;
 					if (!$.isNumeric(txt)) {		    				

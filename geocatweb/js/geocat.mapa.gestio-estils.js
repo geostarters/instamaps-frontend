@@ -208,10 +208,10 @@ function updateGeometriaEstil(layer, nouEstil){
 	    if(results.status == 'OK'){
 			nouEstil.businessId = results.estilBid;
 			layer.properties.estil = nouEstil;
-		
-		//Refresca Llegenda canvi estil
-		map.fire('onRedrawLegend', mapConfig);
-		map.fire('activaLegendTab',{id: layer.properties.capaBusinessId, activo: true});
+			actualitzarComboCapes();
+			//Refresca Llegenda canvi estil
+			map.fire('onRedrawLegend', mapConfig);
+			map.fire('activaLegendTab',{id: layer.properties.capaBusinessId, activo: true});
 		
 	    }else{
 	        console.debug("updateGeometria ERROR");
