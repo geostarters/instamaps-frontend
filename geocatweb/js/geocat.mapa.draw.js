@@ -2157,7 +2157,7 @@ function addDrawTooltips() {
 				edit : {
 					
 					tooltip : {
-						text : window.lang.translate("Arrossega els vèrtex o el punt per editar l'objecte"),
+						text : window.lang.translate("Arrossega els vèrtex o el punt per editar l'objecte")+"<br/>"+window.lang.translate('Ctrl+clic esborra vèrtex'),
 						subtext : window.lang.translate('Fes clic sobre el mapa per finalitzar')
 					}
 				}

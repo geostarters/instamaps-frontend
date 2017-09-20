@@ -197,6 +197,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Creant temàtic bàsic":"Creando temático básico"
 ,"Creant temàtic de mides":"Creando temático de medidas"
 ,"Crear una nova capa":"Crear nueva capa"
+,"Ctrl+clic esborra vèrtex":"Ctrl+click borra el vértice"
 
 ,"D'acord":"Conforme"
 ,"dades":"datos"
