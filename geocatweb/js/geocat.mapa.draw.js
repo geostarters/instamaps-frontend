@@ -1251,6 +1251,9 @@ function objecteUserAdded(f){
 				finishAddFeatureToTematic(f.layer);		
 				
 				var capaEdicio = controlCapes._layers[capaUsrActiva._leaflet_id];
+				if (capaEdicio==undefined){
+					capaEdicio = controlCapes._visLayers[capaUsrActiva.options.businessId];
+				}
 				if (capaEdicio!=undefined) {
 					//recarrego les sublayers de la capa modificada	
 					actualitzacioTematic(capaEdicio,businessIdCapaOrigen,fId,f,features,"alta");
@@ -1430,6 +1433,8 @@ function finishAddFeatureToTematic(layer){
 	layer.properties.feature.properties.capaNom = capaUsrActiva.options.nom;
 	layer.properties.popupData = html;
 	layer.properties.capaNom = capaUsrActiva.options.nom;
+	layer.properties.capaLeafletId = capaUsrActiva._leaflet_id;
+	map.closePopup();
 	if (layer.properties.tipusFeature=="polygon" || layer.properties.tipusFeature=="polyline"){
 		PopupManager().createMergedDataPopup(layer, {latlng: layer._latlngs[0]}, controlCapes).then(function() {
 			actualitzarComboCapes();				
@@ -1810,7 +1815,9 @@ function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
 			capaUsrActiva2.options.zIndex = controlCapes._lastZIndex+1;
 			controlCapes.addOverlay(capaUsrActiva2,	capaUsrActiva2.options.nom, true);
 			controlCapes._lastZIndex++;
-			activaPanelCapes(true);			
+			activaPanelCapes(true);		
+			
+			capaUsrActriva=capaUsrActiva2;
 			
 			var features = {
 					type: feature.properties.tipusFeature,
