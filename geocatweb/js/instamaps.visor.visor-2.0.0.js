@@ -1872,41 +1872,43 @@
 		_gestionaEtiquetes: function(){
 			var self=this;
 			var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
-			jQuery.each(controlCapes._layers, function(i, obj){
-				var optionsVis;
-				if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVis!=undefined) optionsVis = obj.layer.options.opcionsVis;
-				if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVisEtiqueta!=undefined) optionsVis = obj.layer.options.opcionsVisEtiqueta;
-				else if (obj.options!=undefined && obj.optionsobj.opcionsVis!=undefined)  optionsVis = obj.options.opcionsVis;
-				else if (obj.options!=undefined && obj.optionsobj.opcionsVisEtiqueta!=undefined) optionsVis = obj.options.opcionsVisEtiqueta;
-			
-				 if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
-						 optionsVis=="etiquetageom")){
-					 		var zoomInicial = zoomInicialEt;
-					 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
-					 		var zoomFinal = zoomFinalEt;
-					 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
-
-					 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
-								jQuery.each(obj.layer._layers, function(i, lay){
-									if (lay.label!=undefined) {
+			if (controlCapes!=null){
+				jQuery.each(controlCapes._layers, function(i, obj){
+					var optionsVis;
+					if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVis!=undefined) optionsVis = obj.layer.options.opcionsVis;
+					if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVisEtiqueta!=undefined) optionsVis = obj.layer.options.opcionsVisEtiqueta;
+					else if (obj.options!=undefined && obj.optionsobj.opcionsVis!=undefined)  optionsVis = obj.options.opcionsVis;
+					else if (obj.options!=undefined && obj.optionsobj.opcionsVisEtiqueta!=undefined) optionsVis = obj.options.opcionsVisEtiqueta;
+				
+					 if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
+							 optionsVis=="etiquetageom")){
+						 		var zoomInicial = zoomInicialEt;
+						 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
+						 		var zoomFinal = zoomFinalEt;
+						 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
+	
+						 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
+									jQuery.each(obj.layer._layers, function(i, lay){
+										if (lay.label!=undefined) {
+											if(lay.label){
+												lay.label.setOpacity(1);
+											}
+											if(lay._showLabel){
+						                        lay._showLabel({latlng: lay.label._latlng});
+											}
+										}
+									});
+						 		 }
+						 		 else {//amaguem labels
+									jQuery.each(obj.layer._layers, function(i, lay){
 										if(lay.label){
-											lay.label.setOpacity(1);
+											lay.label.setOpacity(0);
 										}
-										if(lay._showLabel){
-					                        lay._showLabel({latlng: lay.label._latlng});
-										}
-									}
-								});
-					 		 }
-					 		 else {//amaguem labels
-								jQuery.each(obj.layer._layers, function(i, lay){
-									if(lay.label){
-										lay.label.setOpacity(0);
-									}
-								});
-							 }
-				}
-			});
+									});
+								 }
+					}
+				});
+			}
 		}
 
 	};
