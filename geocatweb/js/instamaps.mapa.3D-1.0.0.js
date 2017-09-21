@@ -558,7 +558,7 @@ var IM_aplicacio = function (options) {
 		} else {
 			msgHTML += player.data;
 		}
-		var html2 = '<div class="leaflet-popup leaflet-container leaflet-zoom-animated" style="opacity:1"><a id="tanca3D" class="leaflet-popup-close-button" href="#close">Ã—</a>' +
+		var html2 = '<div class="leaflet-popup leaflet-container leaflet-zoom-animated" style="opacity:1"><a id="tanca3D" class="leaflet-popup-close-button" href="#close">×</a>' +
 			'<div class="leaflet-popup-content-wrapper">' +
 			'<div class="leaflet-popup-content" style="width: 301px;">' +
 			msgHTML +
