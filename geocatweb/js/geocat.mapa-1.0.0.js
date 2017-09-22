@@ -494,6 +494,7 @@ function updateLangText(){
 	$('#nomAplicacioPub').attr("placeholder", window.lang.translate("Nom"));
     $('#optDescripcio').attr("placeholder", window.lang.translate("Descripció"));
     $('#optTags').attr("placeholder", window.lang.translate("Etiquetes"));
+    $('#optAlies').attr("placeholder", window.lang.translate("Àlies de l'usuari (nom públic de l'autor)"));
 	$('#publish-warn-text').text(window.lang.translate('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
 
 
