@@ -312,16 +312,32 @@ function loadPublicMap(results){
 		checkUserLogin();
 	}
 	
-	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) {
-		infoHtml += '<div style="color:#ffffff">';
-		if (nomEntitat!=undefined) infoHtml +='<p>'+nomEntitat+'</p>';
-	}
-	else infoHtml += '<p>'+nomUser[0]+'</p>';
+	
 	
 	
 	
 	if (mapConfig.options){
 		mapConfig.options = $.parseJSON( mapConfig.options );
+		
+		var alies = mapConfig.options.alies;
+		
+		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) {
+			infoHtml += '<div style="color:#ffffff">';
+			if (alies!=undefined && alies!=""){
+				infoHtml +='<p>'+alies+'</p>';
+			}
+			else if (nomEntitat!=undefined) {
+				infoHtml +='<p>'+nomEntitat+'</p>';
+			}
+		}
+		else {
+			if (alies!=undefined && alies!=""){
+				infoHtml += '<p>'+alies+'</p>';	
+			}
+			else {
+				infoHtml += '<p>'+nomUser[0]+'</p>';
+			}
+		}
 
 		var desc=mapConfig.options.description;
 

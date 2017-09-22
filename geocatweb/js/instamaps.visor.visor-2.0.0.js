@@ -1089,9 +1089,15 @@
 			Cookies.set('perfil', 'instamaps');
 			checkUserLogin();
 
-			infoHtml += '<p>'+nomUser[0]+'</p>';
-
+			
 			if (_mapConfig.options){
+				var alies = _mapConfig.options.alies;
+				if (alies!=undefined && alies!=""){
+					infoHtml += '<p>'+alies+'</p>';	
+				}
+				else {
+					infoHtml += '<p>'+nomUser[0]+'</p>';
+				}
 				var desc=_mapConfig.options.description;
 
 				desc==""?desc=_mapConfig.nomAplicacio:desc=desc;

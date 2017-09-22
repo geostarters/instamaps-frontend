@@ -219,6 +219,7 @@
 			if(self.mapConfig.options){
 				$('#optDescripcio').val(self.mapConfig.options.description);
 				$('#optTags').val(self.mapConfig.options.tags);
+			    $('#optAlies').val(self.mapConfig.options.alies);
 				if (self.mapConfig.options.llegenda){
 					$('#llegenda_chk').bootstrapSwitch('state', true, true);
 					createModalConfigLegend();
@@ -327,6 +328,7 @@
     		$('#nomAplicacioPub').attr("placeholder", window.lang.translate("Nom"));
 		    $('#optDescripcio').attr("placeholder", window.lang.translate("Descripció"));
 		    $('#optTags').attr("placeholder", window.lang.translate("Etiquetes"));
+		    $('#optAlies').attr("placeholder", window.lang.translate("Àlies de l'usuari (nom públic de l'autor)"));
 			$('#publish-warn-text').text(window.lang.translate('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
 
 		    $('#llegendaTitle').text(window.lang.translate($('#llegendaTitle').text()));
@@ -652,6 +654,7 @@
         	var _map = this.map;
         	options.tags = $('#dialgo_publicar #optTags').val();
         	options.description = $('#dialgo_publicar #optDescripcio').val();
+        	options.alies = $('#dialgo_publicar #optAlies').val();
 
 			options.mapa3D=estatMapa3D;
 			if(estatMapa3D){
