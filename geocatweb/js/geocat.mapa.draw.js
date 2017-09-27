@@ -639,7 +639,8 @@ function activaEdicioUsuari() {
 			 drawnItems.addLayer(layer);
 			 // Add newly drawn feature to list of snappable features
 			  guideLayers.push(layer);
-		    
+			  capaUsrActiva.removeEventListener('layeradd');
+			  capaUsrActiva.on('layeradd',objecteUserAdded);
 			capaUsrActiva.addLayer(layer);
 			
 		} else if (type === t_polyline) {
@@ -703,7 +704,8 @@ function activaEdicioUsuari() {
 			 drawnItems.addLayer(layer);
 			 // Add newly drawn feature to list of snappable features
 			  guideLayers.push(layer);
-		   
+			  capaUsrActiva.removeEventListener('layeradd');
+			  capaUsrActiva.on('layeradd',objecteUserAdded);
 			createClass('.polyline-style',"font-family:Verdana;font-size:20px;color:red;");
 			capaUsrActiva.addLayer(layer);
 			
@@ -769,6 +771,8 @@ function activaEdicioUsuari() {
 			 drawnItems.addLayer(layer);
 			 // Add newly drawn feature to list of snappable features
 			guideLayers.push(layer);
+			capaUsrActiva.removeEventListener('layeradd');
+			  capaUsrActiva.on('layeradd',objecteUserAdded);
 			capaUsrActiva.addLayer(layer);			
 		}
 	});
@@ -1128,24 +1132,19 @@ function objecteUserAdded(f){
 	
 	var feature = f.layer.toGeoJSON();
 	
-//	//Invertim lng,lat perque es recuperi be desde el servidor despres
-//    if(f.layer.options.tipus == t_marker){
-//          var lng = feature.geometry.coordinates[0]
-//          feature.geometry.coordinates[0] = feature.geometry.coordinates[1];
-//          feature.geometry.coordinates[1] = lng;         
-//    }else if(f.layer.options.tipus==t_polyline){
-//          for(var i=0;i<feature.geometry.coordinates.length;i++){
-//                var lng = feature.geometry.coordinates[i][0]
-//                feature.geometry.coordinates[i][0] = feature.geometry.coordinates[i][1];
-//                feature.geometry.coordinates[i][1] = lng;
-//          }
-//    }else if(f.layer.options.tipus==t_polygon){
-//          var lcoordinates = [];
-//          $.each( feature.geometry.coordinates[0], function(i,val) {
-//                lcoordinates.push([val[1], val[0]]);
-//          }); 
-//          feature.geometry.coordinates[0] = lcoordinates;                  
-//    }       
+	
+	var crearNovaCapa=false;
+	
+	if(capaUsrActiva != null && capaUsrActiva.options.geometryType != f.layer.options.tipus){
+		crearNovaCapa=true;
+	}
+	else if (capaUsrActiva !=null && capaUsrActiva.options.businessId==-1){
+		crearNovaCapa=true;
+	}
+	else if(capaUsrActiva == null){
+		crearNovaCapa=true;
+	}
+
 
 	feature.properties.data = f.layer.properties.data;    	
 
@@ -1154,7 +1153,7 @@ function objecteUserAdded(f){
 	var rangsJSON = getFeatureStyle(f,fId);
 	var rangs = JSON.stringify(rangsJSON);
 	
-	if (fId == 1) {
+	if (crearNovaCapa) {
 		
 		var _this = this;
 		
@@ -1164,9 +1163,6 @@ function objecteUserAdded(f){
 				nom: f.layer.properties.capaNom,
 				mapBusinessId: url('?businessid'),
 				geometryType: f.layer.options.tipus,
-//					tipus : tem_origen,//no cal, per defecte li posa origen a servidor
-//					calentas: false,
-//					order: controlCapes._lastZIndex+1,
 				activas: true,
 				visibilitats: true,				
 				publica : true
@@ -1223,16 +1219,11 @@ function objecteUserAdded(f){
 			console.debug('createVisualitzacioLayer ERROR');
 		});			
 
-	} else if (this.getLayers().length > 1) {
+	} else  {
 	
 		var businessIdCapa="";
 		var leafletIdCapa=capaUsrActiva._leaflet_id;
-		if (capaUsrActiva2!=null){
-			businessIdCapa=capaUsrActiva2.options.businessId;
-			leafletIdCapa=capaUsrActiva2._leaflet_id;
-			capaUsrActiva = capaUsrActiva2;
-		}
-		else if (capaUsrActiva!=null && businessIdCapa==""){
+		if (capaUsrActiva!=null && businessIdCapa==""){
 			businessIdCapa=capaUsrActiva.options.businessId;
 		}
 		else if (businessIdCapa==""){
@@ -1255,6 +1246,7 @@ function objecteUserAdded(f){
 //					geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b014'//Bid de la geometria q estas afegint						
 		};		
 		var businessIdCapaOrigen = data.businessId;
+		
 		addGeometriaToVisualitzacio(data).then(function(results) {
 			if(results.status === 'OK'){
 				
@@ -1263,13 +1255,14 @@ function objecteUserAdded(f){
 				f.layer.properties.businessId = results.feature.businessId;
 				f.layer.properties.estil = results.results.estil[0];
 				f.layer.properties.feature = results.feature;
-				finishAddFeatureToTematic(f.layer);
-				map.removeLayer(f.layer);
-				//actualitzar la capa
-				//recarrego les sublayers de la capa modificada	
-				reloadLayerByBusinessId(businessIdCapaOrigen,results.servidor);
+				var layerServidor=results.servidor;
+				findLayerByBusinessId(businessIdCapaOrigen).then(function(layerAct){
+					capaUsrActiva = layerAct;
+					finishAddFeatureToTematic(f.layer);
+					reloadSingleLayer(controlCapes._layers[layerAct._leaflet_id], layerServidor);
+				});
 				
-				updateFeatureCount(businessIdCapaOrigen, null);	
+
 			
 			}else{
 				console.debug('addGeometriaToVisualitzacio ERROR');
@@ -1428,6 +1421,7 @@ function getFeatureStyle2(estil,tipus){
 }
 
 function finishAddFeatureToTematic(layer){
+	var defer = $.Deferred();
 	var type = layer.options.tipus;
 	//Afegir capa edicio a control de capes en cas que sigui nova
 	if (capaUsrActiva.toGeoJSON().features.length == 1 ) {
@@ -1458,6 +1452,7 @@ function finishAddFeatureToTematic(layer){
 			actualitzarComboCapes();				
 		});
 	}
+	return defer.promise();
 
 }
 
@@ -1829,9 +1824,7 @@ function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
 			controlCapes.addOverlay(capaUsrActiva2,	capaUsrActiva2.options.nom, true);
 			controlCapes._lastZIndex++;
 			activaPanelCapes(true);		
-			
-			capaUsrActriva=capaUsrActiva2;
-			
+				
 			var features = {
 					type: feature.properties.tipusFeature,
 					id:3124,
@@ -1855,7 +1848,7 @@ function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
 				if(resultsMove.status === 'OK'){
 					reloadSingleLayer(controlCapes._layers[leafletID], resultsMove.layerFrom);
 					reloadSingleLayer(controlCapes._layers[capaUsrActiva2._leaflet_id], resultsMove.layerTo);
-					
+					capaUsrActiva=capaUsrActiva2;
 				}else{
 					console.debug("moveGeometriaToVisualitzacio ERROR");
 				}
@@ -2296,12 +2289,13 @@ function actualitzarComboCapes(){
 	});
 }
 
-function reloadLayerByBusinessId(businessId,servidor){
+function findLayerByBusinessId(businessId,servidor){
+	var defer = $.Deferred();
 	$.each( controlCapes._layers, function(i,val) {//refresquem combo de totes les capes del mapa
 		var layer = val.layer;
 		if (layer.options.businessId==businessId){			
-			reloadSingleLayer(controlCapes._layers[layer._leaflet_id], servidor);
+			defer.resolve(layer);
 		}		
-	});
+	});	
+	return defer.promise();
 }
-
