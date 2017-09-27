@@ -236,7 +236,7 @@ function parseUrlTextPopUp(txt,key){
 			          var word = lwords[index];
 			          if(!$.isNumeric(txt) ){
 			                 if (isValidURL(word) && typeof word === "string"){
-			                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')))
+			                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')));
 			                        if(isImgURL(word)){
 			                               text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";
 			                        }
