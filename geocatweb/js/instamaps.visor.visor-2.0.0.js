@@ -1799,6 +1799,7 @@
 
 				marker.bindPopup(html);
 				marker.openPopup();
+				$.publish('loadConfig', null);
 				$.publish('analyticsEvent',{event:[ 'visor','parametres']});
 
 			}
