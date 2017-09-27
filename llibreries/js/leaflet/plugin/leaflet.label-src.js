@@ -262,7 +262,9 @@ L.Label = L.Class.extend({
 	_onMouseClick: function (e) {
 
 		var self = this;
-		PopupManager().createMergedDataPopup(this._source, {latlng: this._source._latlng}, controlCapes);
+		PopupManager().createMergedDataPopup(this._source, {latlng: this._source._latlng}, controlCapes).then(function() {
+			actualitzarComboCapes();				
+		});
 		L.DomEvent.preventDefault(e);
 		L.DomEvent.stopPropagation(e);
 

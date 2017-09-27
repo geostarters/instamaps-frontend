@@ -40,7 +40,7 @@
   "Aquesta operació calcula el centre geomètric o centroide d'un polígon tancat.":"Esta operación calcula el centro geométrico o centroide de una superficie cerrada",
   "Aquesta operació calcula els elements que són intersecció entre diverses geometries.":"Esta operación calcula los elementos que intersectan entre diversas geometrías.",
   "Aquesta operació calcula una àrea definida per una distància fixa a l'entorn d'un element.":"Esta operación calcula un área definida por una distancia fija alrededor de un elemento.",
-  "Aquesta operació combina els registres de dues taules en una de sola.":"Esta operación combina los registros de dos tablas en una sola.",
+  "Aquesta operació fusiona els registres de dues capes del mateix tipus en una de sola.":"Esta operación combina los registros de dos tablas del mismo tipo en una sola.",
   "Aquesta operació combina els registres de dues taules en una de sola a partir dels valors coincidents d'una columna comuna.":"Esta operación combina los registros de dos tablas en una sola a partir de los valores coincidentes de una columna comuna.",
   "Aquesta operació crea una nova capa que conté aquells punts que estan continguts dins els polígons d'una altra capa.":"Esta operación crea una nueva capa que contiene aquellos puntos que están contenidos dentro de los polígonos de otra capa.",
   "Aquesta operació és irreversible":"Esta operación es irreversible",
@@ -213,6 +213,7 @@
   "Creant temàtic bàsic":"Creando temático básico",
   "Creant temàtic de mides":"Creando temático de medidas",
   "Crear una nova capa":"Crear nueva capa",
+  "Ctrl+clic esborra vèrtex":"Ctrl+click borra el vértice",
   
   "D'acord":"Conforme",
   "dades":"datos",
@@ -403,6 +404,7 @@
   "Format:":"Formato:",
   "Format de l'adreça:":"Formato de la dirección:",
   "Formats suportats":"Formatos soportados",
+  "Fusió de capes":"Fusión de capas",
   
   "Galeria":"Galeria",
   "Galeria de mapes":"Galeria de mapas",
