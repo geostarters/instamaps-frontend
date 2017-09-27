@@ -231,7 +231,7 @@ L.Control.Legend = L.Control.extend({
 			    	}
 			    });
 				$(div).append(legendhtml);
-				$(div).mCustomScrollbar();
+				//$(div).mCustomScrollbar();
 			}
 			else {
 				var legendTab=[];
