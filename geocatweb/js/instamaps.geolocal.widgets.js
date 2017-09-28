@@ -4,7 +4,6 @@
 (function ( $, window, document, undefined ) {
 	"use strict";
 	var WidgetsGeolocal = {
-		
 			
 		init: function() {
 			this.widgets = {};
@@ -126,6 +125,11 @@
         
         subscriptions: function() {
         	var that = this;
+        	$.subscribe('populateMunicipis',function(e, data){
+        		var select = data.select;
+        		select.selectpicker('refresh');
+        	});
+        	
         	$.subscribe('loadMap',function(e, data){
         		that.cache();
         		that.map = data;

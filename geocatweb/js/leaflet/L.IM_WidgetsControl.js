@@ -73,9 +73,7 @@ L.Control.Widgets = L.Control.extend({
 	}, 
 	
 	_addModalWidgets: function(){
-		
-		
-    	var that = this;
+		var that = this;
     	$.get("/geocatweb/templates/modalWidgets.html",function(data){
 			//TODO ver como pasar el modal container
     		$(that.options.modalContainer).append(data);
@@ -98,7 +96,6 @@ L.Control.Widgets = L.Control.extend({
     	var select = SelectMunicipis.createSelect();
     	container.append(select);
     	$(select).addClass("selectpicker").selectpicker({liveSearch:true});
-		
     },
     
     _addListViewMunicipis: function(container){
@@ -108,8 +105,7 @@ L.Control.Widgets = L.Control.extend({
       		$.publish('mapMoveend', this);
       	});
     },
-    
-	
+    	
     _addMeteoWidget: function(container){
     	this.widgets.meteo = WidgetMeteo.getWidget();
     	WidgetMeteo.drawButton(container);
@@ -143,11 +139,7 @@ L.Control.Widgets = L.Control.extend({
     	WidgetMascara.drawButton(container);
     },
 	
-	
-	
-	
-    
-    _addCartotecaWidget: function(container){
+	_addCartotecaWidget: function(container){
     	this.widgets.cartoteca = WidgetCartoteca.getWidget();
     	WidgetCartoteca.drawButton(container);
     },
@@ -169,10 +161,12 @@ L.Control.Widgets = L.Control.extend({
     	var that = this,
     		_map = this._map;
     	
+    	$.subscribe('populateMunicipis',function(e, data){
+    		var select = data.select;
+    		select.selectpicker('refresh');
+    	});
+    	
     	$.subscribe('changeSelectMunicipis',function(e, data){
-			
-		
-			
     		that.activeMunicipi = data;
     		//zoom al municipio
     		if(data && _map){
