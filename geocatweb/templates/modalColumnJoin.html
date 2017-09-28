@@ -48,12 +48,21 @@
 							{{#each layers}}
 								<option value="{{layer.options.businessId}}___{{layer.options.propName}}">{{name}}</option>
 							{{/each}}
-						</script>
+						</script>		
 						<br/><br/>
+									
 					</div>
 				</div>
+				<div id="list-layers-join11">
+				<span class="ca">2. Escull els valors a retornar:</span>					
+					<div style="margin-left:15px;">
+						<input type="radio" value="coincidents" name="valorsUnio" checked/>Nom&eacute;s valors coincidents&nbsp;&nbsp;
+						<input type="radio" value="tots" name="valorsUnio"/>Tots els valors<br/>
+					</div>
+					<br/>					
+				</div>
 				<div id="list-fields-join2">
-					<span class="ca">2. Selecciona els camps a combinar:</span>
+					<span class="ca">3. Selecciona els camps a combinar:</span>
 					<div class="labels_fields" style="margin-left:15px;">
 						<span lang="ca">Camps de la capa1</span>:<span lang="ca" style="margin-left:20%">Camps de la capa2</span>:<br/>
 						<select name="dataField_camps_capa1" id="dataField_camps_capa1" style="width: 30%;">
@@ -74,7 +83,7 @@
 					</div>
 				</div>
 				<div id="list-fields-join3">
-					<span class="ca">3. Selecciona el nom i els camps que apareixeran a la capa resultant</span>:
+					<span class="ca">4. Selecciona el nom i els camps que apareixeran a la capa resultant</span>:
 					<div class="input-group input-group-sm" style="margin-left:15px;">
 						<span class="input-group-addon" lang="ca">Nom capa resultant</span>
 						<input id="input-join-name" class="form-control" type="text" style="width:260px">

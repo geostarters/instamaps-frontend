@@ -1613,6 +1613,7 @@ function openColumnJoinModal(){
 	if(layers.length ==0){
 		$('#warning-spatial').html(warninMSG);
 		$('#list-layers-join1').attr("style","display:none;");
+		$('#list-layers-join11').attr("style","display:none;");
 		$('#list-fields-join2').attr("style","display:none;");
 		$('#list-fields-join3').attr("style","display:none;");
 		$('#joinBtn').attr("disabled", true);
@@ -1621,6 +1622,7 @@ function openColumnJoinModal(){
 	else {
 		$('#warning-spatial').html('');
 		$('#list-layers-join1').attr("style","display:block;");
+		$('#list-layers-join11').attr("style","display:block;");
 		$('#list-fields-join2').attr("style","display:block;");
 		$('#list-fields-join3').attr("style","display:block;");
 		$('#joinBtn').removeAttr("disabled");
@@ -1834,7 +1836,8 @@ function openColumnJoinModal(){
 					tipusSIG: "columnJoin",
 					mapBusinessId: url('?businessid'),
 					businessId1: businessId1[0],
-					businessId2: businessId2[0],
+					businessId2: businessId2[0],v
+					valorsUnio: $('input[name=valorsUnio]:checked').val(),
 					nom: $('#input-join-name').val(),
 					column1:$('#dataField_camps_capa1').val(),
 					column2:$('#dataField_camps_capa2').val(),
@@ -2136,6 +2139,7 @@ function openSpatialJoinModal(){
 					businessId1: businessId1[0],
 					businessId2: businessId2[0],
 					nom:$('#input-spatial-join-name').val(),
+					
 					listColumns1: listCols1,
 					listColumns2:listCols2,
 					markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
