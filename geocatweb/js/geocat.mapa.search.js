@@ -42,7 +42,7 @@ function filterJSON(rawjson) {
 			if (coords) {
 				coordsSplit = coords.split(",");
 				loc = L.latLng(coordsSplit[0], coordsSplit[1] );
-				ctr_cerca.showLocation(loc,coords,nom); 
+				ctr_cerca.showLocation(loc,nom,nom); 
 			}
 		}
 		else ctr_cerca.showAlert(ctr_cerca.options.textErr);
