@@ -48,7 +48,7 @@
         
         addModalWidgets: function(){
         	var that = this;
-        	$.get("templates/modalWidgets.html",function(data){
+        	$.get("/geocatweb/templates/modalWidgets.html",function(data){
    				//TODO ver como pasar el modal container
         		$('#mapa_modals').append(data);
         		var modalbody = $('#dialgo_widgets div.widgets-list');
