@@ -831,7 +831,7 @@ L.Control.Search = L.Control.extend({
 		}
 
 		var coordsStr = coords[0].toFixed(5) + "," + coords[1].toFixed(5);
-		var nomCoords = coords[0].toFixed(5) + "," + coords[1].toFixed(5)
+		var nomCoords = input;
 		return {resposta: JSON.stringify({ resultats: [{coordenades: coordsStr, nom: nomCoords}]}), status: "OK"};;
 
 	},
