@@ -44,7 +44,7 @@
 	Visor.prototype = {
 		addLogoInstamap: function(){
 			var self = this;
-			$.get("templates/logoInstamaps.html",function(data){
+			$.get("/geocatweb/templates/logoInstamaps.html",function(data){
 				self.controls.controlLogos.addLogoHtml(data);
 			});
 
