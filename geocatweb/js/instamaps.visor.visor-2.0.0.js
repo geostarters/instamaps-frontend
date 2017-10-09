@@ -248,7 +248,7 @@
 			//Per defecte embed té el control de zoom, el botó d'obrir finestra Instamaps i el control de capes.
 			self.addDefaultZoomControl = 1;
 			self.openinstamaps = 1;
-			self.layerscontrol = 1;
+			//self.layerscontrol = 1;
 			self.ltoolbar=1;
 			self.rtoolbar=1;
 
@@ -273,6 +273,8 @@
 
 			if (!self.llegenda) self.llegenda = 0;
 			if (!self.colorscalecontrol) self.colorscalecontrol = 0;
+			
+			if (!self.layerscontrol) self.layerscontrol=0;
 
 			$.publish('analyticsEvent',{event:[ 'visor', 'embed']});
 			return self;
