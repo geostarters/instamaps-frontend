@@ -237,7 +237,7 @@ function parseUrlTextPopUp(txt,key){
 			          var word = lwords[index];
 			          if(!$.isNumeric(txt) ){
 			                 if (isValidURL(word) && typeof word === "string"){
-			                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')))
+			                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')));
 			                        if(isImgURL(word)){
 			                               text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";
 			                        }
@@ -1116,4 +1116,13 @@ function generarScriptMarkupGoogle(url,nom,urlImage,autor,dataPublicacio,descrip
 	return generatedScript;
 }
 
+function latLngtoETRS89(lat, lng) {
 
+	var auxLat = lat.toFixed(5);
+	var auxLng = lng.toFixed(5);
+	var crs = new L.Proj.CRS('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
+	var _CRS = crs.project( {lat:auxLat, lng:auxLng} );
+
+	return {x: _CRS.x.toFixed(2), y: _CRS.y.toFixed(2)};
+
+}

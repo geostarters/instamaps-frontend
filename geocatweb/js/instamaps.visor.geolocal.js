@@ -186,7 +186,7 @@
 			
 			visor.addLogoInstamap();
 	   		
-	   		$.get("templates/logosGeolocal.html",function(data){
+	   		$.get("/geocatweb/templates/logosGeolocal.html",function(data){
 	   			visor.controls.controlLogos.addLogoHtml(data);
 			});
 			

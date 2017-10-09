@@ -44,7 +44,7 @@
 	Visor.prototype = {
 		addLogoInstamap: function(){
 			var self = this;
-			$.get("templates/logoInstamaps.html",function(data){
+			$.get("/geocatweb/templates/logoInstamaps.html",function(data){
 				self.controls.controlLogos.addLogoHtml(data);
 			});
 
@@ -1000,6 +1000,10 @@
 			self.appmodul = self.appmodul || false;
 			self.zoomcontrol = self.zoomcontrol || false;
 			self.fons = self.fons || "hibridMap";
+			
+			var lat = url('?lat');
+			var lng = url('?lng');
+			var zoom = url('?zoom');
 
 			var lat = url('?lat');
 			var lng = url('?lng');
@@ -1064,9 +1068,15 @@
 			Cookies.set('perfil', 'instamaps');
 			checkUserLogin();
 
-			infoHtml += '<p>'+nomUser[0]+'</p>';
-
+			
 			if (_mapConfig.options){
+				var alies = _mapConfig.options.alies;
+				if (alies!=undefined && alies!=""){
+					infoHtml += '<p>'+alies+'</p>';	
+				}
+				else {
+					infoHtml += '<p>'+nomUser[0]+'</p>';
+				}
 				var desc=_mapConfig.options.description;
 
 				desc==""?desc=_mapConfig.nomAplicacio:desc=desc;
@@ -1768,6 +1778,7 @@
 
 				marker.bindPopup(html);
 				marker.openPopup();
+				$.publish('loadConfig', null);
 				$.publish('analyticsEvent',{event:[ 'visor','parametres']});
 
 			}
@@ -1847,41 +1858,43 @@
 		_gestionaEtiquetes: function(){
 			var self=this;
 			var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
-			jQuery.each(controlCapes._layers, function(i, obj){
-				var optionsVis;
-				if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVis!=undefined) optionsVis = obj.layer.options.opcionsVis;
-				if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVisEtiqueta!=undefined) optionsVis = obj.layer.options.opcionsVisEtiqueta;
-				else if (obj.options!=undefined && obj.optionsobj.opcionsVis!=undefined)  optionsVis = obj.options.opcionsVis;
-				else if (obj.options!=undefined && obj.optionsobj.opcionsVisEtiqueta!=undefined) optionsVis = obj.options.opcionsVisEtiqueta;
-			
-				 if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
-						 optionsVis=="etiquetageom")){
-					 		var zoomInicial = zoomInicialEt;
-					 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
-					 		var zoomFinal = zoomFinalEt;
-					 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
-
-					 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
-								jQuery.each(obj.layer._layers, function(i, lay){
-									if (lay.label!=undefined) {
+			if (controlCapes!=null){
+				jQuery.each(controlCapes._layers, function(i, obj){
+					var optionsVis;
+					if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVis!=undefined) optionsVis = obj.layer.options.opcionsVis;
+					if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVisEtiqueta!=undefined) optionsVis = obj.layer.options.opcionsVisEtiqueta;
+					else if (obj.options!=undefined && obj.optionsobj.opcionsVis!=undefined)  optionsVis = obj.options.opcionsVis;
+					else if (obj.options!=undefined && obj.optionsobj.opcionsVisEtiqueta!=undefined) optionsVis = obj.options.opcionsVisEtiqueta;
+				
+					 if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
+							 optionsVis=="etiquetageom")){
+						 		var zoomInicial = zoomInicialEt;
+						 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
+						 		var zoomFinal = zoomFinalEt;
+						 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
+	
+						 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
+									jQuery.each(obj.layer._layers, function(i, lay){
+										if (lay.label!=undefined) {
+											if(lay.label){
+												lay.label.setOpacity(1);
+											}
+											if(lay._showLabel){
+						                        lay._showLabel({latlng: lay.label._latlng});
+											}
+										}
+									});
+						 		 }
+						 		 else {//amaguem labels
+									jQuery.each(obj.layer._layers, function(i, lay){
 										if(lay.label){
-											lay.label.setOpacity(1);
+											lay.label.setOpacity(0);
 										}
-										if(lay._showLabel){
-					                        lay._showLabel({latlng: lay.label._latlng});
-										}
-									}
-								});
-					 		 }
-					 		 else {//amaguem labels
-								jQuery.each(obj.layer._layers, function(i, lay){
-									if(lay.label){
-										lay.label.setOpacity(0);
-									}
-								});
-							 }
-				}
-			});
+									});
+								 }
+					}
+				});
+			}
 		}
 
 	};

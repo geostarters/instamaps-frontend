@@ -55,21 +55,20 @@ var subDomainsA=['a','b','c'];
 //var urlServerTiles="http://www.{s}.instamaps.cat"
 //var urlServerTilesW="http://www.instamaps.cat"
 
-var urlServerTiles="http://{s}tilemaps.icgc.cat";
-var urlServerTilesW="http://{s}tilemaps.icgc.cat";
+
+var urlServerTiles="https://{s}tilemaps.icgc.cat";
+var urlServerTilesW="https://{s}tilemaps.icgc.cat";
 
 
 var urlApp=document.location.href;
-
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
 
 
-	urlServerTilesW="http://imtilemapsdev.icgc.local";
-	urlServerTiles="http://imtilemapsdev.icgc.local";
+	urlServerTiles="https://{s}tilemaps.icgc.cat";
+ urlServerTilesW="https://{s}tilemaps.icgc.cat";
 
-
-
-
+//	urlServerTilesW="http://imtilemapsdev.icgc.local";
+//	urlServerTiles="http://imtilemapsdev.icgc.local";
 }
 
 
@@ -909,7 +908,7 @@ L.IM_Map = L.Map.extend({
 
 		TOPO_GEO_ICC_L8_17 = new L.TileLayer(mapaUrl.topoNaturalSuau,{
 			tms:false,
-			continuousWorld: false,
+			continuousWorld: true,
 			worldCopyJump: false,
 			subdomains:subDomainsA,
 			minZoom: 8,

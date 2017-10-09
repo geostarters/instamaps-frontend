@@ -197,6 +197,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Creant temàtic bàsic":"Creando temático básico"
 ,"Creant temàtic de mides":"Creando temático de medidas"
 ,"Crear una nova capa":"Crear nueva capa"
+,"Ctrl+clic esborra vèrtex":"Ctrl+click borra el vértice"
 
 ,"D'acord":"Conforme"
 ,"dades":"datos"
@@ -359,7 +360,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Font":"Fuente"
 ,"Format":"Formato"
 ,"Formats suportats":"Formatos soportados"
-
+,"Fusió de capes":"Fusión de capas"
+		
 ,"Galeria":"Galeria"
 ,"Galeria de mapes":"Galeria de mapas"
 ,"Generant imatge mapa...":"Generando imagen mapa..."
@@ -679,8 +681,6 @@ jquery_lang_js.prototype.lang.es = {
 
 ,"únic":"único"
 ,"Únic":"Único"
-,"Unió":"Unión"
-,"Unió de capes":"Unión de capas"
 ,"Unió per columna":"Unión por columna"
 ,"Unió per columnes":"Unión por columnas"
 ,"Ups! Ho sentim, no es pot inicialitzar el mapa en 3D.":"Ooops! Lo lamentamos, no se puede inicializar el mapa en 3D"

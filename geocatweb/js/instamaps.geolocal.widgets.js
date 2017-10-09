@@ -4,7 +4,6 @@
 (function ( $, window, document, undefined ) {
 	"use strict";
 	var WidgetsGeolocal = {
-		
 			
 		init: function() {
 			this.widgets = {};
@@ -48,7 +47,7 @@
         
         addModalWidgets: function(){
         	var that = this;
-        	$.get("templates/modalWidgets.html",function(data){
+        	$.get("/geocatweb/templates/modalWidgets.html",function(data){
    				//TODO ver como pasar el modal container
         		$('#mapa_modals').append(data);
         		var modalbody = $('#dialgo_widgets div.widgets-list');
@@ -126,6 +125,11 @@
         
         subscriptions: function() {
         	var that = this;
+        	$.subscribe('populateMunicipis',function(e, data){
+        		var select = data.select;
+        		select.selectpicker('refresh');
+        	});
+        	
         	$.subscribe('loadMap',function(e, data){
         		that.cache();
         		that.map = data;

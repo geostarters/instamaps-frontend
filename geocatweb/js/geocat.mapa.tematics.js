@@ -2061,7 +2061,9 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 
 function creaPopupUnic(e) {
 
-	PopupManager().createMergedDataPopup(e.target, e, controlCapes);
+	PopupManager().createMergedDataPopup(e.target, e, controlCapes).then(function() {
+		actualitzarComboCapes();				
+	});
 
 }
 

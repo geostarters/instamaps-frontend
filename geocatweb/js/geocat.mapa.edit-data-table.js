@@ -561,18 +561,15 @@ function fillModalDataTable(obj, geomBid){
 				var haveGeomOrigen=false;
 				jQuery.each(resultats2, function(i, result){
 					var coords = result.geometryBBOX.split("#");  
-					var lon = parseFloat(coords[2]);
-					var lat = parseFloat(coords[1]);
-					if (result.longitud==undefined)  result.longitud=lon.toFixed(5);
-					if (result.latitud==undefined)  result.latitud=lat.toFixed(5);
-					var crs=new L.Proj.CRS('EPSG:25831',  '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
-					var _CRS = crs.project( {lat:lat,lng:lon});
-					auxX =  L.Util.formatNum(_CRS.x, 6);
-					auxX = auxX.toFixed(2);
-				    auxY = L.Util.formatNum(_CRS.y, 6);
-				    auxY = auxY.toFixed(2);
-					if (result.etrs89_x==undefined)  result.etrs89_x=auxX;
-					if (result.etrs89_y==undefined)  result.etrs89_y=auxY;
+					if (obj.layer.options.geometryType!="polygon" || obj.layer.options.geometryType!="polyline" ){
+						var lon = parseFloat(coords[2]);
+						var lat = parseFloat(coords[1]);
+						if (result.longitud==undefined)  result.longitud=lon.toFixed(5);
+						if (result.latitud==undefined)  result.latitud=lat.toFixed(5);
+						var etrs89 = latLngtoETRS89(lat, lon);
+						if (result.etrs89_x==undefined)  result.etrs89_x=etrs89.x;
+						if (result.etrs89_y==undefined)  result.etrs89_y=etrs89.y;
+					}
 					$.each( result, function( key, value ) {
 						if (key.toLowerCase()!="geomorigen"){
 							if (propFormat!=undefined && propFormat[key]!=undefined){

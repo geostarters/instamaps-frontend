@@ -189,3 +189,14 @@ border: 1px solid #aaa
 	overflow:auto;
 	max-height: 250px;
 }
+
+
+#mapLegend > #legend_cont > #nav_legend > li.active > a, #mapLegend > #legend_cont > #nav_legend > li.active > a:hover, #mapLegend > #legend_cont > #nav_legend > li.active > a:focus {
+    border-left: 0px ;
+    border-right: 0px ;
+    border-top: 0px;
+}
+
+#mapLegend > #legend_cont > .nav-tabs {
+	border-bottom:0px;	
+}

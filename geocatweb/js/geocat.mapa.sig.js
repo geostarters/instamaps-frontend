@@ -865,7 +865,7 @@ function createModalConfigLayers2(tipus){
 	}
 	if (tipus=="union"){
 		html += '<label class="control-label" lang="ca">'+
-			window.lang.translate('Capes per fer unió')+":"+
+			window.lang.translate('Capes per fer fusió')+":"+
 			'</label>';
 	}
 	if (tipus=="tag" || tipus=="spatialJoin") {
@@ -2074,7 +2074,7 @@ function openSpatialJoinModal(){
 											var data2 = {
 												uid: Cookies.get('uid'),
 												mapBusinessId: url('?businessid'),
-												serverName:window.lang.translate("Punts dins de polígons:")+" "+data.nomCapaOrigen1+" "+data.nomCapaOrigen2,
+												serverName:$('#input-spatial-join-name').val(),
 												path:data.path,
 												tmpFilePath:data.tmpFilePath,
 												midaFitxer:data.midaFitxer,
@@ -2206,7 +2206,7 @@ function openUnionModal(){
 		}
 		else {
 			var geomType1="",geomType2="";	
-			var nomCapa="Unió de capes: ";
+			var nomCapa="Fusió de capes: ";
 			if ($('#dataField_union_capa1 option:selected').text()!="Escull la capa"){
 				var props =$('#dataField_union_capa1 option:selected').val();
 				props =  props.split('___');
@@ -2238,7 +2238,7 @@ function openUnionModal(){
 		}
 		else {
 			var geomType1="",geomType2="";	
-			var nomCapa="Unió de capes: ";
+			var nomCapa="Fusió de capes: ";
 			if ($('#dataField_union_capa1 option:selected').text()!="Escull la capa"){
 				var props =$('#dataField_union_capa1 option:selected').val();
 				props =  props.split('___');
