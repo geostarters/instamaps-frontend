@@ -3,8 +3,8 @@
 var _gaq = _gaq || [];
 //var ga;
 (function() {
+	
 	$.subscribe('loadConfig', function(e, data){
-
 		var _mapConfig = {};
 		var perfil = Cookies.get('perfil');
 		var _userID="0000";

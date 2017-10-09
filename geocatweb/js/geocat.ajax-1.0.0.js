@@ -232,6 +232,14 @@ function updateMap(data){
 	});
 }
 
+function updateMapOptions(data){
+	return createXHR({
+		url: paramUrl.updateMapOptions, 
+		data: data,
+		method: 'post'
+	});
+}
+
 function createMap(data){
 	return createXHR({
 		url: paramUrl.createMap, 

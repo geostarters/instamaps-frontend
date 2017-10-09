@@ -23,6 +23,8 @@ var _UsrID;
 
 var dades1;
 
+// variable per sostenibilitat;
+var _Sostenibilitat;
 
 //Contants del mapa 3D
 var estatMapa3D=false;
@@ -291,6 +293,7 @@ var llista_dadesExternes = {
 };
 
 var TIPUS_ENTITATS_GEOLOCAL = [2,3,4,5,6,7,8,9];
+var TIPUS_ENTITATS_SOSTENIBILITAT=11;
 var TIPUS_ADMIN = 0;
 var TIPUS_INSTAMAPS = 1;
 var TIPUS_AOC = 10;
