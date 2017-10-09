@@ -1,0 +1,216 @@
+
+
+/* Customize the nav-justified links to be fill the entire space of the .navbar */
+
+.nav-justified {
+
+  border: 1px solid #ccc;
+
+}
+.nav-justified > li > a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 0;
+  font-weight: bold;
+  color: #777;
+  text-align: center;
+
+  border-bottom: 1px solid #d5d5d5;
+}
+.nav-justified > .active > a,
+.nav-justified > .active > a:hover,
+.nav-justified > .active > a:focus {
+  background-color: #ddd;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.15);
+          box-shadow: inset 0 3px 7px rgba(0,0,0,.15);
+}
+.nav-justified > li:first-child > a {
+  border-radius: 0px 0px 0 0;
+}
+.nav-justified > li:last-child > a {
+  border-bottom: 0;
+  border-radius: 0 0 0px 0px;
+}
+
+.p_solar{
+  color:white !important;
+  background-color: rgba(254,207,65,1) !important;
+}
+.c_luminica{
+  color:white !important;
+  background-color: rgba(125, 104, 183,1) !important;
+}
+
+.e_termica{
+  color:white !important;
+  background-color: rgba(255, 119, 66,1) !important;
+}
+
+.a_sintetics{
+  color:white !important;
+  background-color: rgba(150, 185, 105,1) !important;
+}
+
+.ndvi{
+  color:white !important;
+  background-color: rgba(183, 104, 123,1) !important;
+}
+
+@media (min-width: 768px) {
+  .nav-justified {
+    max-height: 52px;
+  }
+  .nav-justified > li > a {
+    border-right: 1px solid #d5d5d5;
+    border-left: 1px solid #fff;
+  }
+  .nav-justified > li:first-child > a {
+    border-left: 0;
+    border-radius: 5px 0 0 5px;
+  }
+  .nav-justified > li:last-child > a {
+    border-right: 0;
+    border-radius: 0 5px 5px 0;
+  }
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .masthead,
+  .marketing,
+  .footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+
+
+.txt_sostenibilitat{
+	font-size: 0.9em;
+    font-weight: bold;
+    font-style: italic;		
+}	
+
+.row_sos{	
+	border-bottom: 3px solid #ffffff;
+}
+
+.color_sos_wms{
+	background-color:#dedbd5;	
+}	
+
+.color_sos_wfs{
+	background-color: #f1ece8;	
+}
+
+.color_sos_calculadora{
+	background-color: #ffeddb;	
+}
+
+.psolar_info{
+ background-color: white;
+    border: 1px dashed #bbbbbb;
+    display: none;
+    
+    z-index: 200;
+    display:none;
+	
+	    left: 47px;
+    max-height: 750px;
+    overflow: auto;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    width: 375px;
+    z-index: 200;
+    height: 722px;
+	
+}
+
+
+.psolar_infoLL{
+ background-color: white;
+    border: 1px dashed #bbbbbb;
+    z-index: 200;
+    display:none;
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+    border-radius: 0;
+    color: #ffffff;
+}
+
+
+
+
+
+.tbl_dades{
+	 border-bottom: 2px solid #333333;
+    font-weight: bold;
+    margin: 5px;
+    padding: 10px;
+    width: 95%;
+	font-size: 11px;
+	}
+	
+.tbl_dades td{
+ width: 50%;
+}
+
+
+.tbl_chk {
+ width: 99%;
+ font-size: 12px !important;
+     text-align: center;
+}
+
+.tbl_dades input{
+ background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+
+
+#pobre label{ color:#c2c2c2;}
+#regular label{ color:#c2c2c2;}
+#pobre{ background: rgba(59, 27, 0,1);}
+#regular{ background: rgba(187, 105, 16,1);}
+#adequat{ background: rgba(255, 176, 2,1);}
+#adequat_ts{ background: rgba(187, 105, 17,1);}
+#optim{ background: rgba(255, 255, 0,1);}
+
+td label{
+
+    display: inline-block;
+    max-width: 100%;
+    /* margin-bottom: 5px; */
+    font-weight: bold;
+    margin: 2px;
+		
+	}
+
+
+.leaflet-draw-actions a {
+    background-color: #a94442 !important;
+    border-left: 1px solid #AAA;
+    color: #FFF;
+    font: 11px/19px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    line-height: 28px;
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 28px;
+}
+
+.tit_sos_div{
+    font-size: 14px;
+    text-align: center;
+    background-color: #333333;
+    color: white;
+    margin-bottom: 4px;
+    padding: 3px;	
+}	

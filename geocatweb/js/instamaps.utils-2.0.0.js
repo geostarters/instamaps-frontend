@@ -1,4 +1,3 @@
-
 /**
  * Funcions i utilitats vàries
  */
@@ -15,7 +14,7 @@ function isValidEmailAddress(emailAddress) {
 }
 
 function isValidURL(url) {
-	var pattern = /((http(s)?|ftp):\/\/.)?(((www\.)?[-a-zA-Z:%._\+~#=]{2,256}\.[a-z]{2,6}\b)|(\d+.\d+.\d+.\d+(:\d{4})?))([-a-zA-Z%_:?\+.~#&//=]*)/;
+	var pattern = /((http(s)?|ftp):\/\/.)?(www\.)?[-a-zA-Z:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z%_:?\+.~#&//=]*)/;
 	return pattern.test(url);
 }
 
@@ -237,7 +236,7 @@ function parseUrlTextPopUp(txt,key){
 			          var word = lwords[index];
 			          if(!$.isNumeric(txt) ){
 			                 if (isValidURL(word) && typeof word === "string"){
-			                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')));
+			                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')))
 			                        if(isImgURL(word)){
 			                               text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";
 			                        }
@@ -777,14 +776,10 @@ function sortByKey(array, key) {
     });
 }
 
-function sortByKeyPath(array, key, isNumeric) {
+function sortByKeyPath(array, key) {
 	
 	return array.sort(function(a, b) {
 		 var x = a.layer.options[key]; var y = b.layer.options[key];
-		 if (isNumeric) {
-			 x=parseFloat(x);
-			 y=parseFloat(y);
-		 }
 		return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 }
@@ -947,6 +942,9 @@ function refrescarPopUp(nom,props,_leaflet_id,type,capaLeafletId){
 }
 
 function changeWMSQueryable(queryable){	
+
+
+
 	map.eachLayer(function (layer) { 
 	  try{	 
 	 
@@ -1116,13 +1114,7 @@ function generarScriptMarkupGoogle(url,nom,urlImage,autor,dataPublicacio,descrip
 	return generatedScript;
 }
 
-function latLngtoETRS89(lat, lng) {
 
-	var auxLat = lat.toFixed(5);
-	var auxLng = lng.toFixed(5);
-	var crs = new L.Proj.CRS('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs');
-	var _CRS = crs.project( {lat:auxLat, lng:auxLng} );
 
-	return {x: _CRS.x.toFixed(2), y: _CRS.y.toFixed(2)};
 
-}
+

@@ -35,11 +35,34 @@
 					
 					var input = $(e.target).closest('.txt_ext').find('.url-wms');					
 				    var url = $.trim(input.val());
+				    console.info(url);
+				    
+				    var type="WMS";
+				    
+				    $('.type-geoservice-list').val()?type=$('.type-geoservice-list').val():type=type;
 					
+				    
+				    
 					if (url === "") {
 						alert(window.lang.translate("Has d'introduïr una URL del servidor"));
 					} else if (!isValidURL(url)) {
 						alert(window.lang.translate("La URL introduïda no sembla correcte"));
+					
+					}else if(type=="WMTS" || type=="TMS"){
+						
+						if(url.indexOf('{z}/{x}/{y}')==-1){
+							
+							alert(window.lang.translate("La URL introduïda no sembla correcte. La URL hauria de contenir '{z}/{x}/{y}'"));
+							
+						}else{
+							
+							//addTileLayer;
+							
+						}
+					}else if(type=="WFS"){	
+						
+						self.getCapabilitiesWFS({url:url});
+						
 					} else {
 						self.getCapabilities({url:url});
 					}
@@ -199,7 +222,7 @@
 						ActiuWMS.epsg = L.CRS.EPSG4326;
 						ActiuWMS.epsgtxt = '4326';	
 					} else {
-						alert(window.lang.translate("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
+						alert(window.lang.translate("No s'ha pogut visualitzar aquest servei: Instamaps només carrega Geoserveis globals en EPSG:3857 i EPSG:4326"));
 						$.publish('analyticsEvent',{event:['error', 'Error EPSG WMS capabilities',ActiuWMS.url]});
 						return;
 					}

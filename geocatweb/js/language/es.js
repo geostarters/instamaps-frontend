@@ -632,7 +632,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Sense resposta del catàleg INSPIRE":"Sin respuesta del catálogo"
 ,"Sense resultats":"Sin resultados"
 ,"Serveis JSON":"Servicios JSON"
-,"Serveis WMS":"Servicios WMS"
+,"Geoserveis":"Geoservicios"
 ,"Serveis WMS per Estat":"Servicios WMS por Estado"
 ,"Sessió caducada":"Sesión caducada"
 ,"Si":"Sí"

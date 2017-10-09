@@ -107,6 +107,8 @@ function loadApp(){
 		});
 
 		getMapByBusinessId(data).then(function(results){
+			
+			console.info(data);
 			if (results.status == "ERROR"){
 				gestioCookie('getMapByBusinessId');
 			}
@@ -180,9 +182,9 @@ function loadApp(){
 						loadEventsGa();
 					});
 					*/
-
+						
 					loadMapConfig(mapConfig).then(function(){
-
+						;
 						$('#nomAplicacio').html(mapConfig.nomAplicacio);
 						//llegim configuracio de funcionalitats del mapa, si no te, per defecte
 
@@ -190,6 +192,7 @@ function loadApp(){
 						loadConfiguracio(mapConfig.configuracio).then(function(results){
 							//iniciem els controls basics
 							initControls();
+							
 							//careguem funcionalitats:
 							loadControls(results);
 							//Actualitzar idiomes
@@ -298,6 +301,10 @@ function initControls(){
 
 	//Afegir modul3D
 	addModul3D(mapConfig);
+	
+	//afegir cerca EPSG
+	
+	addSearchOptionsEPSG();
 }
 
 function addClicksInici() {
@@ -767,7 +774,7 @@ function loadLayer(value){
 
 
 function createNewMap(){
-	//console.debug("createNewMap");
+	
 	var tipusApp = 'vis';
 
 	if(isGeolocalUser() || (typeof url('?tipus') == "string" && url('?tipus')=="geolocal") ){
@@ -775,6 +782,14 @@ function createNewMap(){
 
 	}
 
+	
+	
+		if(isSostenibilitatUser(false)|| (typeof url('?tipus') == "string" && url('?tipus')=="sostenibilitat") ){
+			tipusApp = 'vis'; //para visores sostenibilitat
+			console.info(tipusApp);
+		}	
+		
+		
 	var data = {
 		nom: getTimeStamp(),
 		uid: Cookies.get('uid'),
@@ -783,6 +798,7 @@ function createNewMap(){
 	};
 
 	createMap(data).then(function(results){
+		
 		if (results.status == "ERROR"){
 			//TODO Mensaje de error
 			gestioCookie('createMapError');
@@ -811,7 +827,7 @@ function createNewMap(){
 				if (tipusFile!=""){
 					param += "&format="+tipusFile;
 				}
-//				console.debug(param);
+			console.debug(tipusApp);
 				if (tipusApp=="geolo") window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param+"&tipus=geolocal";
 				else window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param;
 
@@ -1046,6 +1062,10 @@ function addInfoBloqueigMapa(mapConfig){
 		}, 1000);
 	}
 }
+
+
+
+
 
 
 /*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar

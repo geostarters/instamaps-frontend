@@ -539,56 +539,12 @@
 		},
 
 
-		/*
-		addSnapshotControl: function(){
-			var self = this,
-			ctr_snapshot,
-			_map = self.map;
-
-			ctr_snapshot = L.control.snapshot({
-				title: window.lang.translate('Capturar la vista del mapa')
-			});
-			ctr_snapshot.addTo(_map);
-
-			self.controls.snapshotControl = ctr_snapshot;
-
-			return self;
-		},
-
-		addPrintControl: function(){
-			var self = this,
-			ctr_printmap,
-			_map = self.map;
-
-			ctr_printmap = L.control.printmap({
-				title: window.lang.translate('Imprimir la vista del mapa')
-			});
-			ctr_printmap.addTo(_map);
-
-			self.controls.printControl = ctr_printmap;
-
-			return self;
-		},
-
-		addGeopdfControl: function(){
-			var self = this,
-			ctr_geopdf,
-			_map = self.map;
-
-			ctr_geopdf = L.control.geopdf({
-				title: window.lang.translate('Descarrega mapa en format GeoPDF')
-			});
-			ctr_geopdf.addTo(_map);
-
-			self.controls.geopdfControl = ctr_geopdf;
-
-			return self;
-		},
-		*/
 
 		addAppModul:function(modul){
+
 			var self = this,
 			ctr_arbres,
+			ctr_sostenibilitat,
 			_map = self.map;
 			if(modul=='arbres'){
 				$.getScript( "/moduls/" + modul + "/js/modul_"+modul+"_1.0.0.js", function( data, textStatus, jqxhr ) {
@@ -597,10 +553,33 @@
 					self.controls.arbresControl = ctr_arbres;
 					}
 				});
-			}
+			}else if(modul=='sostenibilitat'){		
 
+			
+			
+				try{
+			
+				$.getScript( "/moduls/" + modul + "/js/modul-"+modul+"-2.0.0.js", function( data, textStatus, jqxhr ) {
+		
+					
+					if (jqxhr.status==200){
+						
+						if(self._mapConfig && self._mapConfig.options && self._mapConfig.options.sostenibilitat){					
+					ctr_sostenibilitat=new L.control.addModulSostenibilitat(new L.geoJson()).addTo(_map);
+					self.controls.sostenibilitatControl = ctr_sostenibilitat;									
+					ctr_sostenibilitat.setOptionsSostenibilitat(self._mapConfig.options.sostenibilitat);
+						}					
+					}
+				}).fail(function( jqxhr, settings, exception ) {
+						console.info(jqxhr);
+						console.info(settings);
+						console.info(exception);				
+				});  		
+				}catch(Err){				
+					console.info(Err);
+				}				
+			}	
 			return self;
-
 
 		},
 
