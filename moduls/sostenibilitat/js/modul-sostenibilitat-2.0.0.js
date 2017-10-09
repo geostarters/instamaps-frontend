@@ -37,7 +37,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			sostenibilitat: {},
 			parametersWFS: {
 				service: 'WFS',
-				outputFormat: 'text/javascript',
+				outputFormat: 'json',
 				srsName: 'EPSG:4326',
 				typeName: 'arbres:arbres_wfs',
 				version: '1.1.0',
@@ -259,6 +259,8 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			
 			
 			map.on('click', function (e) {
+				
+				
 				if(esticEdicio){
 				
 				map.closePopup();
@@ -307,16 +309,12 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 		},	
 		
 		sendRequestToCalculadora:function(data){
-			
-			
-		
-		
 		
 			
 			return createXHR({
 		url: _url+"/"+data.method+"?", 
 		data: {geometry:data.geometry,fare:data.fare},
-		dataType: 'json',
+		dataType: 'jsonp',
 		//contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 		method: 'post'
 	});
@@ -355,7 +353,12 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			var _objWFS = this.getActiveWFSFromWMSLayer();
 			this.options.parametersWFS.typeName = _objWFS.layerWFS;
 			var parameters = L.Util.extend(this.options.parametersWFS);
-			var FILTER = 'FILTER=(<Filter xmlns:gml="http://www.opengis.net/gml" ><' + spatialFilter + '><PropertyName>geom</PropertyName>' + geometry.layer.toGML() + '</' + spatialFilter + '></Filter>)';
+			
+			// the_geom
+			var FILTER = 'FILTER=(<Filter xmlns:gml="http://www.opengis.net/gml" ><' + spatialFilter + '><PropertyName>the_geom</PropertyName>' + geometry.layer.toGML() + '</' + spatialFilter + '></Filter>)';
+			
+			
+			
 			var BBOX = "bbox=" + map.getBounds().getSouth() + "," + map.getBounds().getWest() + "," + map.getBounds().getNorth() + "," + map.getBounds().getEast();
 
 			var _parametres = L.Util.getParamString(parameters);
@@ -370,7 +373,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 				if (this.options.typeServer == 'MNU') {
 
 					if ((this.options.urlWFS.indexOf('instamaps.cat') == -1) || (this.options.urlWFS.indexOf('instaweb') != -1) || (this.options.urlWFS.indexOf('172.70.1.11') != -1)) {
-						console.info(1);
+						
 						jQuery.ajax({
 							url: _requestWFS,
 
@@ -380,13 +383,13 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 							},
 							success: function (dataGeoJson, status, xhr) {
 								map.spin(false);
-								console.info(dataGeoJson);
+								
 								if (dataGeoJson.features) {
 									that.handleJson(dataGeoJson, areaSeleccio, geometry, _objWFS);
 								}
 							},
 							error: function (xhr, status, error) {
-								console.info(error);
+								
 								map.spin(false);
 
 							}
@@ -412,7 +415,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 								}
 							},
 							error: function (xhr, status, error) {
-								console.info(error);
+							
 								map.spin(false);
 							}
 
@@ -422,17 +425,28 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 
 				} else if (this.options.typeServer == 'GeoServer') {
 
+				
+				
+				
 					$.ajax({
 						url: _requestWFS,
-						dataType: "jsonp",
-						method: 'post',
-						jsonp: "false",
-						jsonpCallback: "parseResponse",
+						//dataType: "jsonp",
+						//method: 'post',
+						//jsonp: "false",
+						//jsonpCallback: "parseResponse",
 						success: function (dataGeoJson) {
-
+							
+							if (dataGeoJson.features) {
 							that.handleJson(dataGeoJson, areaSeleccio, geometry, _objWFS);
+							}
+							
 						},
-						error: function (a, b) {},
+						error: function (a, b) {
+							
+							console.info(a);
+							console.info(b);
+							
+						},
 					});
 
 				}
@@ -441,6 +455,8 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 
 		handleJson: function (dataGeoJson, areaSeleccio, geometry, objWFS) {
 
+		
+	
 			this.GEOJSON = dataGeoJson;
 			this.OBJWFS = objWFS;
 			this.geoJsonLayerSelect.clearLayers();
@@ -585,6 +601,8 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 				}else{
 					_data.method='getPotencialFotovoltaicEdificis';					
 					this.sendRequestToCalculadora(_data).then(function(results){
+					
+					
 					peticioSOS = results;
 					});
 				}
