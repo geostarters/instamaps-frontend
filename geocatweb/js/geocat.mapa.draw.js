@@ -780,9 +780,9 @@ function activaEdicioUsuari() {
 }
 
 //Funcio que crea Pop up de la feature quan te opcio d'edicio
-function createPopupWindow(layer,type, editant,propFormat){
+function createPopupWindow(layer,type, editant,propFormat, propPrivacitat){
 //	console.debug('createPopupWindow');
-	var html = createPopUpContent(layer,type, editant,propFormat);
+	var html = createPopUpContent(layer,type, editant,propFormat, propPrivacitat);
 	//layer.bindPopup(html,{'offset':[0,-25]});
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
@@ -1672,7 +1672,7 @@ function fillCmbCapesUsr(type,_leaflet_id){
 	return html;
 }
 
-function createPopUpContent(player,type, editant, propFormat){
+function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 	var isEditing = (undefined == typeof editant ? true : editant);
 	
 	var auxNom = window.lang.translate('Nom');

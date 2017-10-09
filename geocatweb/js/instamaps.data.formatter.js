@@ -13,7 +13,7 @@
 			thousandsSeparator : '.'
 		},
 
-		createOptions: function(name,selectVal) {
+		createOptions: function(name,selectVal,visibilitat) {
 			var selectedT='';
 			selectVal=='t'?selectedT=' selected':selectedT='';	
 			var selectedEuro='';
@@ -28,8 +28,12 @@
 			"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
 			"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
 			"	<option value='n'"+selectedN+">Número</option>" +
-			"</select>";/*+
-			'<span id="privacitat_'+name+ '" class="glyphicon glyphicon-eye-open" style="float:right"></span>';*/
+			"</select>"+
+			'<span id="privacitat_'+name+ '" class="glyphicon glyphicon-eye-'+visibilitat+' privacitatSpan" style="float:right" title="Visibilitat del camp al publicar" lang="ca" ></span>';
+		},
+		
+		changeIcon: function(){
+			
 		},
 
 		formatValue: function(inValue, format) {
