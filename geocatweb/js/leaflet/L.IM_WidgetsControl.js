@@ -85,7 +85,7 @@ L.Control.Widgets = L.Control.extend({
     		that._addIdescatWidget(modalbody);
     		that._addRPUCWidget(modalbody);
     		that._addCartotecaWidget(modalbody);
-    		that._addMeteoWidget(modalbody);
+    		//that._addMeteoWidget(modalbody);
         	that._addCadastreWidget(modalbody);
         	that._addInfoParcelaWidget(modalbody);
 			that._addMascaraWidget(selectdiv);
