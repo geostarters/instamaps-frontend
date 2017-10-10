@@ -27,25 +27,18 @@ function generaLlistaServeisWMS() {
 				"IDARXIU" : "http://geoserveis.icc.cat/icc_atlm/wms/service?",
 				"URN" : "urn:uuid:761da3ce-233c-11e2-a4dd-13da4f953834"
 			},
-			
-			
-			
 			{
 				"TITOL" : "Mapa Cadastral",
 				"ORGANITZAC" : "Dirección General del Catastro",
 				"IDARXIU" : "http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?",
 				"URN" : "urn:uuid:260c0ccb-233c-11e2-a4dd-13da4f953834"
 			},
-			
-			
-			
 			{ 
 				"TITOL" : "Població de Catalunya 2014 ",
 				"ORGANITZAC" : "Institut d'Estadistica de Catalunya",
 				"IDARXIU" :  "http://www.instamaps.cat/geotimeservices/idescat", 
 				"URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722"
 			},
-			
 			/*
 			{
 				"TITOL" : "Establiments industrials",
@@ -148,13 +141,11 @@ jQuery(document).on('keyup', "#txt_URLWMS_cataleg", function(e) {
     		alert(window.lang.translate("Has d'introduïr un valor per fer la cerca"));
     	} else {
     		cercaCataleg(cerca);
-    		
     	}
     }
 });
 
 jQuery(document).on('click', "#bt_cercaWMS", function(e) {
-	
 	var cerca = $.trim(jQuery('#txt_URLWMS_cataleg').val());
 	if (cerca === "") {
 		alert(window.lang.translate("Has d'introduïr un valor per fer la cerca"));
@@ -163,20 +154,13 @@ jQuery(document).on('click', "#bt_cercaWMS", function(e) {
 	}
 });
 
-
-
-
 jQuery(document).on('change', "#cmd_geoserveis_list", function(e) {
-
 	if($(this).val()=="TMS" || $(this).val()=="WMTS" ){
 		jQuery('#txt_URLWMS').attr('placeholder','Esquema: http://domain.com/{z}/{x}/{y}.png');	
 	}else{
 		jQuery('#txt_URLWMS').attr('placeholder','Esquema: http://domain.com/geoservice?');	
 	}
-	
 });
-
-
 
 function cercaCataleg(cerca){
 	cerca = encodeURI(cerca);
@@ -227,9 +211,6 @@ function cercaCataleg(cerca){
 }
 
 function getCapabilitiesWMS(url, servidor) {
-	
-
-	
 	var _htmlLayersWMS = [];
 	var instamapsWms = InstamapsWms({
 		loadTemplateParam :false});
@@ -339,15 +320,11 @@ function getCapabilitiesWMS(url, servidor) {
 }
 
 function addWmsToMap(wms){
-	
-	
 	var wmsLayer,
 	tipus_user = defineTipusUser();  //geocat.web-1.0.0	
 	$.publish('analyticsEvent',{event:['mapa', tipus_user+'wms', wms.url, 1]});
 		
 	if(!wms.sostenibilitat){wms.sostenibilitat=false;}	
-	
-
 	
 	if(wms.wmstime){
 		wmsLayer = L.tileLayer.wms(wms.url, {
@@ -377,8 +354,6 @@ function addWmsToMap(wms){
 	wmsLayer.options.tipus = t_wms;
 	wmsLayer.options.sostenibilitat = wms.sostenibilitat;
 	
-	
-	
 	if(typeof url('?businessid') == "string"){
 		var data = {
 			uid:Cookies.get('uid'),
@@ -404,9 +379,7 @@ function addWmsToMap(wms){
             visibilitats: true,
 			options: '{"url":"'+wms.url+'","layers":"'+wms.layers+'","opacity":"'+1+'","wmstime":'+wms.wmstime+',"sostenibilitat":'+wms.sostenibilitat+',"epsg":"EPSG:4326"}'
 		};
-		
-		
-		
+
 		createServidorInMap(data).then(function(results){
 			map.spin(false);
 			console.info(results);
@@ -425,25 +398,6 @@ function addWmsToMap(wms){
 	}
 	return wmsLayer;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * fromParam = true -> Si afegim WMS directamente dun parametre de la url
@@ -479,12 +433,8 @@ function addExternalWMS(fromParam) {
 		}else{
 			ActiuWMS.servidor=_NomServer2;		
 		}
-		
-
 		ActiuWMS.wmstime=_dateFormat;
 		if(!ActiuWMS.sostenibilitat){ActiuWMS.sostenibilitat=false;}	
-		
-		
 	}
 	if(ActiuWMS.wmstime){
 		wmsLayer =L.tileLayer.wms(ActiuWMS.url, {
@@ -511,7 +461,6 @@ function addExternalWMS(fromParam) {
 	}
 	
 	nomCapaWMS=ActiuWMS.servidor;	
-	
 	
 	wmsLayer.options.businessId = '-1';
 	wmsLayer.options.nom = nomCapaWMS;
@@ -544,7 +493,6 @@ function addExternalWMS(fromParam) {
             visibilitats: true,
 			options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'","opacity":"'+1+'","wmstime":'+ActiuWMS.wmstime+',"sostenibilitat":'+ActiuWMS.sostenibilitat+'}'
 		};
-		
 		
 		createServidorInMap(data).then(function(results){
 			map.spin(false);
@@ -648,8 +596,6 @@ function loadWmsLayer(layer, _map){
 	newWMS,
 	nomServidor = layer.serverName;
 	
-	
-	
 	if(layer.serverName.indexOf('##') !=-1){
 		var valors = layer.serverName.split("##");
 		op = valors[1];
@@ -696,19 +642,14 @@ function loadWmsLayer(layer, _map){
 	checkAndAddTimeDimensionLayer(newWMS,true,nomServidor,layer.capesActiva, _map);
 }
 
-
 function checkExceptionsType(_server){
-		
 	var exceptions='application/vnd.ogc.se_blank';
-
-		if(_server.indexOf('instamaps.cat')==-1 ||
+	if(_server.indexOf('instamaps.cat')==-1 ||
 		 _server.indexOf('betaserver.icgc')==-1 ||
 		 _server.indexOf('localhost')==-1 ||
 		 _server.indexOf('172.70.1.11')==-1){
-			
-			exceptions='application/vnd.ogc.se_inimage';
+		exceptions='application/vnd.ogc.se_inimage';
 
-		}
-		
-		return exceptions;
+	}
+	return exceptions;
 }
