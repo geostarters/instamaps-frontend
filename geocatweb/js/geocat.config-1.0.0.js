@@ -124,6 +124,7 @@ var paramUrl = {
 	getAllTematicLayerByUid: HOST_APP+"geocat/layers/tematic/getAllTematicLayerByUid.action?",
 	deleteTematicLayerAll: HOST_APP+"geocat/layers/tematic/deleteTematicLayerAll.action?",
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
+	updateMapOptions:HOST_APP+"geocat/aplications/map/updateAplicacioOptions.action?",
 	getTwitterLayer: HOST_APP+"geocat/layers/getTwitterLayer.action?",
 	updateServersOrderToMap: HOST_APP+"geocat/aplications/map/updateServersOrderToMap.action?",
 	updateServerOrderToMap: HOST_APP+"geocat/aplications/map/updateServerOrderToMap.action?",

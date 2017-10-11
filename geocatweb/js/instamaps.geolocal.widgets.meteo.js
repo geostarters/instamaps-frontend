@@ -6,6 +6,7 @@
 	var WidgetMeteo = {
 					
 		init: function() {
+			this.proxy = "/maps/proxy_betterWMS.cgi?url=";
 			this.url = "http://www.aemet.es/ca/eltiempo/prediccion/municipios/mostrarwidget/widget_prov_id_municipi?w=g3p11111110ohmffffffw350z252x333333t999999r1s1n1";
         	this.containerId = '.drawWidgets';
 			this.cache();
@@ -71,6 +72,11 @@
         		var codi = that.getMunicipi(data.municipiCodi);
         		if (codi){
             		var url = that.url.replace("widget_prov_id_municipi", codi);
+            		/*
+            		if(that.proxy){
+            			url = that.proxy + encodeURIComponent(url);
+            		}
+            		*/
             		if (that.iframe){
             			$(that.containerId).find('iframe').prop('src',url);
                 	}else{

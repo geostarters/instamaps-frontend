@@ -58,7 +58,7 @@
         		that._addIdescatWidget(modalbody);
         		that._addRPUCWidget(modalbody);
         		that._addCartotecaWidget(modalbody);
-        		that._addMeteoWidget(modalbody);
+        		//that._addMeteoWidget(modalbody);
             	that._addCadastreWidget(modalbody);
             	that._addInfoParcelaWidget(modalbody);
             });
@@ -74,10 +74,12 @@
         	ListViewMunicipis.createList(container);
         },
         
+        /*
         _addMeteoWidget: function(container){
         	this.widgets.meteo = WidgetMeteo.getWidget();
         	WidgetMeteo.drawButton(container);
         },
+        */
         
         _addIdescatWidget: function(container){
         	this.widgets.idescat = WidgetIdescat.getWidget();

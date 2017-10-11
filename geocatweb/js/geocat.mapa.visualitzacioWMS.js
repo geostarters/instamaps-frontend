@@ -45,7 +45,7 @@ function loadVisualitzacioWmsLayer(layer){
 	        format : layer.imgFormat,//'image/png'
 	    	version: layer.version,
 	    	tileSize:512,
-	       opacity: layer.opacity,	    
+	        opacity: layer.opacity,	    
 	    	nom : layer.serverName,
 	    	tipus: layer.serverType,
 	    	zIndex :  parseInt(layer.capesOrdre),
