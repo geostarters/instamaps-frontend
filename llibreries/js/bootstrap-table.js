@@ -176,7 +176,7 @@
             refresh: 'glyphicon-refresh icon-refresh',
             toggle: 'glyphicon-list-alt icon-list-alt',
             columns: 'glyphicon-th icon-th',
-            addColumn: 'glyphicon-add icon-add',
+            newColumn: 'glyphicon-plus icon-plus'
         },
         ignoreColumn: [],
         rowStyle: function (row, index) {return {};},
@@ -625,13 +625,12 @@
 
         
         if (this.options.addColumn){
-        	 html.push(sprintf('<button class="btn btn-default' + (this.options.iconSize == undefined ? '' :  ' btn-' + this.options.iconSize) + '" type="button" name="addColumn" title="%s">',
+        	 html.push(sprintf('<button class="btn btn-default' + (this.options.iconSize == undefined ? '' :  ' btn-' + this.options.iconSize) + '" type="button" name="addColumn" id="addColumn" title="%s">',
                      this.options.formatAddColumn()),
-                     sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.addColumn),
+                     sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.newColumn),
                      '</button>');
          }
-        
-        if (this.options.showToggle) {
+       if (this.options.showToggle) {
             html.push(sprintf('<button class="btn btn-default' + (this.options.iconSize == undefined ? '' :  ' btn-' + this.options.iconSize) + '" type="button" name="toggle" title="%s">',
                 this.options.formatToggle()),
                 sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.toggle),

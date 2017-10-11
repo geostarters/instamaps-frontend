@@ -46,6 +46,7 @@ function addFuncioEditDataTable(){
 	
 	addHtmlModalDataTable();
 	addHtmlModalDeleteDataTableRow();
+	addHtmlModalAddColumn();
 	
 	$('#dialog_delete_row .btn-danger').on('click', function(event){
 		var button = $(event.relatedTarget); // Button that triggered the modal
@@ -59,6 +60,8 @@ function addFuncioEditDataTable(){
 	});
 	
 	$('#modal_data_table').on('hidden.bs.modal', function (e) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
 		var capaEdicio = $('#modal_data_table').data("capaEdicio");
 //		console.debug(controlCapes);
 		//Update options amb les propietats de cada camp
@@ -90,10 +93,9 @@ function addFuncioEditDataTable(){
 				//Eliminem la capa de controlCapes i mapa
 				reloadSingleLayer(capaEdicio, layerServidor);
 			});
-		}
-		
+		}		
 		//si hem editat dades recarreguem la capa per visualitzar els canvis
-		if(editat && $.isEmptyObject(optionsF)){
+		else if(editat  && $.isEmptyObject(optionsF)){
 			var layerServidor = $('#modal_data_table').data("layerServidor");
 			layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
 			//Eliminem la capa de controlCapes i mapa
@@ -256,7 +258,7 @@ function fillModalDataTable(obj, geomBid){
 					}else{			
 						propName = options.propName;	
 					}
-					if (propName!=undefined && propName.toString().indexOf("nom,text")==-1) {
+					if (propName!=undefined && propName.toString().indexOf("text")==-1) {
 						
 						for(var x in propName){	
 							if (propName[x].toLowerCase()!="geomorigen") {
@@ -341,7 +343,7 @@ function fillModalDataTable(obj, geomBid){
 				}else{
 					//Taula no editable pel visor
 					//properties headers
-					if (options.propName!=undefined && options.propName.toString().indexOf("nom,text")==-1) {
+					if (options.propName!=undefined && options.propName.toString().indexOf("text")==-1) {
 						
 							for(var x in options.propName){
 								if (options.propName[x].toLowerCase()!="geomorigen") {
@@ -666,13 +668,36 @@ function fillModalDataTable(obj, geomBid){
 				    exportTypes: ['json', 'csv', 'txt', 'excel'],
 				    ignoreColumn: [columNames.length-4],
 				    data: resultatsMod,
+				    addColumn: true,
 				    icons: {
-				       refresh: 'glyphicon-refresh'
+				       refresh: 'glyphicon-refresh',
+				       newColumn: 'glyphicon-plus'
 				    },
 				    width: widthColumn
 				});	
 				
 
+				$('#dialog_add_column #addColumnBoto').on('click',function(event){
+					event.preventDefault();
+					event.stopImmediatePropagation();	
+					valueNewCol="";
+					var dataNew={
+						businessId: obj.layer.options.businessId,
+						uid:Cookies.get('uid'),
+						newColumn: 	$('#newColumnName').val(),
+						valueNewColumn: valueNewCol
+					}
+					addNewProperties(dataNew).then(function(results){
+						$('#dialog_add_column').modal('hide');
+						$('#modal_data_table').modal('hide');
+					});
+				});
+				
+				$('#addColumn').on('click',function(){
+					$('#newColumnName').html('');			
+					$('#dialog_add_column').modal('show');
+				});
+				
 				$('#modal_data_table').on('editable-save.bs.table', function(event, name, row, 	oldValue, param) {
 					event.preventDefault();
 					event.stopImmediatePropagation();					
@@ -709,7 +734,6 @@ function fillModalDataTable(obj, geomBid){
 						}
 					}
 				});	
-				
 				$('[name="refresh"]').on('click',function(){
 					var capaEdicio = $('#modal_data_table').data("capaEdicio");
 					$('#modal_data_table').modal('hide');
@@ -937,5 +961,14 @@ function addHtmlModalDeleteDataTableRow(){
 	'	<!-- /.modal -->'+
 	'	<!-- Fi Modal delete -->	'		
 	);
+}
+
+
+
+function addHtmlModalAddColumn(){	
+	$.get("templates/modalAddNewColumn.html",function(data){
+		//TODO ver como pasar el modal container
+		$('#mapa_modals').append(data);       		
+	});
 }
 

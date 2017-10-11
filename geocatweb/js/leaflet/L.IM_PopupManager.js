@@ -84,7 +84,6 @@
 			else if (feature.properties!=undefined) properties=feature.properties;
 			var propPrivacitat = "";
 			if (capa.options!=undefined && capa.options.propPrivacitat!=undefined) 	propPrivacitat = capa.options.propPrivacitat;
-			console.debug(propPrivacitat);
 			$.each( properties, function( key, value ) {
 				if (propPrivacitat!="" && propPrivacitat[key.toLowerCase()]==true) {
 				if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
