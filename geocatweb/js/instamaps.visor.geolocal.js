@@ -80,6 +80,7 @@
 			map = visor.map,
 			nomUser = _mapConfig.entitatUid.split("@"),
 			nomEntitat = _mapConfig.nomEntitat,
+			alies = _mapConfig.options.alies,
 			infoHtml = '';
 			
 			//TODO  ver si podemos usar un objeto usuario para almacenar este tipo de cosas.
@@ -92,7 +93,12 @@
 			ga('create', 'UA-46332195-6', 'auto');
 			//cambiamos el info
 			infoHtml += '<div style="color:#ffffff">';
-			if (nomEntitat!=undefined) infoHtml +='<p>'+nomEntitat+'</p>';
+			if (alies!=undefined && alies!=""){
+				infoHtml +='<p>'+alies+'</p>';
+			}
+			else if (nomEntitat!=undefined) {
+				infoHtml +='<p>'+nomEntitat+'</p>';
+			}
 			infoHtml += '</div>';
 			
 			//destruir el creado en el visor
