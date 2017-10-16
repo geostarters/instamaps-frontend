@@ -32,42 +32,27 @@
 				});
 					
 				$(".btn-conn-wms").on('click', function(e) {
-					
 					var input = $(e.target).closest('.txt_ext').find('.url-wms');					
 				    var url = $.trim(input.val());
-				    console.info(url);
-				    
+				    //console.info(url);
 				    var type="WMS";
-				    
 				    $('.type-geoservice-list').val()?type=$('.type-geoservice-list').val():type=type;
-					
-				    
-				    
 					if (url === "") {
 						alert(window.lang.translate("Has d'introduïr una URL del servidor"));
 					} else if (!isValidURL(url)) {
 						alert(window.lang.translate("La URL introduïda no sembla correcte"));
-					
 					}else if(type=="WMTS" || type=="TMS"){
-						
 						if(url.indexOf('{z}/{x}/{y}')==-1){
-							
 							alert(window.lang.translate("La URL introduïda no sembla correcte. La URL hauria de contenir '{z}/{x}/{y}'"));
-							
 						}else{
-							
 							//addTileLayer;
-							
 						}
 					}else if(type=="WFS"){	
-						
 						self.getCapabilitiesWFS({url:url});
-						
 					} else {
 						self.getCapabilities({url:url});
 					}
 				});
-				
 			});
 			return self;
 		}, 
@@ -111,17 +96,14 @@
 		getCapabilities: function(options){
 			var self = this,
 				ActiuWMS = {};
-			
 			self = $.extend(self, options);
 			var url1 = self.url;
 			if (url1.indexOf("https://www.instamaps.cat")>-1) url1=url1.replace("https","http");
 			var data = {url: url1, capa:self.capa};
-			
 			self.getWMSLayers(data).then(function(results) {
 				var bbox, servidor, WMS_BBOX,
 				souce_capabilities_template = $("#capabilities-template").html(),
 				capabilities_template = Handlebars.compile(souce_capabilities_template);
-				
 				Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
 				Handlebars.registerHelper('layer', function(context, options) {
 				  var ret = "";
@@ -143,21 +125,16 @@
 				  console.log("Current Context");
 				  console.log("====================");
 				  console.log(this);
-				 
 				  if (optionalValue) {
 				    console.log("Value");
 				    console.log("====================");
 				    console.log(optionalValue);
 				  }
 				});
-				
 				self.clear().show();
-
 				if (servidor == null) {
 					servidor = results.Service.Title;
 				}
-				
-				
 				try{
 					if(results.Capability.Layer.Layer.LatLonBoundingBox){
 						bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
@@ -171,28 +148,21 @@
 				} catch (err) {
 					WMS_BBOX=null;
 				}
-				
 				try {
 					var matriuEPSG = results.Capability.Layer.CRS,
 					epsg = [],
 					html = "";
-					
 					if($.isArray(results.Capability.Layer)){
 						html = capabilities_template({Layer: results.Capability.Layer});
 					}else{
 						html = capabilities_template({Layer: [results.Capability.Layer]});
 					}
-					
 					ActiuWMS.servidor = self.name || servidor || results.Capability.Layer.Title;
 					ActiuWMS.url = self.url;
-					
-					
-					
 					if (!matriuEPSG) {
 						matriuEPSG = results.Capability.Layer.SRS;
 						if (!matriuEPSG) {
 							matriuEPSG = results.Capability.Layer[0].CRS;
-							
 							if (!matriuEPSG) {
 								matriuEPSG = results.Capability.Layer[0].SRS;
 							}
@@ -205,7 +175,6 @@
 					}else{
 						epsg.push(matriuEPSG);
 					}
-			
 					if ($.inArray('EPSG:3857', epsg) != -1) {
 						ActiuWMS.epsg = L.CRS.EPSG3857;
 						ActiuWMS.epsgtxt = 'EPSG:3857';
@@ -226,16 +195,13 @@
 						$.publish('analyticsEvent',{event:['error', 'Error EPSG WMS capabilities',ActiuWMS.url]});
 						return;
 					}
-					
 					self.ActiuWMS = ActiuWMS;
-					
 					$('.layers-wms').empty().append(html);
 					self.addTreeEvents();
 					self._botons.empty();
 					self._botons.html(
 						'<div style="float:right"><button lang="ca" class="btn btn-success btn-add-wms" >' +
 						window.lang.translate("Afegir capes") + '</button></div>');
-					
 					//if(self.capa){
 					if(self.hasOwnProperty('capa')){
 						var ls;
@@ -245,21 +211,16 @@
 						if(self.capa == null){
 							self.capa="null";
 						}
-						
 						self.capa = self.capa.replace(/(\d)\.(\d)/,"$1,$2");
-						
 						if(self.capa.indexOf(",")!=-1){								//hi ha més una capa
 							ls=self.capa.split(",");
 							for(i=0; i < ls.length;i++){
 								hits=hits + self._ckechLayerWMS(ls[i]);
 							}							
 						}else{
-							
 							ls=self.capa;
 							hits=hits + self._ckechLayerWMS(ls);
 						}	
-						
-						
 						if(hits > 0){
 							self.addExternalWMS(false);						
 						}else{
@@ -277,16 +238,12 @@
 					
 				} catch (err) {
 					console.debug(err);
-					
 					$.publish('analyticsEvent',{event:['error', 'Error capabilities',ActiuWMS.url]});
-					
 					$('.layers-wms').html('<hr lang="ca">'+window.lang.translate("Error en interpretar capabilities")+': ' + err + '</hr>');
 				}
 			},function(data,status,error){
 				status.indexOf('parser')!=-1?alert(window.lang.translate("Error en interpretar capabilities")):alert(window.lang.translate("Error: No s'ha pogut executar l'operació"));
-				
-				});
-			
+			});
 			return self;
 		},
 		
@@ -393,10 +350,8 @@
 				var ul = $(this).parent("li.parent_li").find(".sublayers_list");
 				ul.children().each(function(i,li){ul.prepend(li)});
 			});
-			
 			return self;
 		}
-		
 	};
 	
 	InstamapsWms.init = function(options){

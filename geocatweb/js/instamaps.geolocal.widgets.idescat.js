@@ -4,9 +4,9 @@
 (function ( $, window, document, undefined ) {
 	"use strict";
 	var WidgetIdescat = {
-					
+		
 		init: function() {
-			this.url = "http://api.idescat.cat/emex.ifr?bc=333333&lc=0000cc&c=000000&t=0&e=f&enc=utf-8&tc=ffffff&id=widget_id_municipi&i=f261,f321,f187,f188,f184,f91,f242,f122,f133,f134,f141,f144,f215,f219,f19&lang=cat";
+			this.url = "https://www.idescat.cat/api/?servei=emex&f=ifr&p=bc/333333;lc/0000cc;c/000000;t/0;e/f;tc/ffffff;id/widget_id_municipi;i/f261,f321,f187,f188,f184,f91,f242,f122,f133,f134,f141,f144,f215,f219,f19;lang/ca"
 			this.containerId = '.drawWidgets';
 			this.cache();
         	this.subscriptions();
@@ -48,7 +48,7 @@
         	if(that.active   && data.tipusMunicipi){
         		var codi = data.municipiCodi;
         		if (codi){
-            		var url = that.url.replace("widget_id_municipi", codi);
+        			var url = that.url.replace("widget_id_municipi", codi);
             		if (that.iframe){
             			$(that.containerId).find('iframe').prop('src',url);
                 	}else{
@@ -57,7 +57,7 @@
                 		.appendTo($(that.containerId));
                 		that.iframe = true;
                 	}
-            	}else{
+        		}else{
             		$(that.containerId).empty();
             	}
         	}
