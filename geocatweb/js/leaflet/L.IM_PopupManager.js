@@ -149,8 +149,8 @@
 		_addGeometriesProps: function(feature, type){
 			var html = "";
 			if ((type==t_marker || type === "Point") && undefined!=feature.geometry && (feature.geometry.type==t_point || feature.geometry.type=="Point")) {
-				html+=this._addLatLongToMarker(feature);
-				html+=this._addETRS89ToMarker(feature);
+				//html+=this._addLatLongToMarker(feature);
+				//html+=this._addETRS89ToMarker(feature);
 			}
 			else if(type == t_polyline && feature.properties.mida &&  undefined!=feature.geometry && feature.geometry.type==t_linestring){
 				html+=this._addLengthToLine(feature);

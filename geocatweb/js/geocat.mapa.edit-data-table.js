@@ -215,7 +215,7 @@ function fillModalDataTable(obj, geomBid){
 						else if (!isADrawMarker) isADrawMarker=false;
 					}
 				}
-				if (isADrawMarker && feature.geometry.type=="Point") totalColumns = totalColumns + 4;
+				//if (isADrawMarker && feature.geometry.type=="Point") totalColumns = totalColumns + 4;
 				
 				 widthColumn = 100/totalColumns;
 				//console.debug(feature);
@@ -299,7 +299,7 @@ function fillModalDataTable(obj, geomBid){
 							}
 						}
 					}
-					if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt. Afegim ETRS89
+					/*if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt. Afegim ETRS89
 						var obj = {
 								title: "latitud".toUpperCase(),
 								field: "latitud".toLowerCase(),
@@ -328,7 +328,7 @@ function fillModalDataTable(obj, geomBid){
 									width:widthColumn+"% !important"
 								}
 						 columNames.push(obj);
-					}
+					}*/
 					
 					//Actions
 					var objActions = {
@@ -378,7 +378,7 @@ function fillModalDataTable(obj, geomBid){
 							}
 						}
 					}	
-					if (isADrawMarker){
+					/*if (isADrawMarker){
 						var obj = {
 								title: "latitud".toUpperCase(),
 								field: "latitud".toLowerCase(),
@@ -407,7 +407,7 @@ function fillModalDataTable(obj, geomBid){
 									width:widthColumn+"% !important"
 								}
 						 columNames.push(obj);
-					}
+					}*/
 					
 					//Actions
 					var objActions = {
@@ -480,7 +480,7 @@ function fillModalDataTable(obj, geomBid){
 				
 			columNames.push(obj2);
 			
-			if (isADrawMarker && options.geometryType=="marker"){ //Nomes pintem longitud/latitud quan és un punt. Afegim ETRS89
+			/*if (isADrawMarker && options.geometryType=="marker"){ //Nomes pintem longitud/latitud quan és un punt. Afegim ETRS89
 				var obj2 = {
 						title: "latitud".toUpperCase(),
 						field: "latitud".toLowerCase(),
@@ -509,7 +509,7 @@ function fillModalDataTable(obj, geomBid){
 							width:widthColumn+"% !important"
 						}
 				 columNames.push(obj2);
-			}
+			}*/
 			
 			//Actions
 			var objActions = {
@@ -576,7 +576,7 @@ function fillModalDataTable(obj, geomBid){
 				var haveGeomOrigen=false;
 				jQuery.each(resultats2, function(i, result){
 					var coords = result.geometryBBOX.split("#");  
-					if (obj.layer.options.geometryType!="polygon" || obj.layer.options.geometryType!="polyline" ){
+					/*if (obj.layer.options.geometryType!="polygon" || obj.layer.options.geometryType!="polyline" ){
 						var lon = parseFloat(coords[2]);
 						var lat = parseFloat(coords[1]);
 						if (result.longitud==undefined)  result.longitud=lon.toFixed(5);
@@ -584,7 +584,7 @@ function fillModalDataTable(obj, geomBid){
 						var etrs89 = latLngtoETRS89(lat, lon);
 						if (result.etrs89_x==undefined)  result.etrs89_x=etrs89.x;
 						if (result.etrs89_y==undefined)  result.etrs89_y=etrs89.y;
-					}
+					}*/
 					$.each( result, function( key, value ) {
 						if (key.toLowerCase()!="geomorigen"){
 							if (propFormat!=undefined && propFormat[key]!=undefined){
