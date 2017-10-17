@@ -461,16 +461,16 @@ function aturaClick(event){
 //Funcions d'estils
 function retornaEstilaDO(dataset) {
 	var estil = { radius : 6, fillColor : "#FC5D5F", color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
-	if(dataset=="radars"){ estil.fillColor = "#A00698";}
-	else if(dataset=="turisme_rural"){ estil.fillColor = "#06A010";}
-	else if(dataset=="hotels"){ estil.fillColor = "#ED760E";}
-	else if(dataset=="incidencies"){ estil.fillColor = "#991032";}
-	else if(dataset=="cameres"){ estil.fillColor = "#495CBC";}
-	else if(dataset=="campings"){ estil.fillColor = "#62A50B";}
-	else if(dataset=="meteo_comarca"){ estil.fillColor = "#200BA5";}
-	else if(dataset=="meteo_costa"){ estil.fillColor = "#E1EA3A";}
-	else if(dataset=="json_president"){ estil.fillColor ="#0058A5"; estil.color ="#0058A5"; }
-	else{ estil.fillColor = randomColor();}
+	if(!defaultPunt.options.isCanvas) {
+
+		estil.fillColor = getColorFromClass(defaultPunt.options.markerColor);
+
+	} else {
+
+		estil.fillColor = defaultPunt.options.fillColor;
+
+	}
+
 	return estil;
 }
 
