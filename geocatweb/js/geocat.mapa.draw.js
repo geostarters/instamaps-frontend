@@ -2084,7 +2084,7 @@ function getColorFromClass(classe){
 	{
 		case 'orange':
 		  return '#ffc500';
-		case 'darkorangeb':
+		case 'darkorange':
 		  return '#ff7f0b';
 		case 'red':
 		  return '#ff4b3a';
