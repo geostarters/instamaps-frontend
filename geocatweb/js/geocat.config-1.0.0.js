@@ -220,6 +220,7 @@ var paramUrl = {
 	getGeometriesPropertiesLayer: HOST_APP+"geocat/layers/visualitzacio/getGeometriesPropertiesLayer.action?",
 	removeGeometriaFromProperties: HOST_APP+"geocat/layers/visualitzacio/removeGeometriaFromProperties.action?",
 	updateGeometriaProperties: HOST_APP+"geocat/layers/geometriesColleccio/updateGeometriaProperties.action?",
+	addNewProperties: HOST_APP+"geocat/layers/geometriesColleccio/addNewProperties.action?",
 	updateRankAplicacio: HOST_APP+"geocat/aplications/map/updateRankAplicacio.action?",
 	createMapFile:  HOST_APP+"geocat/layers/visualitzacio/createMapFile.action?",
 	searchAction: HOST_APP+"geocat/aplications/map/search.action?",

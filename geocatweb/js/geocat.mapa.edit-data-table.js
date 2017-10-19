@@ -46,6 +46,7 @@ function addFuncioEditDataTable(){
 	
 	addHtmlModalDataTable();
 	addHtmlModalDeleteDataTableRow();
+	addHtmlModalAddColumn();
 	
 	$('#dialog_delete_row .btn-danger').on('click', function(event){
 		var button = $(event.relatedTarget); // Button that triggered the modal
@@ -59,13 +60,25 @@ function addFuncioEditDataTable(){
 	});
 	
 	$('#modal_data_table').on('hidden.bs.modal', function (e) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
 		var capaEdicio = $('#modal_data_table').data("capaEdicio");
 //		console.debug(controlCapes);
 		//Update options amb les propietats de cada camp
+		var optionsPrivacitat={};
+		$( ".privacitatSpan" ).each(function( index ) {
+			var id = $(this).attr('id');
+			var classe= $(this).attr('class');
+			var privacitat=true;
+			if (classe.indexOf("close")>-1) privacitat=false;
+			id = id.replace("privacitat_","");
+			optionsPrivacitat[id]=privacitat;
+		});
 		
-		if (!$.isEmptyObject(optionsF)){
+		if (!$.isEmptyObject(optionsF) || !$.isEmptyObject(optionsPrivacitat)){
 			var optionsNoves = {
-					propFormat: optionsF	
+					propFormat: optionsF,
+					propPrivacitat: optionsPrivacitat
 				};
 			var data={
 					businessId:  capaEdicio.layer.options.businessId,
@@ -80,10 +93,9 @@ function addFuncioEditDataTable(){
 				//Eliminem la capa de controlCapes i mapa
 				reloadSingleLayer(capaEdicio, layerServidor);
 			});
-		}
-		
+		}		
 		//si hem editat dades recarreguem la capa per visualitzar els canvis
-		if(editat && $.isEmptyObject(optionsF)){
+		else if(editat  && $.isEmptyObject(optionsF)){
 			var layerServidor = $('#modal_data_table').data("layerServidor");
 			layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
 			//Eliminem la capa de controlCapes i mapa
@@ -203,7 +215,7 @@ function fillModalDataTable(obj, geomBid){
 						else if (!isADrawMarker) isADrawMarker=false;
 					}
 				}
-				if (isADrawMarker && feature.geometry.type=="Point") totalColumns = totalColumns + 4;
+				//if (isADrawMarker && feature.geometry.type=="Point") totalColumns = totalColumns + 4;
 				
 				 widthColumn = 100/totalColumns;
 				//console.debug(feature);
@@ -246,7 +258,7 @@ function fillModalDataTable(obj, geomBid){
 					}else{			
 						propName = options.propName;	
 					}
-					if (propName!=undefined && propName.toString().indexOf("nom,text")==-1) {
+					if (propName!=undefined && propName.toString().indexOf("text")==-1) {
 						
 						for(var x in propName){	
 							if (propName[x].toLowerCase()!="geomorigen") {
@@ -287,7 +299,7 @@ function fillModalDataTable(obj, geomBid){
 							}
 						}
 					}
-					if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt. Afegim ETRS89
+					/*if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt. Afegim ETRS89
 						var obj = {
 								title: "latitud".toUpperCase(),
 								field: "latitud".toLowerCase(),
@@ -316,7 +328,7 @@ function fillModalDataTable(obj, geomBid){
 									width:widthColumn+"% !important"
 								}
 						 columNames.push(obj);
-					}
+					}*/
 					
 					//Actions
 					var objActions = {
@@ -331,10 +343,17 @@ function fillModalDataTable(obj, geomBid){
 				}else{
 					//Taula no editable pel visor
 					//properties headers
-					if (options.propName!=undefined && options.propName.toString().indexOf("nom,text")==-1) {
+					if (options.propName!=undefined && options.propName.toString().indexOf("text")==-1) {
 						
 							for(var x in options.propName){
-								if (options.propName[x].toLowerCase()!="geomorigen") {
+								var propPrivacitat =null ;
+								var isVisible=true;
+								if  (options.propPrivacitat!=undefined) {
+									propPrivacitat=options.propPrivacitat;
+									isVisible=propPrivacitat[options.propName[x].toLowerCase()];
+								}
+								
+								if (options.propName[x].toLowerCase()!="geomorigen" && isVisible) {
 									var obj = {
 										title: options.propName[x].toUpperCase(),
 										field: options.propName[x].toLowerCase(),
@@ -366,7 +385,7 @@ function fillModalDataTable(obj, geomBid){
 							}
 						}
 					}	
-					if (isADrawMarker){
+					/*if (isADrawMarker){
 						var obj = {
 								title: "latitud".toUpperCase(),
 								field: "latitud".toLowerCase(),
@@ -395,7 +414,7 @@ function fillModalDataTable(obj, geomBid){
 									width:widthColumn+"% !important"
 								}
 						 columNames.push(obj);
-					}
+					}*/
 					
 					//Actions
 					var objActions = {
@@ -468,7 +487,7 @@ function fillModalDataTable(obj, geomBid){
 				
 			columNames.push(obj2);
 			
-			if (isADrawMarker && options.geometryType=="marker"){ //Nomes pintem longitud/latitud quan és un punt. Afegim ETRS89
+			/*if (isADrawMarker && options.geometryType=="marker"){ //Nomes pintem longitud/latitud quan és un punt. Afegim ETRS89
 				var obj2 = {
 						title: "latitud".toUpperCase(),
 						field: "latitud".toLowerCase(),
@@ -497,7 +516,7 @@ function fillModalDataTable(obj, geomBid){
 							width:widthColumn+"% !important"
 						}
 				 columNames.push(obj2);
-			}
+			}*/
 			
 			//Actions
 			var objActions = {
@@ -549,11 +568,14 @@ function fillModalDataTable(obj, geomBid){
 				var lat = parseFloat(coords[1]);
 				//resultats = resultats.replace("}]",",\"longitud\":\""+lon.toFixed(5)+"\",\"latitud\":\""+lat.toFixed(5)+"\"}]");
 				var resultats2 = $.parseJSON(resultats);
-				var propFormat; 
+				var propFormat, propPrivacitat; 
 				if (results.layer.options!=undefined){
 					var opts = $.parseJSON(results.layer.options);
 					if (opts.propFormat!=undefined){
 						propFormat= opts.propFormat;
+					}
+					if (opts.propPrivacitat!=undefined){
+						propPrivacitat = opts.propPrivacitat;
 					}
 				}
 				var resultatsMod = [];
@@ -561,7 +583,7 @@ function fillModalDataTable(obj, geomBid){
 				var haveGeomOrigen=false;
 				jQuery.each(resultats2, function(i, result){
 					var coords = result.geometryBBOX.split("#");  
-					if (obj.layer.options.geometryType!="polygon" || obj.layer.options.geometryType!="polyline" ){
+					/*if (obj.layer.options.geometryType!="polygon" || obj.layer.options.geometryType!="polyline" ){
 						var lon = parseFloat(coords[2]);
 						var lat = parseFloat(coords[1]);
 						if (result.longitud==undefined)  result.longitud=lon.toFixed(5);
@@ -569,9 +591,16 @@ function fillModalDataTable(obj, geomBid){
 						var etrs89 = latLngtoETRS89(lat, lon);
 						if (result.etrs89_x==undefined)  result.etrs89_x=etrs89.x;
 						if (result.etrs89_y==undefined)  result.etrs89_y=etrs89.y;
-					}
+					}*/
 					$.each( result, function( key, value ) {
-						if (key.toLowerCase()!="geomorigen"){
+						var isVisible=true;
+						if (!modeMapa){
+							//Comprovar privacitat propietats
+							if (propPrivacitat!=undefined && propPrivacitat[key]!=undefined){
+								 if (propPrivacitat[key]==false) isVisible=false;
+							}
+						}
+						if (key.toLowerCase()!="geomorigen" && isVisible){
 							if (propFormat!=undefined && propFormat[key]!=undefined){
 								var formatValue=dataFormatter.formatValue(value, propFormat[key]);
 								if (formatValue.indexOf("error")>-1) {
@@ -609,17 +638,23 @@ function fillModalDataTable(obj, geomBid){
 					$.each(columNames, function(i, name) {
 						var nameF = name.field.toLowerCase();
 						if("accions" != nameF && "geometryid"!= nameF && "latitud"!= nameF && "longitud"!= nameF
-								&& "geometryBBOX"!= nameF && "geometrybid"!= nameF  && "etrs89_x"!= nameF && "etrs89_y"!= nameF) {						
+								&& "geometryBBOX"!= nameF && "geometrybid"!= nameF  && "etrs89_x"!= nameF && "etrs89_y"!= nameF) {	
+							var privacitat="open";
+							if (propPrivacitat!=undefined && propPrivacitat[name.field]!=undefined){
+								 if (propPrivacitat[name.field]==false) privacitat="close";
+							}
+							
 							if (!$.isEmptyObject(optionsF) && optionsF[name.field]!=undefined){
-								selectsRow[name.field] = dataFormatter.createOptions(name.field, optionsF[name.field]);
+								selectsRow[name.field] = dataFormatter.createOptions(name.field, optionsF[name.field],privacitat);
 							}
 							else if (propFormat!=undefined && propFormat[name.field]!=undefined){
-								selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field]);
+								selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field],privacitat);
 							}
 							else{
-								selectsRow[name.field] = dataFormatter.createOptions(name.field,'t');
+								selectsRow[name.field] = dataFormatter.createOptions(name.field,'t',privacitat);
 							}
-	
+							//Comprovem privacitat
+							
 						}
 						else if ("latitud"== nameF && "longitud"== nameF){
 							selectsRow[name.field] = "";
@@ -647,13 +682,36 @@ function fillModalDataTable(obj, geomBid){
 				    exportTypes: ['json', 'csv', 'txt', 'excel'],
 				    ignoreColumn: [columNames.length-4],
 				    data: resultatsMod,
+				    addColumn: true,
 				    icons: {
-				       refresh: 'glyphicon-refresh'
+				       refresh: 'glyphicon-refresh',
+				       newColumn: 'glyphicon-plus'
 				    },
 				    width: widthColumn
 				});	
 				
 
+				$('#dialog_add_column #addColumnBoto').on('click',function(event){
+					event.preventDefault();
+					event.stopImmediatePropagation();	
+					valueNewCol="";
+					var dataNew={
+						businessId: obj.layer.options.businessId,
+						uid:Cookies.get('uid'),
+						newColumn: 	$('#newColumnName').val(),
+						valueNewColumn: valueNewCol
+					}
+					addNewProperties(dataNew).then(function(results){
+						$('#dialog_add_column').modal('hide');
+						$('#modal_data_table').modal('hide');
+					});
+				});
+				
+				$('#addColumn').on('click',function(){
+					$('#newColumnName').html('');			
+					$('#dialog_add_column').modal('show');
+				});
+				
 				$('#modal_data_table').on('editable-save.bs.table', function(event, name, row, 	oldValue, param) {
 					event.preventDefault();
 					event.stopImmediatePropagation();					
@@ -690,7 +748,6 @@ function fillModalDataTable(obj, geomBid){
 						}
 					}
 				});	
-				
 				$('[name="refresh"]').on('click',function(){
 					var capaEdicio = $('#modal_data_table').data("capaEdicio");
 					$('#modal_data_table').modal('hide');
@@ -711,7 +768,19 @@ function fillModalDataTable(obj, geomBid){
 
 				$('.dataTableSelect').on('change', function() {
 					dataTableSelectChanged(this);
-				});				
+				});		
+				
+				$('.privacitatSpan').on('click', function() {
+					var classe = ( $(this).attr('class'));
+					if (classe.indexOf("open")>-1){
+						$(this).removeClass("glyphicon glyphicon-eye-open privacitatSpan");
+						$(this).addClass("glyphicon glyphicon-eye-close privacitatSpan");
+					}
+					else{
+						$(this).removeClass("glyphicon glyphicon-eye-close privacitatSpan");
+						$(this).addClass("glyphicon glyphicon-eye-open privacitatSpan");
+					}
+				});		
 			
 				
 			}else{
@@ -906,5 +975,14 @@ function addHtmlModalDeleteDataTableRow(){
 	'	<!-- /.modal -->'+
 	'	<!-- Fi Modal delete -->	'		
 	);
+}
+
+
+
+function addHtmlModalAddColumn(){	
+	$.get("templates/modalAddNewColumn.html",function(data){
+		//TODO ver como pasar el modal container
+		$('#mapa_modals').append(data);       		
+	});
 }
 

@@ -616,9 +616,21 @@ function activaEdicioUsuari() {
 					'capaLeafletId': capaUsrActiva._leaflet_id,
 					'tipusFeature':t_marker};	
 			
+			var auxLat = layer._latlng.lat;
+			auxLat= auxLat.toFixed(5);
+			var auxLon = layer._latlng.lng;
+			auxLon= auxLon.toFixed(5);
+			var etrs = latLngtoETRS89(layer._latlng.lat, layer._latlng.lng);
+			var auxX = etrs.x;
+		    var auxY = etrs.y;
+			
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
+					'latitud':auxLat,
+					'longitud':auxLon,
+					'etrs89_x':auxX,
+					'etrs89_y':auxY
 			};
 			/*try{
 				//Active snapping
@@ -688,6 +700,7 @@ function activaEdicioUsuari() {
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
+					'mida': calculateDistance(layer.getLatLngs())
 			};	
 			//Activate snapping
 			/*layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
@@ -754,6 +767,7 @@ function activaEdicioUsuari() {
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
+					'mida': calculateArea(layer)
 			};		
 			//Activate snapping
 			/*layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
@@ -780,9 +794,9 @@ function activaEdicioUsuari() {
 }
 
 //Funcio que crea Pop up de la feature quan te opcio d'edicio
-function createPopupWindow(layer,type, editant,propFormat){
+function createPopupWindow(layer,type, editant,propFormat, propPrivacitat){
 //	console.debug('createPopupWindow');
-	var html = createPopUpContent(layer,type, editant,propFormat);
+	var html = createPopUpContent(layer,type, editant,propFormat, propPrivacitat);
 	//layer.bindPopup(html,{'offset':[0,-25]});
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
@@ -1185,12 +1199,21 @@ function objecteUserAdded(f){
 				
 				features = JSON.stringify(features);				
 				
+				var opts = "text,nom,";
+				if  (f.layer.options.tipus==t_marker){
+					opts += "latitud,longitud,etrs89_x,etrs89_y";
+				}
+				else if (f.layer.options.tipus==t_polyline || f.layer.options.tipus==t_polygon){
+					opts += "mida";
+				}
+		
+				
 				data = {
 						businessId: f.layer.properties.capaBusinessId,//Bid de la visualitzacio
 						uid: Cookies.get('uid'),
 						features: features,
 						geometryType: f.layer.options.tipus,
-						options: "text,nom"
+						options: opts
 //							geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b014'//Bid de la geometria q estas afegint						
 				};
 				
@@ -1672,7 +1695,7 @@ function fillCmbCapesUsr(type,_leaflet_id){
 	return html;
 }
 
-function createPopUpContent(player,type, editant, propFormat){
+function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 	var isEditing = (undefined == typeof editant ? true : editant);
 	
 	var auxNom = window.lang.translate('Nom');

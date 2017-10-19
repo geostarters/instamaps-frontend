@@ -162,6 +162,7 @@
         clickToSelect: false,
         singleSelect: false,
         toolbar: undefined,
+        addColumn: true,
         toolbarAlign: 'left',
         checkboxHeader: true,
         sortable: true,
@@ -174,7 +175,8 @@
             paginationSwitchUp: 'glyphicon-collapse-up icon-chevron-up',
             refresh: 'glyphicon-refresh icon-refresh',
             toggle: 'glyphicon-list-alt icon-list-alt',
-            columns: 'glyphicon-th icon-th'
+            columns: 'glyphicon-th icon-th',
+            newColumn: 'glyphicon-plus icon-plus'
         },
         ignoreColumn: [],
         rowStyle: function (row, index) {return {};},
@@ -228,7 +230,10 @@
         },
         formatColumns: function () {
             return 'Columns';
-        }
+        },
+        formatAddColumn: function () {
+            return 'Add column';
+        },
     };
 
     $.extend(BootstrapTable.DEFAULTS, BootstrapTable.LOCALES['en-US']);
@@ -618,7 +623,14 @@
                 '</button>');
         }
 
-        if (this.options.showToggle) {
+        
+        if (this.options.addColumn){
+        	 html.push(sprintf('<button class="btn btn-default' + (this.options.iconSize == undefined ? '' :  ' btn-' + this.options.iconSize) + '" type="button" name="addColumn" id="addColumn" title="%s">',
+                     this.options.formatAddColumn()),
+                     sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.newColumn),
+                     '</button>');
+         }
+       if (this.options.showToggle) {
             html.push(sprintf('<button class="btn btn-default' + (this.options.iconSize == undefined ? '' :  ' btn-' + this.options.iconSize) + '" type="button" name="toggle" title="%s">',
                 this.options.formatToggle()),
                 sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.toggle),
@@ -712,6 +724,8 @@
                 }, that.options.searchTimeOut);
             });
         }
+        
+       
     };
 
     BootstrapTable.prototype.onSearch = function (event) {
