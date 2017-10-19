@@ -346,7 +346,14 @@ function fillModalDataTable(obj, geomBid){
 					if (options.propName!=undefined && options.propName.toString().indexOf("text")==-1) {
 						
 							for(var x in options.propName){
-								if (options.propName[x].toLowerCase()!="geomorigen") {
+								var propPrivacitat =null ;
+								var isVisible=true;
+								if  (options.propPrivacitat!=undefined) {
+									propPrivacitat=options.propPrivacitat;
+									isVisible=propPrivacitat[options.propName[x].toLowerCase()];
+								}
+								
+								if (options.propName[x].toLowerCase()!="geomorigen" && isVisible) {
 									var obj = {
 										title: options.propName[x].toUpperCase(),
 										field: options.propName[x].toLowerCase(),
@@ -586,7 +593,14 @@ function fillModalDataTable(obj, geomBid){
 						if (result.etrs89_y==undefined)  result.etrs89_y=etrs89.y;
 					}*/
 					$.each( result, function( key, value ) {
-						if (key.toLowerCase()!="geomorigen"){
+						var isVisible=true;
+						if (!modeMapa){
+							//Comprovar privacitat propietats
+							if (propPrivacitat!=undefined && propPrivacitat[key]!=undefined){
+								 if (propPrivacitat[key]==false) isVisible=false;
+							}
+						}
+						if (key.toLowerCase()!="geomorigen" && isVisible){
 							if (propFormat!=undefined && propFormat[key]!=undefined){
 								var formatValue=dataFormatter.formatValue(value, propFormat[key]);
 								if (formatValue.indexOf("error")>-1) {
