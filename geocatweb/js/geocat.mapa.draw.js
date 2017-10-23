@@ -1289,8 +1289,10 @@ function objecteUserAdded(f){
 				var layerServidor=results.servidor;
 				findLayerByBusinessId(businessIdCapaOrigen).then(function(layerAct){
 					capaUsrActiva = layerAct;
-					finishAddFeatureToTematic(f.layer);
-					reloadSingleLayer(controlCapes._layers[layerAct._leaflet_id], layerServidor);
+					finishAddFeatureToTematic(f.layer).then(function(){
+						reloadSingleLayer(controlCapes._layers[capaUsrActiva._leaflet_id], layerServidor);
+					})
+			
 				});
 				
 
@@ -2333,7 +2335,7 @@ function actualitzarComboCapes(){
 
 function findLayerByBusinessId(businessId,servidor){
 	var defer = $.Deferred();
-	$.each( controlCapes._layers, function(i,val) {//refresquem combo de totes les capes del mapa
+	$.each( controlCapes._layers, function(i,val) {//busquem capa per businessId
 		var layer = val.layer;
 		if (layer.options.businessId==businessId){			
 			defer.resolve(layer);
