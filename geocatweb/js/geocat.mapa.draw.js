@@ -695,12 +695,12 @@ function activaEdicioUsuari() {
 					'capaBusinessId':capaUsrActiva.options.businessId,
 					'capaLeafletId': capaUsrActiva._leaflet_id,
 					'tipusFeature':t_polyline,
-					'mida': calculateDistance(layer.getLatLngs()) };	
+					'longitud (km)': calculateDistanceWithoutKm(layer.getLatLngs()) };	
 			
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
-					'mida': calculateDistance(layer.getLatLngs())
+					'longitud (km)': calculateDistanceWithoutKm(layer.getLatLngs())
 			};	
 			//Activate snapping
 			/*layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
@@ -762,12 +762,13 @@ function activaEdicioUsuari() {
 					'capaBusinessId':capaUsrActiva.options.businessId,
 					'capaLeafletId': capaUsrActiva._leaflet_id,
 					'tipusFeature':t_polygon,
-					'mida': calculateArea(layer)};
+					'mida': mida,
+					'area (ha)': calculateAreaWithoutHa(layer)};
 			
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
-					'mida': calculateArea(layer)
+					'area (ha)': calculateAreaWithoutHa(layer)
 			};		
 			//Activate snapping
 			/*layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
@@ -1171,6 +1172,18 @@ function objecteUserAdded(f){
 		
 		var _this = this;
 		
+	
+		var opts = "text,nom,";
+		if  (f.layer.options.tipus==t_marker){
+			opts += "latitud,longitud,etrs89_x,etrs89_y";
+		}
+		else if (f.layer.options.tipus==t_polyline){
+			opts += "longitud (km)";
+		}
+		else if (f.layer.options.tipus==t_polygon){
+			opts += "area (ha)";
+		}
+		var optionsStr =  "{\"propName\":\""+opts+"\"}";
 		/*NOU MODEL: Crear nova visualització*/
 		var data ={
 				uid: Cookies.get('uid'),
@@ -1179,7 +1192,8 @@ function objecteUserAdded(f){
 				geometryType: f.layer.options.tipus,
 				activas: true,
 				visibilitats: true,				
-				publica : true
+				publica : true,
+				options: optionsStr
 		};		
 		
 		createVisualitzacioLayer(data).then(function(results) {
@@ -1199,13 +1213,7 @@ function objecteUserAdded(f){
 				
 				features = JSON.stringify(features);				
 				
-				var opts = "text,nom,";
-				if  (f.layer.options.tipus==t_marker){
-					opts += "latitud,longitud,etrs89_x,etrs89_y";
-				}
-				else if (f.layer.options.tipus==t_polyline || f.layer.options.tipus==t_polygon){
-					opts += "mida";
-				}
+				
 		
 				
 				data = {
@@ -1809,7 +1817,17 @@ function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 }
 
 function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
-	
+	var opts = "text,nom,";
+	if  (feature.properties.tipusFeature==t_marker){
+		opts += "latitud,longitud,etrs89_x,etrs89_y";
+	}
+	else if (f.layer.options.tipus==t_polyline){
+		opts += "longitud (km)";
+	}
+	else if (f.layer.options.tipus==t_polygon){
+		opts += "area (ha)";
+	}
+	var optionsStr =  "{\"propName\":\""+opts+"\"}";
 	/*NOU MODEL: Crear nova visualització*/
 	var data ={
 			uid: Cookies.get('uid'),
@@ -1821,7 +1839,8 @@ function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
 //				order: controlCapes._lastZIndex+1,
 			activas: true,
 			visibilitats: true,				
-			publica : true				
+			publica : true,
+			options: optionsStr
 	};		
 	
 	createVisualitzacioLayer(data).then(function(results){
