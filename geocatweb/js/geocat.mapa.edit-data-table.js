@@ -734,7 +734,9 @@ function fillModalDataTable(obj, geomBid){
 						if (propPrivacitat!=undefined && propPrivacitat[name.field]!=undefined){
 							 if (propPrivacitat[name.field]==false) privacitat="close";
 						}
-						
+						nameF= nameF.replace(" ","_");
+						nameF=nameF.replace("(","_");
+						nameF=nameF.replace(")","_");
 						$('#privacitat_'+nameF).attr('class','glyphicon glyphicon-eye-'+privacitat+' privacitatSpan');
 					});
 				});

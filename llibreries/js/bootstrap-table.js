@@ -447,7 +447,13 @@
             }
             
             html.push(text);
-            if (isModeMapa) html.push('&nbsp;<span id="privacitat_'+text.toLowerCase()+ '" class="glyphicon glyphicon-eye-open privacitatSpan"  title="Visibilitat del camp al publicar" lang="ca" ></span>');
+            if (isModeMapa) {
+            	var textStr = text.toLowerCase();
+            	textStr = textStr.replace(" ","_");
+            	textStr=textStr.replace("(","_");
+            	textStr=textStr.replace(")","_");
+            	html.push('&nbsp;<span id="privacitat_'+text.toLowerCase()+ '" class="glyphicon glyphicon-eye-open privacitatSpan"  title="Visibilitat del camp al publicar" lang="ca" ></span>');
+            }
             html.push('</div>');
             html.push('<div class="fht-cell"></div>');
             html.push('</th>');
