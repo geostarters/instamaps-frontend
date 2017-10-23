@@ -109,6 +109,7 @@
         return text;
     };
 
+    var isModeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
     // BOOTSTRAP TABLE CLASS DEFINITION
     // ======================
 
@@ -232,7 +233,7 @@
             return 'Columns';
         },
         formatAddColumn: function () {
-            return 'Add column';
+            return 'Afegir nova propietat';
         },
     };
 
@@ -334,12 +335,11 @@
                 title: $(this).html(),
                 'class': $(this).attr('class')
             }, $(this).data());
-
             columns.push(column);
         });
         this.options.columns = $.extend([], columns, this.options.columns);
         $.each(this.options.columns, function (i, column) {
-            that.options.columns[i] = $.extend({}, BootstrapTable.COLUMN_DEFAULTS,
+        	that.options.columns[i] = $.extend({}, BootstrapTable.COLUMN_DEFAULTS,
                 {field: i}, column); // when field is undefined, use index instead
         });
 
@@ -445,8 +445,9 @@
                 that.header.stateField = column.field;
                 that.options.singleSelect = true;
             }
-
+            
             html.push(text);
+            if (isModeMapa) html.push('&nbsp;<span id="privacitat_'+text.toLowerCase()+ '" class="glyphicon glyphicon-eye-open privacitatSpan"  title="Visibilitat del camp al publicar" lang="ca" ></span>');
             html.push('</div>');
             html.push('<div class="fht-cell"></div>');
             html.push('</th>');
@@ -456,10 +457,22 @@
         this.$header.find('th').each(function (i) {
             $(this).data(visibleColumns[i]);
         });
+        $('.privacitatSpan').on('click', function() {
+			var classe = ( $(this).attr('class'));
+			if (classe.indexOf("open")>-1){
+				$(this).removeClass("glyphicon glyphicon-eye-open privacitatSpan");
+				$(this).addClass("glyphicon glyphicon-eye-close privacitatSpan");
+			}
+			else{
+				$(this).removeClass("glyphicon glyphicon-eye-close privacitatSpan");
+				$(this).addClass("glyphicon glyphicon-eye-open privacitatSpan");
+			}
+		});		
         this.$container.off('click', 'th').on('click', 'th', function (event) {
             if (that.options.sortable && $(this).data().sortable) {
                 that.onSort(event);
             }
+        	
         });
 
         if (!this.options.showHeader || this.options.cardView) {
@@ -624,7 +637,7 @@
         }
 
         
-        if (this.options.addColumn){
+        if (this.options.addColumn && isModeMapa){
         	 html.push(sprintf('<button class="btn btn-default' + (this.options.iconSize == undefined ? '' :  ' btn-' + this.options.iconSize) + '" type="button" name="addColumn" id="addColumn" title="%s">',
                      this.options.formatAddColumn()),
                      sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.newColumn),
