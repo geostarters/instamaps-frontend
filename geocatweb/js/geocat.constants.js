@@ -211,8 +211,7 @@ var instamaps_email = "instamapes@icgc.cat";
 //var curs_instamaps = "3r curs InstaMaps";
 //var curs_instamaps = "4rt curs InstaMaps";
 //var curs_instamaps = "5e curs InstaMaps";
-//var curs_instamaps = "6e curs InstaMaps";
-var curs_instamaps = "7e curs InstaMaps";
+var curs_instamaps = "6e curs InstaMaps";
 
 //Llistat exemples de dades externes
 var llista_dadesExternes = {

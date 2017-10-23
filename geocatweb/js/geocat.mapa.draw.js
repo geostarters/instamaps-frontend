@@ -616,21 +616,9 @@ function activaEdicioUsuari() {
 					'capaLeafletId': capaUsrActiva._leaflet_id,
 					'tipusFeature':t_marker};	
 			
-			var auxLat = layer._latlng.lat;
-			auxLat= auxLat.toFixed(5);
-			var auxLon = layer._latlng.lng;
-			auxLon= auxLon.toFixed(5);
-			var etrs = latLngtoETRS89(layer._latlng.lat, layer._latlng.lng);
-			var auxX = etrs.x;
-		    var auxY = etrs.y;
-			
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
-					'latitud':auxLat,
-					'longitud':auxLon,
-					'etrs89_x':auxX,
-					'etrs89_y':auxY
 			};
 			/*try{
 				//Active snapping
@@ -695,12 +683,11 @@ function activaEdicioUsuari() {
 					'capaBusinessId':capaUsrActiva.options.businessId,
 					'capaLeafletId': capaUsrActiva._leaflet_id,
 					'tipusFeature':t_polyline,
-					'longitud (km)': calculateDistanceWithoutKm(layer.getLatLngs()) };	
+					'mida': calculateDistance(layer.getLatLngs()) };	
 			
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
-					'longitud (km)': calculateDistanceWithoutKm(layer.getLatLngs())
 			};	
 			//Activate snapping
 			/*layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
@@ -762,13 +749,11 @@ function activaEdicioUsuari() {
 					'capaBusinessId':capaUsrActiva.options.businessId,
 					'capaLeafletId': capaUsrActiva._leaflet_id,
 					'tipusFeature':t_polygon,
-					'mida': mida,
-					'area (ha)': calculateAreaWithoutHa(layer)};
+					'mida': calculateArea(layer)};
 			
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
-					'area (ha)': calculateAreaWithoutHa(layer)
 			};		
 			//Activate snapping
 			/*layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
@@ -795,9 +780,9 @@ function activaEdicioUsuari() {
 }
 
 //Funcio que crea Pop up de la feature quan te opcio d'edicio
-function createPopupWindow(layer,type, editant,propFormat, propPrivacitat){
+function createPopupWindow(layer,type, editant,propFormat){
 //	console.debug('createPopupWindow');
-	var html = createPopUpContent(layer,type, editant,propFormat, propPrivacitat);
+	var html = createPopUpContent(layer,type, editant,propFormat);
 	//layer.bindPopup(html,{'offset':[0,-25]});
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
@@ -1172,18 +1157,6 @@ function objecteUserAdded(f){
 		
 		var _this = this;
 		
-	
-		var opts = "text,nom,";
-		if  (f.layer.options.tipus==t_marker){
-			opts += "latitud,longitud,etrs89_x,etrs89_y";
-		}
-		else if (f.layer.options.tipus==t_polyline){
-			opts += "longitud (km)";
-		}
-		else if (f.layer.options.tipus==t_polygon){
-			opts += "area (ha)";
-		}
-		var optionsStr =  "{\"propName\":\""+opts+"\"}";
 		/*NOU MODEL: Crear nova visualització*/
 		var data ={
 				uid: Cookies.get('uid'),
@@ -1192,8 +1165,7 @@ function objecteUserAdded(f){
 				geometryType: f.layer.options.tipus,
 				activas: true,
 				visibilitats: true,				
-				publica : true,
-				options: optionsStr
+				publica : true
 		};		
 		
 		createVisualitzacioLayer(data).then(function(results) {
@@ -1213,15 +1185,12 @@ function objecteUserAdded(f){
 				
 				features = JSON.stringify(features);				
 				
-				
-		
-				
 				data = {
 						businessId: f.layer.properties.capaBusinessId,//Bid de la visualitzacio
 						uid: Cookies.get('uid'),
 						features: features,
 						geometryType: f.layer.options.tipus,
-						options: opts
+						options: "text,nom"
 //							geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b014'//Bid de la geometria q estas afegint						
 				};
 				
@@ -1289,10 +1258,8 @@ function objecteUserAdded(f){
 				var layerServidor=results.servidor;
 				findLayerByBusinessId(businessIdCapaOrigen).then(function(layerAct){
 					capaUsrActiva = layerAct;
-					finishAddFeatureToTematic(f.layer).then(function(){
-						reloadSingleLayer(controlCapes._layers[capaUsrActiva._leaflet_id], layerServidor);
-					})
-			
+					finishAddFeatureToTematic(f.layer);
+					reloadSingleLayer(controlCapes._layers[layerAct._leaflet_id], layerServidor);
 				});
 				
 
@@ -1705,7 +1672,7 @@ function fillCmbCapesUsr(type,_leaflet_id){
 	return html;
 }
 
-function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
+function createPopUpContent(player,type, editant, propFormat){
 	var isEditing = (undefined == typeof editant ? true : editant);
 	
 	var auxNom = window.lang.translate('Nom');
@@ -1819,17 +1786,7 @@ function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 }
 
 function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
-	var opts = "text,nom,";
-	if  (feature.properties.tipusFeature==t_marker){
-		opts += "latitud,longitud,etrs89_x,etrs89_y";
-	}
-	else if (f.layer.options.tipus==t_polyline){
-		opts += "longitud (km)";
-	}
-	else if (f.layer.options.tipus==t_polygon){
-		opts += "area (ha)";
-	}
-	var optionsStr =  "{\"propName\":\""+opts+"\"}";
+	
 	/*NOU MODEL: Crear nova visualització*/
 	var data ={
 			uid: Cookies.get('uid'),
@@ -1841,8 +1798,7 @@ function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
 //				order: controlCapes._lastZIndex+1,
 			activas: true,
 			visibilitats: true,				
-			publica : true,
-			options: optionsStr
+			publica : true				
 	};		
 	
 	createVisualitzacioLayer(data).then(function(results){
@@ -2335,7 +2291,7 @@ function actualitzarComboCapes(){
 
 function findLayerByBusinessId(businessId,servidor){
 	var defer = $.Deferred();
-	$.each( controlCapes._layers, function(i,val) {//busquem capa per businessId
+	$.each( controlCapes._layers, function(i,val) {//refresquem combo de totes les capes del mapa
 		var layer = val.layer;
 		if (layer.options.businessId==businessId){			
 			defer.resolve(layer);

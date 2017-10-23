@@ -1441,8 +1441,7 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 					geometryType: visualitzacio.geometryType,
 					estil: visualitzacio.estil,
 					group: layOptions.group,
-					propFormat: layOptions.propFormat,
-					propPrivacitat: layOptions.propPrivacitat
+					propFormat: layOptions.propFormat
 				};
 			}
 			else{
@@ -1453,8 +1452,7 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 						tipusRang: visualitzacio.tipus, 
 						geometryType: visualitzacio.geometryType,
 						estil: visualitzacio.estil,
-						propFormat: layOptions.propFormat,
-						propPrivacitat: layOptions.propPrivacitat
+						propFormat: layOptions.propFormat
 					};
 			}
 		}else{
@@ -2013,7 +2011,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					if(!hasSource){
 						//"no te source, no ve de fitxer");
 						if(!veientMapa && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
-							html = createPopupWindow(feat,geomTypeVis, true,capaVisualitzacio.options.propFormat, capaVisualitzacio.options.propPrivacitat);
+							html = createPopupWindow(feat,geomTypeVis, true,capaVisualitzacio.options.propFormat);
 						}else{
 							//"Estem mode vis o no es tem origen:"
 							html = createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);

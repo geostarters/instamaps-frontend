@@ -768,13 +768,6 @@ function updateGeometriaProperties(data){
 	});
 }
 
-function addNewProperties(data){
-	return createXHR({
-		url: paramUrl.addNewProperties, 
-		data: data
-	});
-}
-
 function updateMapVisibility(data){
 	return createXHR({
 		url: paramUrl.updateMapVisibility, 
