@@ -1755,7 +1755,7 @@ function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 		if (auxX!=undefined && auxY!=undefined && (sC==1 || sC==2) ){
 			html+='ETRS89 UTM 31N: '+auxX+','+auxY;
 		}
-		html +='<br/>WGS84: '+ auxLon+','+auxLat;
+		html +='<br/>WGS84: '+ auxLat+','+auxLon;
 		
 		html += '</div>';
 	}
