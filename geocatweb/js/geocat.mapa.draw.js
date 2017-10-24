@@ -624,6 +624,12 @@ function activaEdicioUsuari() {
 			var auxX = etrs.x;
 		    var auxY = etrs.y;
 			
+		    var sC=map.miraBBContains(map.getBounds());
+		    if((sC===0)){
+		    	auxX="-";
+		    	auxY="-";
+		    }
+		    
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
@@ -1737,6 +1743,8 @@ function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 		auxX = etrs.x;
 	    auxY = etrs.y;
 	}
+	 var sC=map.miraBBContains(map.getBounds());
+		
 	var html='<div class="div_popup">' 
 	+'<div class="popup_pres">'							
 	+'<div id="titol_pres">'+auxNom+' <i class="glyphicon glyphicon-pencil gris-semifosc"></i></div>'	
@@ -1744,7 +1752,7 @@ function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 	
 	if (player.options.tipus=="marker" && auxLat!=undefined && auxLon!=undefined) {
 		html+='<div id="coordsBox">';
-		if (auxX!=undefined && auxY!=undefined){
+		if (auxX!=undefined && auxY!=undefined && (sC==1 || sC==2) ){
 			html+='ETRS89 UTM 31N: '+auxX+','+auxY;
 		}
 		html +='<br/>WGS84: '+ auxLon+','+auxLat;
