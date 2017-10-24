@@ -616,6 +616,9 @@ function fillModalDataTable(obj, geomBid){
 						else if (isFeatProp){
 							selectsRow[name.field] =  dataFormatter.createOptions(name.field,'t',isFeatProp);
 						}
+						if ("accions"===nameF){
+							selectsRow["accions"]="";
+						}
 	
 					});
 					resultatsMod.unshift(selectsRow);
@@ -834,13 +837,18 @@ function rowStyle(row, index) {
 }
 
 function actionFormatter(value, row, index) {
-    return [
-        '<a class="zoomTo" href="javascript:void(0)" title="ZoomTo">',
-        '<i class="glyphicon glyphicon-zoom-in data-table-icon-zoom"></i>',            
-        '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
-        '<i class="glyphicon glyphicon-trash data-table-icon-remove"></i>',
-        '</a>'
-    ].join('');
+	if(index===0){
+		return "";
+	}
+	else{
+	    return [
+	        '<a class="zoomTo" href="javascript:void(0)" title="ZoomTo">',
+	        '<i class="glyphicon glyphicon-zoom-in data-table-icon-zoom"></i>',            
+	        '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
+	        '<i class="glyphicon glyphicon-trash data-table-icon-remove"></i>',
+	        '</a>'
+	    ].join('');
+	}
 }
 
 function actionFormatterVisor(value, row, index) {

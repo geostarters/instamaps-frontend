@@ -33,7 +33,14 @@
 					"	<option value='n'"+selectedN+">Número</option>" +
 					"</select>";
 			}
-			
+			else {
+				html += "<select class='dataTableSelect' data-column='" + name + "' disabled>" + 
+				"	<option value='t'"+selectedT+">Text</option>" +
+				"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
+				"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
+				"	<option value='n'"+selectedN+" selected>Número</option>" +
+				"</select>";
+			}
 			
 			
 			return html;

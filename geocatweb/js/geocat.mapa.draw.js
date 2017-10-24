@@ -624,7 +624,8 @@ function activaEdicioUsuari() {
 			var auxX = etrs.x;
 		    var auxY = etrs.y;
 			
-		    var sC=map.miraBBContains(map.getBounds());
+		    var markerLatBound = L.latLngBounds(L.latLng(layer._latlng.lat, layer._latlng.lng), L.latLng(layer._latlng.lat, layer._latlng.lng));
+			var sC=map.miraBBContains(markerLatBound);
 		    if((sC===0)){
 		    	auxX="-";
 		    	auxY="-";
@@ -1743,7 +1744,9 @@ function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 		auxX = etrs.x;
 	    auxY = etrs.y;
 	}
-	 var sC=map.miraBBContains(map.getBounds());
+	 
+	var markerLatBound = L.latLngBounds(L.latLng(player._latlng.lat, player._latlng.lng), L.latLng(player._latlng.lat, player._latlng.lng));
+	var sC=map.miraBBContains(markerLatBound);
 		
 	var html='<div class="div_popup">' 
 	+'<div class="popup_pres">'							
