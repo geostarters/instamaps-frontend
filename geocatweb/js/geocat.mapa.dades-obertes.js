@@ -27,8 +27,6 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
 	var estil_do = retornaEstilaDO(dataset);
 	
-	map.spin(true);
-
 	var capaDadaOberta = new L.GeoJSON.AJAX(param_url, {
 		onEachFeature : createPopupWindowDadesObertes,
 		nom : dataset,

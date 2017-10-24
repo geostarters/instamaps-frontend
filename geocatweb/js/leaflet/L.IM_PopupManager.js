@@ -82,7 +82,10 @@
 			var properties;
 			if (feature.properties.data!=undefined && ("string" !== typeof feature.properties.data)) properties=feature.properties.data;
 			else if (feature.properties!=undefined) properties=feature.properties;
+			var propPrivacitat = "";
+			if (capa.options!=undefined && capa.options.propPrivacitat!=undefined) 	propPrivacitat = capa.options.propPrivacitat;
 			$.each( properties, function( key, value ) {
+				if (propPrivacitat!="" && propPrivacitat[key.toLowerCase()]==true) {
 				if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
 						key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 					if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
@@ -139,14 +142,15 @@
 						}
 					}
 				}
+			 }
 			});	
 			return html;
 		},
 		_addGeometriesProps: function(feature, type){
 			var html = "";
 			if ((type==t_marker || type === "Point") && undefined!=feature.geometry && (feature.geometry.type==t_point || feature.geometry.type=="Point")) {
-				html+=this._addLatLongToMarker(feature);
-				html+=this._addETRS89ToMarker(feature);
+				//html+=this._addLatLongToMarker(feature);
+				//html+=this._addETRS89ToMarker(feature);
 			}
 			else if(type == t_polyline && feature.properties.mida &&  undefined!=feature.geometry && feature.geometry.type==t_linestring){
 				html+=this._addLengthToLine(feature);
