@@ -1,6 +1,6 @@
 /**
  * @author zhixin wen <wenzhixin2010@gmail.com>
- * version: 1.6.0
+ * version: 1.6.0 (Ull: Molt retocada per optimitzar!) 
  * https://github.com/wenzhixin/bootstrap-table/
  */
 
@@ -973,12 +973,63 @@
             return;
         }
         this.options.pageNumber = +$(event.currentTarget).text();
-        this.updatePagination(event);
+       this.updatePagination(event); 
+    }; 
+ 
+    BootstrapTable.prototype.createRow = function(fields, options) { 
+ 
+        var row = document.createElement('tr'); 
+ 
+        if(options.cardView) { 
+ 
+            var td = document.createElement('td'); 
+            td.setAttribute('colspan', fields.length); 
+ 
+        } else { 
+ 
+            for(var i=0, len=fields.length; i<len; ++i) { 
+ 
+                var td = document.createElement('td'); 
+                row.appendChild(td); 
+ 
+            } 
+ 
+        } 
+ 
+        return row; 
+ 
+    }; 
+ 
+    BootstrapTable.prototype.addRowToFragment = function(frag, row, attributes, i, values) { 
+ 
+        var newRow = row.cloneNode(true); 
+        newRow.setAttribute('data-index', i); 
+ 
+        var keys = Object.keys(attributes); 
+        for(var key in keys) { 
+ 
+            newRow.setAttribute(key, escapeHTML(attributes[key])); 
+ 
+        } 
+ 
+        var childs = newRow.childNodes; 
+        for(var i=0, len=values.length; i<len; ++i) { 
+ 
+            var child = childs[i];  
+            var tdData = values[i];
+
+            child.id = tdData.id;
+            child.className = tdData.class;
+            child.innerHTML = tdData.data; 
+ 
+        } 
+ 
+        frag.appendChild(newRow); 
+
     };
 
     BootstrapTable.prototype.initBody = function (fixedScroll) {
         var that = this,
-            html = [],
             data = this.getData();
 
         this.trigger('pre-body', data);
@@ -995,157 +1046,57 @@
             this.pageTo = data.length;
         }
 
+        var frag = document.createDocumentFragment();
+        var emptyRow = this.createRow(this.header.fields, this.options);
+
         for (var i = this.pageFrom - 1; i < this.pageTo; i++) {
             var item = data[i],
-                style = {},
-                csses = [],
-                attributes = {},
-                htmlAttributes = [];
-
-            style = calculateObjectValue(this.options, this.options.rowStyle, [item, i], style);
-
-            if (style && style.css) {
-                for (var key in style.css) {
-                    csses.push(key + ': ' + style.css[key]);
-                }
-            }
+                attributes = {};
 
             attributes = calculateObjectValue(this.options,
                 this.options.rowAttributes, [item, i], attributes);
 
-            if (attributes) {
-                for (var key in attributes) {
-                	 htmlAttributes.push(sprintf('%s="%s"', key, escapeHTML(attributes[key])));
+            var values = [];
+
+            for(var j=0, len=this.header.fields.length; j<len; ++j) {
+
+                var field = this.header.fields[j],
+                    value = item[field];
+
+
+                value = that.header.formatters[j](value, item, i);
+                value = typeof value === 'undefined' || value === null ?
+                    that.options.undefinedText : value;
+                
+                if (!getModeMapa() && value.toString().indexOf("zoomTo")==-1){
+                    value = String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
                 }
+
+
+                var tdData = {
+
+                    id: 'dataTable_'  + i + '_' + j,
+                    class: 'dataTable_column_' + j,
+                    data: value,
+
+                };
+                values.push(tdData);
+
             }
 
-            html.push('<tr',
-                sprintf(' %s', htmlAttributes.join(' ')),
-                sprintf(' id="%s"', $.isArray(item) ? undefined : item._id),
-                sprintf(' class="%s"', style.classes || ($.isArray(item) ? undefined : item._class)),
-                sprintf(' data-index="%s"', i),
-                '>'
-            );
+            this.addRowToFragment(frag, emptyRow, attributes, i, values);
 
-            if (this.options.cardView) {
-                html.push(sprintf('<td colspan="%s">', this.header.fields.length));
-            }
-
-            $.each(this.header.fields, function (j, field) {
-                var text = '',
-                    value = item[field],
-                    type = '',
-                    cellStyle = {},
-                    id_ = '',
-                    class_ = that.header.classes[j],
-                    data_ = '',
-                    column = that.options.columns[getFieldIndex(that.options.columns, field)];
-
-                style = sprintf('style="%s"', csses.concat(that.header.styles[j]).join('; '));
-
-             
-              /*  if ((value==undefined || (value!=undefined && value.indexOf("undefined")>-1)) && field.toUpperCase()!="ACCIONS") {
-                	value=that.options.undefinedText;
-                }
-                else {*/
-                	   value = calculateObjectValue(that.header,
-                               that.header.formatters[j], [value, item, i], value);
-                //}
-
-                //console.debug(value);
-                // handle td's id and class
-                if (item['_' + field + '_id']) {
-                    id_ = sprintf(' id="%s"', item['_' + field + '_id']);
-                }
-                if (item['_' + field + '_class']) {
-                    class_ = sprintf(' class="%s"', item['_' + field + '_class']);
-                }
-                cellStyle = calculateObjectValue(that.header,
-                    that.header.cellStyles[j], [value, item, i], cellStyle);
-                if (cellStyle.classes) {
-                    class_ = sprintf(' class="%s"', cellStyle.classes);
-                }
-                if (cellStyle.css) {
-                    var csses_ = [];
-                    for (var key in cellStyle.css) {
-                        csses_.push(key + ': ' + cellStyle.css[key]);
-                    }
-                    style = sprintf('style="%s"', csses_.concat(that.header.styles[j]).join('; '));
-                }
-
-                if (item['_' + field + '_data'] && !$.isEmptyObject(item['_' + field + '_data'])) {
-                    $.each(item['_' + field + '_data'], function (k, v) {
-                        // ignore data-index
-                        if (k === 'index') {
-                            return;
-                        }
-                        data_ += sprintf(' data-%s="%s"', k, v);
-                    });
-                }
-
-                if (column.checkbox || column.radio) {
-                    type = column.checkbox ? 'checkbox' : type;
-                    type = column.radio ? 'radio' : type;
-
-                    text = [that.options.cardView ?
-                        '<div class="card-view">' : '<td class="bs-checkbox">',
-                        '<input' +
-                            sprintf(' data-index="%s"', i) +
-                            sprintf(' name="%s"', that.options.selectItemName) +
-                            sprintf(' type="%s"', type) +
-                            sprintf(' value="%s"', item[that.options.idField]) +
-                            sprintf(' checked="%s"', value === true ||
-                                (value && value.checked) ? 'checked' : undefined) +
-                            sprintf(' disabled="%s"', !column.checkboxEnabled ||
-                                (value && value.disabled) ? 'disabled' : undefined) +
-                            ' />',
-                        that.options.cardView ? '</div>' : '</td>'].join('');
-                } else {
-                    value = typeof value === 'undefined' || value === null ?
-                        that.options.undefinedText : value;
-                    
-                    try{
-                    	if (value.indexOf("undefined")>-1) value=String(value).replace('undefined','-');
-                    }catch(e){
-                    	
-                    }
-                    
-                    if (!getModeMapa() && value.toString().indexOf("zoomTo")==-1){
-                    	value = String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-                     }
-                    text = that.options.cardView ?
-                        ['<div class="card-view">',
-                            that.options.showHeader ? sprintf('<span class="title" %s>%s</span>', style,
-                                getPropertyFromOther(that.options.columns, 'field', 'title', field)) : '',
-                            sprintf('<span class="value">%s</span>', value),
-                            '</div>'].join('') :
-                        [sprintf('<td%s %s %s %s>', id_, class_, style, data_),
-                            value,
-                            '</td>'].join('');
-
-                    // Hide empty data on Card view when smartDisplay is set to true.
-                    if (that.options.cardView && that.options.smartDisplay && value === '') {
-                        text = '';
-                    }
-                }
-                html.push(text);
-            });
-
-            if (this.options.cardView) {
-                html.push('</td>');
-            }
-
-            html.push('</tr>');
         }
 
         // show no records
-        if (!html.length) {
-            html.push('<tr class="no-records-found">',
-                sprintf('<td colspan="%s">%s</td>', this.header.fields.length, this.options.formatNoMatches()),
-                '</tr>');
+        if (this.pageFrom == this.pageTo) {
+
+            this.addRowToFragment(frag, emptyRow, {}, '', 'no-records-found', 0, [])
+
         }
 
-        this.$body.html(html.join(''));
+        this.$body.empty();
+        this.$body.append(frag);
 
         if (!fixedScroll) {
             this.scrollTo(0);

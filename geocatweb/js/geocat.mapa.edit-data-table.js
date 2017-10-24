@@ -322,7 +322,7 @@ function fillModalDataTable(obj, geomBid){
 					var objActions = {
 							title: window.lang.translate("ACCIONS"),
 							field: 'Accions',
-							formatter: 'actionFormatter',
+							formatter: actionFormatter,
 							events: 'actionEvents',
 							width:widthColumn+"% !important"
 					}	
@@ -401,7 +401,7 @@ function fillModalDataTable(obj, geomBid){
 					var objActions = {
 							title: window.lang.translate("ACCIONS"),
 							field: 'Accions',
-							formatter: 'actionFormatterVisor',
+							formatter: actionFormatterVisor,
 							events: 'actionEvents'
 					}	
 					columNames.push(objActions);
@@ -503,7 +503,7 @@ function fillModalDataTable(obj, geomBid){
 			var objActions = {
 					title: window.lang.translate("ACCIONS"),
 					field: 'Accions',
-					formatter: 'actionFormatter',
+					formatter: actionFormatter,
 					events: 'actionEvents',
 					width:widthColumn+"% !important",
 			}	
@@ -606,23 +606,27 @@ function fillModalDataTable(obj, geomBid){
 				//Add the first row with the column type selection
 				if (modeMapa){
 					var selectsRow = {};
+					var columnIndex = 0;
 					$.each(columNames, function(i, name) {
 						var nameF = name.field.toLowerCase();
 						if("accions" != nameF && "geometryid"!= nameF && "latitud"!= nameF && "longitud"!= nameF
-								&& "geometryBBOX"!= nameF && "geometrybid"!= nameF  && "etrs89_x"!= nameF && "etrs89_y"!= nameF) {						
+								&& "geometrybbox"!= nameF && "geometrybid"!= nameF  && "etrs89_x"!= nameF && "etrs89_y"!= nameF) {						
 							if (!$.isEmptyObject(optionsF) && optionsF[name.field]!=undefined){
-								selectsRow[name.field] = dataFormatter.createOptions(name.field, optionsF[name.field]);
+								selectsRow[name.field] = dataFormatter.createOptions(name.field, optionsF[name.field], columnIndex);
 							}
 							else if (propFormat!=undefined && propFormat[name.field]!=undefined){
-								selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field]);
+								selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field], columnIndex);
 							}
 							else{
-								selectsRow[name.field] = dataFormatter.createOptions(name.field,'t');
+								selectsRow[name.field] = dataFormatter.createOptions(name.field, 't', columnIndex);
 							}
+
+							columnIndex++;
 	
 						}
 						else if ("latitud"== nameF && "longitud"== nameF){
 							selectsRow[name.field] = "";
+							columnIndex++;
 						}
 	
 					});
@@ -665,12 +669,12 @@ function fillModalDataTable(obj, geomBid){
 						if (formatValue.indexOf("error")>-1){
 							alert("Format no permés. Adapta’l al format 123.45,67 o 12345,67.");
 							hiHaError = false;
-							dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'), false);
+							// dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'), false);
 						}
 						else{
 							//Trigger an update to format the value
 							//If we had the cell name we could modify it directly...
-							//dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'));
+							// dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'));
 							var dataUpdate ={
 									uid:Cookies.get('uid'),
 									geometryid: row["geometryid"],
@@ -710,7 +714,9 @@ function fillModalDataTable(obj, geomBid){
 				});
 
 				$('.dataTableSelect').on('change', function() {
-					dataTableSelectChanged(this);
+
+					// dataTableSelectChanged(this);
+
 				});				
 			
 				
@@ -775,7 +781,9 @@ function dataTableSelectChanged(ctx, showAlert) {
 	var options1=optionsF;
 
 	$('.dataTableSelect').on('change', function() {	//Afegim altre cop l'event pq el bootstrapTable('load') refà la taula
-		dataTableSelectChanged(this);
+
+		// dataTableSelectChanged(this);
+
 	});
 }
 

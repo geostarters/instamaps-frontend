@@ -13,7 +13,7 @@
 			thousandsSeparator : '.'
 		},
 
-		createOptions: function(name,selectVal) {
+		createOptions: function(name, selectVal, columnIndex) {
 			var selectedT='';
 			selectVal=='t'?selectedT=' selected':selectedT='';	
 			var selectedEuro='';
@@ -23,11 +23,11 @@
 			var selectedN='';
 			selectVal=='n'?selectedN=' selected':selectedN='';	
 			
-			return "<select class='dataTableSelect' data-column='" + name + "'>" + 
-			"	<option value='t'"+selectedT+">Text</option>" +
-			"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
-			"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
-			"	<option value='n'"+selectedN+">Número</option>" +
+			return "<select class='dataTableSelect' data-column-idx='" + columnIndex + "' data-column='" + name + "'>" + 
+			"	<option value='t'" + selectedT + ">Text</option>" +
+			"	<option value='euro'" + selectedEuro + ">Número (€)</option>" +
+			"	<option value='dolar'" + selectedDolar + ">Número ($)</option>" +
+			"	<option value='n'" + selectedN + ">Número</option>" +
 			"</select>";/*+
 			'<span id="privacitat_'+name+ '" class="glyphicon glyphicon-eye-open" style="float:right"></span>';*/
 		},
