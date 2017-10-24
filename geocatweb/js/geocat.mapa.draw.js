@@ -666,7 +666,7 @@ function activaEdicioUsuari() {
 			tipusCat=window.lang.translate('Títol Línia');
 			tipusCatDes=window.lang.translate('Descripció Línia');
 			var nomDefecteCapa = window.lang.translate('Capa Línia');
-			
+				
 			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_polyline){
 				capaUsrActiva.removeEventListener('layeradd');
 				capaUsrActiva = new L.FeatureGroup();
@@ -702,6 +702,7 @@ function activaEdicioUsuari() {
 					'capaBusinessId':capaUsrActiva.options.businessId,
 					'capaLeafletId': capaUsrActiva._leaflet_id,
 					'tipusFeature':t_polyline,
+					'mida': calculateDistance(layer.getLatLngs()),
 					'longitud (km)': calculateDistanceWithoutKm(layer.getLatLngs()) };	
 			
 			layer.properties.data={
@@ -1735,6 +1736,8 @@ function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 			//auxText= dataFormatter.formatValue(auxText, propFormat['text']);
 		}
 	}
+	 var markerLatBound = null;
+	 var sC=0;
 	if (player.options.tipus=="marker" && player._latlng) {
 		auxLat = player._latlng.lat;
 		auxLat= auxLat.toFixed(5);
@@ -1743,10 +1746,11 @@ function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 		var etrs = latLngtoETRS89(player._latlng.lat, player._latlng.lng);
 		auxX = etrs.x;
 	    auxY = etrs.y;
+	    markerLatBound = L.latLngBounds(L.latLng(player._latlng.lat, player._latlng.lng), L.latLng(player._latlng.lat, player._latlng.lng));
+		sC=map.miraBBContains(markerLatBound);
 	}
 	 
-	var markerLatBound = L.latLngBounds(L.latLng(player._latlng.lat, player._latlng.lng), L.latLng(player._latlng.lat, player._latlng.lng));
-	var sC=map.miraBBContains(markerLatBound);
+	
 		
 	var html='<div class="div_popup">' 
 	+'<div class="popup_pres">'							
@@ -1830,7 +1834,7 @@ function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 }
 
 function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
-	var opts = "text,nom,";
+	var opts = "nom,text";
 	if  (feature.properties.tipusFeature==t_marker){
 		opts += "latitud,longitud,etrs89_x,etrs89_y";
 	}

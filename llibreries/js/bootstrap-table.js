@@ -447,12 +447,19 @@
             }
             
             html.push(text);
-            if (isModeMapa) {
+            if (isModeMapa && text.toLowerCase()!="accions") {
             	var textStr = text.toLowerCase();
             	textStr = textStr.replace(" ","_");
             	textStr=textStr.replace("(","_");
             	textStr=textStr.replace(")","_");
-            	html.push('&nbsp;<span id="privacitat_'+text.toLowerCase()+ '" class="glyphicon glyphicon-eye-open privacitatSpan"  title="Visibilitat del camp al publicar" lang="ca" ></span>');
+            	var nameF=text.toLowerCase();
+            	var isFeatProp = "latitud"== nameF || "longitud"== nameF || "etrs89_x"== nameF || "etrs89_y"== nameF || "longitud (km)"==nameF || "area (ha)"==nameF;
+            	if (isFeatProp){
+            		html.push('&nbsp;<span id="privacitat_'+text.toLowerCase()+ '" class="glyphicon glyphicon-eye-close privacitatSpan"  title="Visibilitat del camp al publicar" lang="ca" ></span>');
+            	}
+            	else{
+            		html.push('&nbsp;<span id="privacitat_'+text.toLowerCase()+ '" class="glyphicon glyphicon-eye-open privacitatSpan"  title="Visibilitat del camp al publicar" lang="ca" ></span>');
+            	}
             }
             html.push('</div>');
             html.push('<div class="fht-cell"></div>');
