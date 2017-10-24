@@ -369,7 +369,6 @@ function fillModalDataTable(obj, geomBid){
 		});	
 	}
 	else {
-		console.debug(obj.layer);
 		//Primer cop que dibuixem una geometria
 		//Geometry Id
 		totalColumns = totalColumns+ 2;
@@ -668,7 +667,7 @@ function fillModalDataTable(obj, geomBid){
 				});
 				
 				$('#addColumn').on('click',function(){
-					$('#newColumnName').html('');			
+					$('#newColumnName').val('');			
 					$('#dialog_add_column').modal('show');
 				});
 				
@@ -734,8 +733,12 @@ function fillModalDataTable(obj, geomBid){
 					$.each(columNames, function(i, name) {
 						var nameF = name.field.toLowerCase();
 						var privacitat="open";
+						var isFeatProp = "latitud"== nameF || "longitud"== nameF || "etrs89_x"== nameF || "etrs89_y"== nameF || "longitud (km)"==nameF || "area (ha)"==nameF;
 						if (propPrivacitat!=undefined && propPrivacitat[name.field]!=undefined){
 							 if (propPrivacitat[name.field]==false) privacitat="close";
+						}
+						else if (isFeatProp){
+							privacitat="close";
 						}
 						nameF= nameF.replace(" ","_");
 						nameF=nameF.replace("(","_");
