@@ -107,8 +107,6 @@ function loadApp(){
 		});
 
 		getMapByBusinessId(data).then(function(results){
-			
-			console.info(data);
 			if (results.status == "ERROR"){
 				gestioCookie('getMapByBusinessId');
 			}
