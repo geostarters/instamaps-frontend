@@ -109,7 +109,6 @@
         return text;
     };
 
-    var isModeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
     // BOOTSTRAP TABLE CLASS DEFINITION
     // ======================
 
@@ -163,7 +162,6 @@
         clickToSelect: false,
         singleSelect: false,
         toolbar: undefined,
-        addColumn: true,
         toolbarAlign: 'left',
         checkboxHeader: true,
         sortable: true,
@@ -176,8 +174,7 @@
             paginationSwitchUp: 'glyphicon-collapse-up icon-chevron-up',
             refresh: 'glyphicon-refresh icon-refresh',
             toggle: 'glyphicon-list-alt icon-list-alt',
-            columns: 'glyphicon-th icon-th',
-            newColumn: 'glyphicon-plus icon-plus'
+            columns: 'glyphicon-th icon-th'
         },
         ignoreColumn: [],
         rowStyle: function (row, index) {return {};},
@@ -231,10 +228,7 @@
         },
         formatColumns: function () {
             return 'Columns';
-        },
-        formatAddColumn: function () {
-            return 'Afegir nova propietat';
-        },
+        }
     };
 
     $.extend(BootstrapTable.DEFAULTS, BootstrapTable.LOCALES['en-US']);
@@ -335,11 +329,12 @@
                 title: $(this).html(),
                 'class': $(this).attr('class')
             }, $(this).data());
+
             columns.push(column);
         });
         this.options.columns = $.extend([], columns, this.options.columns);
         $.each(this.options.columns, function (i, column) {
-        	that.options.columns[i] = $.extend({}, BootstrapTable.COLUMN_DEFAULTS,
+            that.options.columns[i] = $.extend({}, BootstrapTable.COLUMN_DEFAULTS,
                 {field: i}, column); // when field is undefined, use index instead
         });
 
@@ -445,15 +440,8 @@
                 that.header.stateField = column.field;
                 that.options.singleSelect = true;
             }
-            
+
             html.push(text);
-            if (isModeMapa) {
-            	var textStr = text.toLowerCase();
-            	textStr = textStr.replace(" ","_");
-            	textStr=textStr.replace("(","_");
-            	textStr=textStr.replace(")","_");
-            	html.push('&nbsp;<span id="privacitat_'+text.toLowerCase()+ '" class="glyphicon glyphicon-eye-open privacitatSpan"  title="Visibilitat del camp al publicar" lang="ca" ></span>');
-            }
             html.push('</div>');
             html.push('<div class="fht-cell"></div>');
             html.push('</th>');
@@ -463,22 +451,10 @@
         this.$header.find('th').each(function (i) {
             $(this).data(visibleColumns[i]);
         });
-        $('.privacitatSpan').on('click', function() {
-			var classe = ( $(this).attr('class'));
-			if (classe.indexOf("open")>-1){
-				$(this).removeClass("glyphicon glyphicon-eye-open privacitatSpan");
-				$(this).addClass("glyphicon glyphicon-eye-close privacitatSpan");
-			}
-			else{
-				$(this).removeClass("glyphicon glyphicon-eye-close privacitatSpan");
-				$(this).addClass("glyphicon glyphicon-eye-open privacitatSpan");
-			}
-		});		
         this.$container.off('click', 'th').on('click', 'th', function (event) {
             if (that.options.sortable && $(this).data().sortable) {
                 that.onSort(event);
             }
-        	
         });
 
         if (!this.options.showHeader || this.options.cardView) {
@@ -642,14 +618,7 @@
                 '</button>');
         }
 
-        
-        if (this.options.addColumn && isModeMapa){
-        	 html.push(sprintf('<button class="btn btn-default' + (this.options.iconSize == undefined ? '' :  ' btn-' + this.options.iconSize) + '" type="button" name="addColumn" id="addColumn" title="%s">',
-                     this.options.formatAddColumn()),
-                     sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.newColumn),
-                     '</button>');
-         }
-       if (this.options.showToggle) {
+        if (this.options.showToggle) {
             html.push(sprintf('<button class="btn btn-default' + (this.options.iconSize == undefined ? '' :  ' btn-' + this.options.iconSize) + '" type="button" name="toggle" title="%s">',
                 this.options.formatToggle()),
                 sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.toggle),
@@ -743,8 +712,6 @@
                 }, that.options.searchTimeOut);
             });
         }
-        
-       
     };
 
     BootstrapTable.prototype.onSearch = function (event) {

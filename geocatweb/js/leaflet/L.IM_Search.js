@@ -803,13 +803,13 @@ L.Control.Search = L.Control.extend({
 	_convertCoordinates: function(input) {
 
 		var coords = [];
-		var latlng = (/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)(\s+|\s*,\s*)[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/).test(input);
+		var latlng = (/^([-+]?[1-8]?\d(\.\d+)?|90(\.0+)?)(\s+|\s*,\s*)(180(\.0+)?|((1[0-7]\d)|([-+]?[1-9]?\d))(\.\d+)?)$/).test(input);
 		var deg = (/^(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}(\.\d+)?[\"|\u201d|″|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)(\s+|\s*,\s*)(([-|\+]?\d{1,3})[d|D|\u00B0|\s](\s*\d{1,2}['|\u2019|\s])?(\s*\d{1,2}(\.\d+)?[\"|\u201d|″|\s])?\s*([N|n|S|s|E|e|W|w])?\s?)$/).test(input);
 		var etrs89 = (/^([2-5]\d{5}(\.\d+)?)(\s+|\s*,\s*)(\d{7}(\.\d+)?)$/).test(input);
 
 		if (latlng) {
 
-			var matches = input.match(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)(\s+|\s*,\s*)[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/);
+			var matches = input.match(/^([-+]?[1-8]?\d(\.\d+)?|90(\.0+)?)(\s+|\s*,\s*)(180(\.0+)?|((1[0-7]\d)|([-+]?[1-9]?\d))(\.\d+)?)$/);
 			coords = [parseFloat(matches[1]), parseFloat(matches[5])];
 
 		} else if (deg) {
@@ -991,7 +991,7 @@ L.Control.Search = L.Control.extend({
 			return false;
 	},
 
-	showLocation: function(latlng, title,nom) {	//set location on map from _recordsCache
+	showLocation: function(latlng, title, nom) {	//set location on map from _recordsCache
 		if(this.options.zoom)
 			this._map.setView(latlng, this.options.zoom);
 		else

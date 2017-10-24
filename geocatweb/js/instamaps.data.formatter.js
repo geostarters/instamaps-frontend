@@ -13,7 +13,7 @@
 			thousandsSeparator : '.'
 		},
 
-		createOptions: function(name,selectVal,isFeatProp) {
+		createOptions: function(name,selectVal) {
 			var selectedT='';
 			selectVal=='t'?selectedT=' selected':selectedT='';	
 			var selectedEuro='';
@@ -23,25 +23,13 @@
 			var selectedN='';
 			selectVal=='n'?selectedN=' selected':selectedN='';	
 			
-			var html="";
-			var propEnabled="enabled";
-			if (!isFeatProp) {
-				html += "<select class='dataTableSelect' data-column='" + name + "'>" + 
-					"	<option value='t'"+selectedT+">Text</option>" +
-					"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
-					"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
-					"	<option value='n'"+selectedN+">Número</option>" +
-					"</select>";
-			}
-			
-			
-			
-			return html;
-			
-		},
-		
-		changeIcon: function(){
-			
+			return "<select class='dataTableSelect' data-column='" + name + "'>" + 
+			"	<option value='t'"+selectedT+">Text</option>" +
+			"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
+			"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
+			"	<option value='n'"+selectedN+">Número</option>" +
+			"</select>";/*+
+			'<span id="privacitat_'+name+ '" class="glyphicon glyphicon-eye-open" style="float:right"></span>';*/
 		},
 
 		formatValue: function(inValue, format) {
