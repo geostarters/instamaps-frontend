@@ -238,7 +238,7 @@
 					+'</ul>'														
 					+'</div>';	
 			}else{
-				var capaLeafletId = feature.properties.capaLeafletId;
+				/*var capaLeafletId = feature.properties.capaLeafletId;
 				if(isValidValue(origen)) {
 					capaLeafletId = origen; 
 				}
@@ -246,7 +246,7 @@
 					+'<ul class="bs-popup">'						
 						+'<li class="consulta-popup"><a id="feature_data_table##'+feature._leaflet_id+'##'+type+'##'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Obrir la taula de dades')+'"></span></a>   </li>'
 					+'</ul>'														
-				+'</div>';			
+				+'</div>';*/			
 			}
 			return html;
 		},
