@@ -308,7 +308,7 @@ function fillModalDataTable(obj, geomBid){
 						}
 						//Recalculem el widthcolumn mirant les columnes que s'oculten i les que es mostren
 						for(var x in options.propName){
-							if (propPrivacitat[options.propName[x].toLowerCase()]==false){
+							if (propPrivacitat!=null && propPrivacitat[options.propName[x].toLowerCase()]==false){
 								totalColumns = totalColumns-1;
 							}
 						}
