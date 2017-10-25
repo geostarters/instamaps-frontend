@@ -1836,7 +1836,7 @@ function openColumnJoinModal(){
 					tipusSIG: "columnJoin",
 					mapBusinessId: url('?businessid'),
 					businessId1: businessId1[0],
-					businessId2: businessId2[0],v
+					businessId2: businessId2[0],
 					valorsUnio: $('input[name=valorsUnio]:checked').val(),
 					nom: $('#input-join-name').val(),
 					column1:$('#dataField_camps_capa1').val(),
