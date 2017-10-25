@@ -991,7 +991,7 @@ L.Control.Search = L.Control.extend({
 			return false;
 	},
 
-	showLocation: function(latlng, title, nom) {	//set location on map from _recordsCache
+	showLocation: function(latlng, title,nom) {	//set location on map from _recordsCache
 		if(this.options.zoom)
 			this._map.setView(latlng, this.options.zoom);
 		else

@@ -13,7 +13,7 @@
 			thousandsSeparator : '.'
 		},
 
-		createOptions: function(name,selectVal) {
+		createOptions: function(name,selectVal,isFeatProp) {
 			var selectedT='';
 			selectVal=='t'?selectedT=' selected':selectedT='';	
 			var selectedEuro='';
@@ -23,13 +23,32 @@
 			var selectedN='';
 			selectVal=='n'?selectedN=' selected':selectedN='';	
 			
-			return "<select class='dataTableSelect' data-column='" + name + "'>" + 
-			"	<option value='t'"+selectedT+">Text</option>" +
-			"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
-			"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
-			"	<option value='n'"+selectedN+">Número</option>" +
-			"</select>";/*+
-			'<span id="privacitat_'+name+ '" class="glyphicon glyphicon-eye-open" style="float:right"></span>';*/
+			var html="";
+			var propEnabled="enabled";
+			if (!isFeatProp) {
+				html += "<select class='dataTableSelect' data-column='" + name + "'>" + 
+					"	<option value='t'"+selectedT+">Text</option>" +
+					"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
+					"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
+					"	<option value='n'"+selectedN+">Número</option>" +
+					"</select>";
+			}
+			else {
+				html += "<select class='dataTableSelect' data-column='" + name + "' disabled>" + 
+				"	<option value='t'"+selectedT+">Text</option>" +
+				"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
+				"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
+				"	<option value='n'"+selectedN+" selected>Número</option>" +
+				"</select>";
+			}
+			
+			
+			return html;
+			
+		},
+		
+		changeIcon: function(){
+			
 		},
 
 		formatValue: function(inValue, format) {

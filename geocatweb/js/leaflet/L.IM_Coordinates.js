@@ -56,8 +56,8 @@ L.Control.Coordinates = L.Control.extend({
 
   _onMouseMove: function (e) {
 	var map = this._map;  
-	
-	var sC=map.miraBBContains(map.getBounds());
+	var mouseLatBound = L.latLngBounds(L.latLng(e.latlng.lat, e.latlng.lng), L.latLng(e.latlng.lat, e.latlng.lng));
+	var sC=map.miraBBContains(mouseLatBound);
 
   var etrs89 = latLngtoETRS89(e.latlng.lat, e.latlng.lng);
     

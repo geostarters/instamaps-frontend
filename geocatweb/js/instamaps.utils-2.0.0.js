@@ -1125,7 +1125,24 @@ function latLngtoETRS89(lat, lng) {
 
 }
 
+function calculateDistanceWithoutKm(lLatLngs){
+	var totalDistance = 0;
+	var lastPoint;
+	if(lLatLngs.length>0) lastPoint = lLatLngs[0];
 
+	jQuery.each(lLatLngs, function( i, point){
+		totalDistance += point.distanceTo(lastPoint);
+		lastPoint = point;
+	});
+	var readable =  L.GeometryUtil.readableDistance(totalDistance, true);
+	return readable.replace(" km","");
+}
+
+function calculateAreaWithoutHa(layer){
+	var totalArea = getAreaLayer(layer);
+	var readable =  L.GeometryUtil.readableArea(totalArea, true);
+	return readable.replace(" ha","");
+}
 
 
 
