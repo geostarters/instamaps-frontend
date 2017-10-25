@@ -241,6 +241,8 @@ function addFuncioDownloadLayer(from){
  * Funcionalitat remove layers
  **/
 function removeAtomicLayer(data,matriuObj){
+	
+	
 	removeServerToMap(data).then(function(results){
 		if(results.status==='OK'){
 			for(var j=0; j < matriuObj.length;j++){

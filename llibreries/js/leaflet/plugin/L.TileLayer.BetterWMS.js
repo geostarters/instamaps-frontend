@@ -9,6 +9,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		L.TileLayer.WMS.prototype.onAdd.call(this, map);
 		//if (this.url && this.url.indexOf('http://betaserver.icgc.cat/geoservice/')==-1){
 			map.on('click', function(e) {
+				console.info(this);
 				PopupManager().createMergedDataPopup(this, e, controlCapes)
 			});
 			//map.on('click', this.getFeatureInfo, this);
@@ -53,7 +54,13 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 				if (params.indexOf('/geoservicelocal/')!=-1){
 					params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
 					params = params.replace("INFO_FORMAT=text/html","INFO_FORMAT=text/plain");
-				}
+				}else if(params.indexOf('psolar')!=-1){
+					params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
+					params = params.replace("INFO_FORMAT=text/html","INFO_FORMAT=text/plain");
+					
+				}	
+					
+					
 			}else{
 				//De moment, si es un wms creat pel cloudifier, demanem text/pla
 				//mes endavant passarem per ogrinfo i podrem demanar HTML amb template
@@ -83,7 +90,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		}
 		else
 		{
-
+//map.closePopup();
 			defer.resolve(ret);
 
 		}

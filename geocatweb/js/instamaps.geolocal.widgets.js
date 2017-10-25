@@ -4,7 +4,6 @@
 (function ( $, window, document, undefined ) {
 	"use strict";
 	var WidgetsGeolocal = {
-		
 			
 		init: function() {
 			this.widgets = {};
@@ -48,7 +47,7 @@
         
         addModalWidgets: function(){
         	var that = this;
-        	$.get("templates/modalWidgets.html",function(data){
+        	$.get("/geocatweb/templates/modalWidgets.html",function(data){
    				//TODO ver como pasar el modal container
         		$('#mapa_modals').append(data);
         		var modalbody = $('#dialgo_widgets div.widgets-list');
@@ -59,7 +58,7 @@
         		that._addIdescatWidget(modalbody);
         		that._addRPUCWidget(modalbody);
         		that._addCartotecaWidget(modalbody);
-        		that._addMeteoWidget(modalbody);
+        		//that._addMeteoWidget(modalbody);
             	that._addCadastreWidget(modalbody);
             	that._addInfoParcelaWidget(modalbody);
             });
@@ -75,10 +74,12 @@
         	ListViewMunicipis.createList(container);
         },
         
+        /*
         _addMeteoWidget: function(container){
         	this.widgets.meteo = WidgetMeteo.getWidget();
         	WidgetMeteo.drawButton(container);
         },
+        */
         
         _addIdescatWidget: function(container){
         	this.widgets.idescat = WidgetIdescat.getWidget();
@@ -126,6 +127,11 @@
         
         subscriptions: function() {
         	var that = this;
+        	$.subscribe('populateMunicipis',function(e, data){
+        		var select = data.select;
+        		select.selectpicker('refresh');
+        	});
+        	
         	$.subscribe('loadMap',function(e, data){
         		that.cache();
         		that.map = data;

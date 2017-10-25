@@ -23,6 +23,8 @@ var _UsrID;
 
 var dades1;
 
+// variable per sostenibilitat;
+var _Sostenibilitat;
 
 //Contants del mapa 3D
 var estatMapa3D=false;
@@ -209,7 +211,8 @@ var instamaps_email = "instamapes@icgc.cat";
 //var curs_instamaps = "3r curs InstaMaps";
 //var curs_instamaps = "4rt curs InstaMaps";
 //var curs_instamaps = "5e curs InstaMaps";
-var curs_instamaps = "6e curs InstaMaps";
+//var curs_instamaps = "6e curs InstaMaps";
+var curs_instamaps = "7e curs InstaMaps";
 
 //Llistat exemples de dades externes
 var llista_dadesExternes = {
@@ -291,6 +294,7 @@ var llista_dadesExternes = {
 };
 
 var TIPUS_ENTITATS_GEOLOCAL = [2,3,4,5,6,7,8,9];
+var TIPUS_ENTITATS_SOSTENIBILITAT=11;
 var TIPUS_ADMIN = 0;
 var TIPUS_INSTAMAPS = 1;
 var TIPUS_AOC = 10;

@@ -72,6 +72,7 @@
 		},
 
 		drawGaleria: function(data){
+			console.info(data);
 			var self = this;
 			if(self.options.publica){
 				self.drawPublic();
@@ -174,7 +175,7 @@
 									urlMap=self.generaVincleInstaVisor($this.parent().data("idusr"),appbusinessid,nomVisor);
 								
 								}
-
+			if(isSostenibilitatUser(false)){urlMap=urlMap+"?&appmodul=sostenibilitat";}
 
 				$.publish('analyticsEvent',{event:['galeria privada', tipus_user+'veure mapa']});
 				window.open(urlMap);
@@ -184,6 +185,7 @@
 		},
 
 		drawPrivate: function(results){
+			console.info(results);
 			var self = this;
 			$('#loadingGaleria').hide();
 
@@ -429,6 +431,8 @@
 					urlMap=self.generaVincleInstaVisor($this.parent().data("idusr"),appbusinessid,nomVisor);
 				}
 
+				
+				
 
 				$.publish('analyticsEvent',{event:['galeria privada', tipus_user+'veure mapa']});
 				window.open(urlMap);
@@ -952,7 +956,10 @@
 						urlMap=self.generaVincleInstaVisor(val.options.idusr,val.businessId,nomVisor);
 					}
 					
+				
 
+					 if(isSostenibilitatUser(false)){urlMap=urlMap+"?&appmodul=sostenibilitat";}
+					
 					val.generatedScript=generarScriptMarkupGoogle(urlMap,val.nomAplicacio,val.thumbnail,autor,val.dataPublicacio,val.description);
 					mapsGalery.push(val);
 					return val;
@@ -1016,6 +1023,7 @@
 					urlMap=self.generaVincleInstaVisor(idrusr,appbusinessid,nomVisor);				
 				}
 
+				if(isSostenibilitatUser(false)){urlMap=urlMap+"?&appmodul=sostenibilitat";}
 
 				$.publish('analyticsEvent',{event:['galeria publica', tipus_user+'veure mapa']});
 				
@@ -1036,7 +1044,7 @@
 				if (undefined!=nomVisor && nomVisor!=""){					
 					urlMap=self.generaVincleInstaVisor($this.data("idusr"),$this.data("businessid"),nomVisor);
 				}
-
+if(isSostenibilitatUser(false)){urlMap=urlMap+"?&appmodul=sostenibilitat";}
 
 
 				shortUrl(urlMap).then(function(results){
@@ -1118,6 +1126,7 @@
 					urlMap=self.generaVincleInstaVisor($this.parent().data("idusr"),appbusinessid,nomVisor);
 				}
 
+				if(isSostenibilitatUser(false)){urlMap=urlMap+"?&appmodul=sostenibilitat";}
 				$.publish('analyticsEvent',{event:['galeria privada', tipus_user+'veure mapa']});
 				window.open(urlMap);
 			});

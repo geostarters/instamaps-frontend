@@ -325,6 +325,9 @@ function checkUserLogin(){
 			case 'geolocal':
 				tipusEntitat = 2;
 				break;
+			case 'Psolar':
+				tipusEntitat= 11;
+				break;
 			default: tipusEntitat = 1;
 		}
 	}
@@ -433,6 +436,8 @@ function defineTipusUser(){
 }
 
 function logoutUser(){
+	
+		
 	if (isRandomUser(Cookies.get('uid'))){
 		deleteRandomUser({uid: Cookies.get('uid')});
 	}
@@ -603,7 +608,41 @@ function isGeolocalUser(){
 	return isGeolocal;
 }
 
+
+
+function isSostenibilitatUser(publica){
+	var isSostenibilitat = false;
+	
+	
+	if(Cookies.get('tipusEntitat')){
+		if(parseInt(Cookies.get('tipusEntitat'))==TIPUS_ENTITATS_SOSTENIBILITAT){
+			isSostenibilitat = true;
+			
+	if(publica){
+			$("head").append('<link rel="stylesheet" href="/moduls/sostenibilitat/css/sostenibilitat.css">');
+			$("head").append('<script src="/moduls/sostenibilitat/js/sostenibilitat-2.0.0.js" type="text/javascript"></script>');
+			//$("head").append('<script src="/moduls/sostenibilitat/js/modul-sostenibilitat-2.0.0.js" type="text/javascript"></script>');
+	}
+	
+	
+			
+			
+		}
+	}
+	
+	return isSostenibilitat;
+}
+
+
+
+
+
+
+
+
 function cambiarTitle(){
+	
+
 	if(Cookies.get('tipusEntitat')){
 		if(isGeolocalUser()){
 			$('.brand-txt').text("InstaMaps.GeoLocal");

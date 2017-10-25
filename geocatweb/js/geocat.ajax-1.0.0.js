@@ -232,6 +232,14 @@ function updateMap(data){
 	});
 }
 
+function updateMapOptions(data){
+	return createXHR({
+		url: paramUrl.updateMapOptions, 
+		data: data,
+		method: 'post'
+	});
+}
+
 function createMap(data){
 	return createXHR({
 		url: paramUrl.createMap, 
@@ -756,6 +764,13 @@ function removeGeometriaFromProperties(data){
 function updateGeometriaProperties(data){
 	return createXHR({
 		url: paramUrl.updateGeometriaProperties, 
+		data: data
+	});
+}
+
+function addNewProperties(data){
+	return createXHR({
+		url: paramUrl.addNewProperties, 
 		data: data
 	});
 }

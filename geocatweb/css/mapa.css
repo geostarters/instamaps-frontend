@@ -5298,3 +5298,11 @@ li >.label-dof:focus {
 .noOverflow {
 	overflow: hidden;
 }
+
+#li_sostenibilitat{
+	display: none;
+}	
+
+#id_llegenda .control-switch .controls .bootstrap-switch{
+	    min-width: 125px;
+}
