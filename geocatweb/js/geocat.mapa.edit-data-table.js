@@ -322,7 +322,7 @@ function fillModalDataTable(obj, geomBid){
 								}
 								
 								try{
-									if (options.propName[x].toLowerCase()!="geomorigen" && propPrivacitat!=null && propPrivacitat[options.propName[x].toLowerCase()]) {
+									if (options.propName[x].toLowerCase()!="geomorigen" ) {
 										var obj = {
 											title: options.propName[x].toUpperCase(),
 											field: options.propName[x].toLowerCase(),
