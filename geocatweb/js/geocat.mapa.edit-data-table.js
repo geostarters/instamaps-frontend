@@ -321,17 +321,21 @@ function fillModalDataTable(obj, geomBid){
 									isVisible=propPrivacitat[options.propName[x].toLowerCase()];
 								}
 								
-								if (options.propName[x].toLowerCase()!="geomorigen" && propPrivacitat!=null && propPrivacitat[options.propName[x].toLowerCase()]) {
-									var obj = {
-										title: options.propName[x].toUpperCase(),
-										field: options.propName[x].toLowerCase(),
-										sortable: false,
-										formatter: nonEditableColumnFormatter,
-										withoutLink: true,
-										width:widthColumn+"% !important"
+								try{
+									if (options.propName[x].toLowerCase()!="geomorigen" && propPrivacitat!=null && propPrivacitat[options.propName[x].toLowerCase()]) {
+										var obj = {
+											title: options.propName[x].toUpperCase(),
+											field: options.propName[x].toLowerCase(),
+											sortable: false,
+											formatter: nonEditableColumnFormatter,
+											withoutLink: true,
+											width:widthColumn+"% !important"
+										}
+										
+										columNames.push(obj);
 									}
+								}catch(e){
 									
-									columNames.push(obj);
 								}
 						}
 					}
