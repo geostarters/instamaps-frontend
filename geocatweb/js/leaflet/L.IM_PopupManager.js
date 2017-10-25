@@ -85,7 +85,7 @@
 			var propPrivacitat = "";
 			if (capa.options!=undefined && capa.options.propPrivacitat!=undefined) 	propPrivacitat = capa.options.propPrivacitat;
 			$.each( properties, function( key, value ) {
-				if (propPrivacitat!="" && propPrivacitat[key.toLowerCase()]==true) {
+				if (propPrivacitat==="" || (propPrivacitat!="" && propPrivacitat[key.toLowerCase()]==true)) {
 				if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
 						key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 					if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
