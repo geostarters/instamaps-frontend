@@ -32,23 +32,43 @@
 			'<span id="privacitat_'+name+ '" class="glyphicon glyphicon-eye-open" style="float:right"></span>';*/
 		},
 
-		formatValue: function(inValue, format) {
+		formatValue: function(inValue, format, addErrorSpan, errors) {
 
 			var self = this;
+			var shouldAddErrorSpan = addErrorSpan || false;
+			var mightHaveError = false;
 
 			var value = inValue;
 			if(undefined === inValue)
 				value = '-';
 
-			if("t" == format)
+			if("t" == format) {
 				value = self.formatToText(value);
-			else if("euro" == format)
+			}
+			else if("euro" == format) {
 				value = self.formatToEuro(value);
-			else if("dolar" == format)
+				mightHaveError = true;
+			}
+			else if("dolar" == format) {
 				value = self.formatToDollar(value);
-			else if("n" == format)
+				mightHaveError = true;
+			}
+			else if("n" == format) {
 				value = self.formatToNumber(value);
+			}
 
+			if(mightHaveError && (value == "e"))
+			{
+
+				if(!shouldAddErrorSpan)
+					value = inValue;
+				else
+					value = "<span style='color:red'>" + inValue + "</span>";
+
+				if(errors)
+					errors.num++;
+
+			}
 						
 			return value;
 
@@ -56,7 +76,6 @@
 
 		formatToText: function(inValue) {
 			var self = this;
-			//var value = self.removeErrorSpan(inValue);
 			return self.removeDecorators(inValue);
 
 		},
@@ -84,11 +103,11 @@
 			var self = this;
 
 			var value = inValue;
-			if(self.isEuro(inValue) || self.isDollar(inValue)) {
+			if(self.isEuro(inValue))
+				value = value.replace("€", "");
+			else if(self.isDollar(inValue))
+				value = value.replace("$", "");
 
-				value = value.replace("$", "").replace("€", "");
-
-			}
 			return value.trim();
 
 		},

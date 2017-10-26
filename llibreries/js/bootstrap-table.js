@@ -1008,7 +1008,7 @@
         var keys = Object.keys(attributes); 
         for(var key in keys) { 
  
-            newRow.setAttribute(key, escapeHTML(attributes[key])); 
+            newRow.setAttribute(key, escapeHTML(attributes[key]));
  
         } 
  
@@ -1018,7 +1018,7 @@
             var child = childs[i];  
             var tdData = values[i];
 
-            child.id = tdData.id;
+            //child.id = tdData.id;
             child.className = tdData.class;
             child.innerHTML = tdData.data; 
  
@@ -1050,6 +1050,7 @@
         var emptyRow = this.createRow(this.header.fields, this.options);
 
         for (var i = this.pageFrom - 1; i < this.pageTo; i++) {
+
             var item = data[i],
                 attributes = {};
 
@@ -1063,7 +1064,6 @@
                 var field = this.header.fields[j],
                     value = item[field];
 
-
                 value = that.header.formatters[j](value, item, i);
                 value = typeof value === 'undefined' || value === null ?
                     that.options.undefinedText : value;
@@ -1072,11 +1072,10 @@
                     value = String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
                 }
 
-
                 var tdData = {
 
                     id: 'dataTable_'  + i + '_' + j,
-                    class: 'dataTable_column_' + j,
+                    class: 'dataTable_column_' + j + ' dataTable_row_' + i,
                     data: value,
 
                 };
