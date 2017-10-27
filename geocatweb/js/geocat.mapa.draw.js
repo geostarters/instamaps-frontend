@@ -1181,7 +1181,7 @@ function objecteUserAdded(f){
 		var _this = this;
 		
 	
-		var opts = "text,nom,";
+		var opts = "nom,text,";
 		if  (f.layer.options.tipus==t_marker){
 			opts += "latitud,longitud,etrs89_x,etrs89_y";
 		}
