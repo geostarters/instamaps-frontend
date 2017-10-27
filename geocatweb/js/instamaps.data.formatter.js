@@ -13,7 +13,8 @@
 			thousandsSeparator : '.'
 		},
 
-		createOptions: function(name,selectVal,isFeatProp) {
+		createOptions: function(name,selectVal,isFeatProp, columnIndex) {
+
 			var selectedT='';
 			selectVal=='t'?selectedT=' selected':selectedT='';	
 			var selectedEuro='';
@@ -26,7 +27,8 @@
 			var html="";
 			var propEnabled="enabled";
 			if (!isFeatProp) {
-				html += "<select class='dataTableSelect' data-column='" + name + "'>" + 
+				html += "<select class='dataTableSelect' data-column-idx='" + columnIndex + 
+					"' data-column='" + name + "'>" + 
 					"	<option value='t'"+selectedT+">Text</option>" +
 					"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
 					"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
@@ -34,7 +36,8 @@
 					"</select>";
 			}
 			else {
-				html += "<select class='dataTableSelect' data-column='" + name + "' disabled>" + 
+				html += "<select class='dataTableSelect' data-column-idx='" + columnIndex + 
+				"' data-column='" + name + "' disabled>" + 
 				"	<option value='t'"+selectedT+">Text</option>" +
 				"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
 				"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
@@ -46,28 +49,43 @@
 			return html;
 			
 		},
-		
-		changeIcon: function(){
-			
-		},
 
-		formatValue: function(inValue, format) {
+		formatValue: function(inValue, format, addErrorSpan, errors) {
 
 			var self = this;
+			var shouldAddErrorSpan = addErrorSpan || false;
+			var mightHaveError = true;
 
 			var value = inValue;
 			if(undefined === inValue)
 				value = '-';
 
-			if("t" == format)
+			if("t" == format) {
 				value = self.formatToText(value);
-			else if("euro" == format)
+				mightHaveError = false;
+			}
+			else if("euro" == format) {
 				value = self.formatToEuro(value);
-			else if("dolar" == format)
+			}
+			else if("dolar" == format) {
 				value = self.formatToDollar(value);
-			else if("n" == format)
+			}
+			else if("n" == format) {
 				value = self.formatToNumber(value);
+			}
 
+			if(mightHaveError && (value == "e"))
+			{
+
+				if(!shouldAddErrorSpan)
+					value = inValue;
+				else
+					value = "<span style='color:red'>" + inValue + "</span>";
+
+				if(errors)
+					errors.num++;
+
+			}
 						
 			return value;
 
@@ -75,7 +93,6 @@
 
 		formatToText: function(inValue) {
 			var self = this;
-			//var value = self.removeErrorSpan(inValue);
 			return self.removeDecorators(inValue);
 
 		},
@@ -103,11 +120,11 @@
 			var self = this;
 
 			var value = inValue;
-			if(self.isEuro(inValue) || self.isDollar(inValue)) {
+			if(self.isEuro(inValue))
+				value = value.replace("€", "");
+			else if(self.isDollar(inValue))
+				value = value.replace("$", "");
 
-				value = value.replace("$", "").replace("€", "");
-
-			}
 			return value.trim();
 
 		},
@@ -120,7 +137,7 @@
 			if(self.isNumber(value)) {
 				value =  self.formatToNumber(value) + ' €';
 			}
-			else value="error";
+			else value="e";
 			
 			return value;
 
@@ -134,7 +151,7 @@
 			if(self.isNumber(value)) {
 				value = self.formatToNumber(value) + ' $';
 			}
-			else value="error";
+			else value="e";
 			return value;
 
 		},
@@ -175,7 +192,7 @@
 				value = integerPart.join(self.options.thousandsSeparator) + (hasDecimalSeparator ? self.options.decimalSeparator + decimalPart : '');
 
 			}
-			else return "error";
+			else return "e";
 
 			return value;
 		},

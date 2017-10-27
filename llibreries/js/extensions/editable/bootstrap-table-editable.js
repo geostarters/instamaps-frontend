@@ -37,7 +37,7 @@
 
             var _formatter = column.formatter;
             column.formatter = function (value, row, index) {
-            	var result = _formatter ? _formatter(value, row, index, column.field, row[that.options.idField]) : value;
+            	var result = _formatter ? _formatter(value, row, index, column.field, row[that.options.idField], i) : value;
                 if(!column.withoutLink && result.indexOf("dataTableSelect")==-1)
                 {
                 	 return ['<a href="javascript:void(0)"',
