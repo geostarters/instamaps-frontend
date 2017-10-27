@@ -129,10 +129,11 @@ function editableColumnFormatter(inValue, row, index, name, pk, columnIndex) {
 		value = dataFormatter.formatValue(inValue, format);
 		var rawValue = dataFormatter.removeDecorators(inValue);
 
-		return '<a id="dataTable_' + index + '_' + columnIndex + '" href="javascript:void(0)" data-name="' + name + '" data-pk="' + pk + '"' + 
-			' data-value="' + value.replace("<span style='color:red'>","").replace("</span>","") + '"' +
-			' data-start-value="' + rawValue + '"' + 
-			'>' + value + '</a>';
+		return '<a id="dataTable_' + index + '_' + columnIndex + '" class="dataTable_column_' + 
+			columnIndex + ' dataTable_row_' + index + '" href="javascript:void(0)" data-name="' + 
+			name + '" data-pk="' + pk + '"' + ' data-value="' + 
+			value.replace("<span style='color:red'>","").replace("</span>","") + '"' +
+			' data-start-value="' + rawValue + '"' + '>' + value + '</a>';
 	}
 
 	return value;
@@ -180,7 +181,7 @@ function fillModalDataTable(obj, geomBid){
 
 	var rowNum = $('#layer-data-table > tbody').children('tr').length;
 	if(rowNum !== 0) {
-		$('#modal_data_table_body #layer-data-table').bootstrapTable('destroy');
+		$('#modal_data_table_body').html('<table id="layer-data-table"></table>');
 	}
 	
 	var options = obj.layer.options;
@@ -642,7 +643,7 @@ function fillModalDataTable(obj, geomBid){
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
 					search: true,
 					striped: true,
-					height: '600',
+					height: '570',
 					idField: 'geometryid',
 //					clickToSelect: true,
 //					checkboxHeader: true,
@@ -731,17 +732,16 @@ function dataTableSelectChanged(ctx, showAlert) {
 	var column = $(ctx).data('column');
 	var columnIndex = $(ctx).data('column-idx');
 	var errors = { num: 0 };
-	var rowNum = $('#layer-data-table > tbody').children('tr').length;
+
 	var originalTableNode = document.getElementById('layer-data-table');
 	var tableNode = originalTableNode.cloneNode(true);
+	var columns = tableNode.querySelectorAll('.dataTable_column_' + columnIndex);
+	var rowNum = columns.length;
 
-	for(var i=1; i<rowNum; ++i)
+	for(var i=0; i<rowNum; ++i)
 	{
 
-		//TODO: Potser és millor pillar tots els nodes amb la classe de la columna
-		//amb una sola crida al querySelector enlloc de fer rowNum crides?
-		//Per fer-ho hauríem de passar les classes del td al a
-		var anchor = tableNode.querySelector('#dataTable_' + i + '_' + columnIndex);
+		var anchor = columns[i];
 		var value = "" + anchor.getAttribute('data-start-value');
 
 		anchor.innerHTML = dataFormatter.formatValue(value, format, true, errors);
@@ -774,8 +774,11 @@ function dataTableSelectChanged(ctx, showAlert) {
 	var newSelect = $('.dataTableSelect[data-column-idx="' + columnIndex + '"]:first');
 	$(newSelect).off('change');
 	$(newSelect).val(newFormat);
-	$(newSelect).on('change', function() {
-		dataTableSelectChanged(newSelect);
+
+	$('.dataTableSelect').on('change', function() {
+
+		dataTableSelectChanged(this);
+
 	});
 
 }

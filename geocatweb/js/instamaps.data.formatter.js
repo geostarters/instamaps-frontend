@@ -36,7 +36,7 @@
 
 			var self = this;
 			var shouldAddErrorSpan = addErrorSpan || false;
-			var mightHaveError = false;
+			var mightHaveError = true;
 
 			var value = inValue;
 			if(undefined === inValue)
@@ -44,14 +44,13 @@
 
 			if("t" == format) {
 				value = self.formatToText(value);
+				mightHaveError = false;
 			}
 			else if("euro" == format) {
 				value = self.formatToEuro(value);
-				mightHaveError = true;
 			}
 			else if("dolar" == format) {
 				value = self.formatToDollar(value);
-				mightHaveError = true;
 			}
 			else if("n" == format) {
 				value = self.formatToNumber(value);
@@ -120,7 +119,7 @@
 			if(self.isNumber(value)) {
 				value =  self.formatToNumber(value) + ' €';
 			}
-			else value="error";
+			else value="e";
 			
 			return value;
 
@@ -134,7 +133,7 @@
 			if(self.isNumber(value)) {
 				value = self.formatToNumber(value) + ' $';
 			}
-			else value="error";
+			else value="e";
 			return value;
 
 		},
@@ -175,7 +174,7 @@
 				value = integerPart.join(self.options.thousandsSeparator) + (hasDecimalSeparator ? self.options.decimalSeparator + decimalPart : '');
 
 			}
-			else return "error";
+			else return "e";
 
 			return value;
 		},
