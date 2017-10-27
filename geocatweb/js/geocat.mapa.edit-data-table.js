@@ -658,8 +658,9 @@ function fillModalDataTable(obj, geomBid){
 					event.preventDefault();
 					event.stopImmediatePropagation();	
 					valueNewCol="";
+					var capaEd = $('#modal_data_table').data("capaEdicio");
 					var dataNew={
-						businessId: obj.layer.options.businessId,
+						businessId: capaEd.layer.options.businessId,
 						uid:Cookies.get('uid'),
 						newColumn: 	$('#newColumnName').val(),
 						valueNewColumn: valueNewCol
