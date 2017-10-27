@@ -328,22 +328,24 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			var _layerWMS = this.getActiveWMSSostenibilitatLayers();
 			var actvieWFSObj = {};
 			if (_layerWMS.options.layers == this.options.sostenibilitat.sos_url_fv_name_wms) {
-				if (map.getZoom() < 18) {
-					actvieWFSObj.tipus = "FV_ED";
-					actvieWFSObj.layerWFS = this.options.sostenibilitat.sos_edificis_fv_wfs;
-				} else {
+				//if (map.getZoom() < 18) {
+					//actvieWFSObj.tipus = "FV_ED";
+					//actvieWFSObj.layerWFS = this.options.sostenibilitat.sos_edificis_fv_wfs;
+				//} else {
 					actvieWFSObj.tipus = "FV_TE";
 					actvieWFSObj.layerWFS = this.options.sostenibilitat.sos_teulades_fv_wfs;
-				}
+				//}
 			} else {
-				if (map.getZoom() < 18) {
-					actvieWFSObj.tipus = "TS_ED";
-					actvieWFSObj.layerWFS = this.options.sostenibilitat.sos_edificis_ts_wfs;
-				} else {
+				//if (map.getZoom() < 18) {
+					//actvieWFSObj.tipus = "TS_ED";
+					//actvieWFSObj.layerWFS = this.options.sostenibilitat.sos_edificis_ts_wfs;
+				//} else {
 					actvieWFSObj.tipus = "TS_TE";
 					actvieWFSObj.layerWFS = this.options.sostenibilitat.sos_teulades_ts_wfs;
-				}
+				//}
 			}
+			
+			//console.info(actvieWFSObj);
 			return actvieWFSObj;
 
 		},
@@ -427,13 +429,35 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 
 				
 				
-				
+				jQuery.ajax({
+					url: paramUrl.proxy_betterWMS,
+					data: {
+						url: _requestWFS
+					},
+					always: function (data, status, xhr) {
+						map.spin(false);
+
+					},
+					success: function (dataGeoJson, status, xhr) {
+						map.spin(false);
+
+						if (dataGeoJson.features) {
+							that.handleJson(dataGeoJson, areaSeleccio, geometry, _objWFS);
+						}
+					},
+					error: function (xhr, status, error) {
+					
+						map.spin(false);
+					}
+
+				});
+				/*
 					$.ajax({
 						url: _requestWFS,
-						//dataType: "jsonp",
+						dataType: "jsonp",
 						//method: 'post',
 						//jsonp: "false",
-						//jsonpCallback: "parseResponse",
+						jsonpCallback: "parseResponse",
 						success: function (dataGeoJson) {
 							
 							if (dataGeoJson.features) {
@@ -448,7 +472,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 							
 						},
 					});
-
+*/
 				}
 
 		},
@@ -487,23 +511,25 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 		},
 
 		resendEDITRequest: function () {
-
-			var _resultset = {
+			
+			
+			var _resultset2 = {
 				"RESULT": {
 					"INPUT": {
-						"Preu_del_panell_EDIT": jQuery('#txt_preu_panell').val(),
-						"Preu_de_lenergia_EDIT": jQuery('#txt_preu').val(),
-						"Preu_inversor_EDIT": jQuery('#txt_preu_inversor').val(),
-						"Eficiencia_panells_EDIT": jQuery('#efi_panells').val(),
-						"Perdues_estimades_del_sistema_EDIT": jQuery('#efi_perdus').val(),
-						"Consum_anual_EDIT": jQuery('#fv_com_anu').val(),
-						"Nombre_de_panells_EDIT": jQuery('#fv_num_panells').val(),
-						"Nombre_de_panells_EDIT_inicial": jQuery('#fv_num_panells').val(),
+						"Preu_del_panell_EDIT": this.treuCommas(jQuery('#txt_preu_panell').val()),
+						"Preu_de_lenergia_EDIT": this.treuCommas(jQuery('#txt_preu').val()),
+						"Preu_inversor_EDIT": this.treuCommas(jQuery('#txt_preu_inversor').val()),
+						"Eficiencia_panells_EDIT": this.treuCommas(jQuery('#efi_panells').val()),
+						"Perdues_estimades_del_sistema_EDIT": this.treuCommas(jQuery('#efi_perdus').val()),
+						"Consum_anual_EDIT": this.treuCommas(jQuery('#fv_com_anu').val()),
+						"Nombre_de_panells_EDIT": this.treuCommas(jQuery('#fv_num_panells').val()),
+						"Nombre_de_panells_EDIT_inicial": this.treuCommas(jQuery('#fv_num_panells').val()),
 					}
 				}
 			};
 
-			this.jsonTemplateInfo(this.GEOJSON, null, this.OBJWFS, _resultset);
+			
+			this.jsonTemplateInfo(this.GEOJSON, null, this.OBJWFS, _resultset2);
 
 		},
 
@@ -516,6 +542,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			});
 
 			jQuery(document).on('change', '#txt_preu', function () {
+				
 				_self.resendEDITRequest();
 			});
 
@@ -558,7 +585,14 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			}
 
 		},
-
+		treuCommas:function(nStr){
+		
+			nStr += '';
+			nStr = nStr.replace(",", ".");
+			
+			
+			return parseFloat(nStr);
+		},
 		addCommas: function (nStr) {
 			nStr += '';
 			nStr = nStr.replace(".", ",");
@@ -592,10 +626,10 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 				fare:resultset
 				}	
 			
+			
 			//FV_ED,FV_TE,TS_ED,TS_TE
 			if (objWFS.tipus == "FV_ED") {
-				
-				
+			
 				if(this.isCaluladoraLocal){
 					peticioSOS = this.sos.getPotencialFotovoltaicEdificis(dataGeoJson, resultset);
 				}else{
@@ -620,7 +654,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 					 + '<tr><td>Generació pròpia:</td><td><span id="fv_gen_propia">' + this.addCommas( peticioSOS.resultset.OUTPUT.Generacio_propia )+ '</span></td></tr>'
 					 + '</table>  <table class="tbl_dades">'
 					 + '<tr><td>Cost de la inversió:</td><td><span id="fv_cost_i">' + this.addCommas( peticioSOS.resultset.OUTPUT.Cost_de_la_inversio_euros )+ '</span> <select  id="sel_cost"><option selected value="0">&euro;</option><option value="1">&euro;/kWp</option></select></td></tr>'
-					 + '<tr><td>Preu de l\'energia:</td> <td><span id="fv_preu_e"><input  id="txt_preu" size="2"  type="text" value="' + this.addCommas( peticioSOS.resultset.OUTPUT.Preu_de_lenergia_EDIT) + '"></span> &euro;/kWh</td></tr>'
+					 + '<tr><td>Preu de l\'energia:</td> <td><span id="fv_preu_e"><input  id="txt_preu"  type="text" value="' + this.addCommas( peticioSOS.resultset.OUTPUT.Preu_de_lenergia_EDIT) + '"></span> &euro;/kWh</td></tr>'
 					 + '<tr style="display:none"><td>Peatge d\'accés:</td><td><span id="fv_peatge"><input   id="txt_peatge"  size="2" type="text" value="0,5"></span> &euro;/MWh</td> </tr>'
 					 + '<tr><td>Preu del panell:</td><td><span id="fv_preu_panell"><input  id="txt_preu_panell" size="2"  type="text" value="' + this.addCommas( peticioSOS.resultset.OUTPUT.Preu_del_panell_EDIT) + '"></span> &euro;</td></tr>'
 					 + '<tr><td>Preu inversor:</td><td><span id="fv_preu_inversor"><input  id="txt_preu_inversor" size="2"  type="text" value="' + this.addCommas( peticioSOS.resultset.OUTPUT.Preu_inversor_EDIT) + '"></span> &euro;/panell</td></tr>'
@@ -643,12 +677,11 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 				}
 				
 				
-				
 				htmlArrayText.push('<div class="tit_sos_div">Potencial d\'aprofitament FV</div> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="regular"><label>Regular</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
 					 + '</table>  	<table class="tbl_dades"><tr><td>Irradiació global:</td><td><span id="fv_global">' + this.addCommas( peticioSOS.resultset.OUTPUT.Irradiacio_global )+ '</span> kWh/any</td></tr>'
 					 + '</table>  <table class="tbl_dades"><tr><td>Àrea total:</td><td><span id="fv_area_t">' + this.addCommas(peticioSOS.resultset.OUTPUT.Area_total) + '</span> m&sup2;</td></tr>'
-					 + '<tr><td>Inclinació:</td><td><span id="fv_inclina">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_inclina )+ '</span> &deg;</td></tr>'
-					 + '<tr><td>Orientació:</td><td><span id="fv_azimut">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_azimut )+ '</span> &deg;</td></tr>'
+					// + '<tr><td>Inclinació:</td><td><span id="fv_inclina">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_inclina )+ '</span> &deg;</td></tr>'
+					// + '<tr><td>Orientació:</td><td><span id="fv_azimut">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_azimut )+ '</span> &deg;</td></tr>'
 					 + '<tr><td>Àrea instalada:</td><td><span id="fv_area_i">' + this.addCommas( peticioSOS.resultset.OUTPUT.Area_instalada )+ '</span> m&sup2;</td></tr>'
 					 + '<tr><td>Nombre de panells:</td><td><span id="fv_num_panells_span"><input  id="fv_num_panells" size="4"  type="text" value="' + this.addCommas( peticioSOS.resultset.OUTPUT.Nombre_de_panells_EDIT) + '"></span></td></tr>'
 					 + '<tr><td>Eficiència dels panells:</td><td><select   id="efi_panells"><option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option><option value="9">9%</option><option value="10">10%</option><option  value="11">11%</option><option value="12">12%</option><option value="13">13%</option><option value="14">14%</option><option selected value="15">15%</option><option value="16">16%</option><option value="17">17%</option><option value="18">18%</option><option value="19">19%</option><option value="20">20%</option><option value="21">21%</option><option value="22">22%</option><option value="23">23%</option><option value="24">24%</option><option value="25">25%</option><option value="26">26%</option><option value="27">27%</option><option value="28">28%</option><option value="29">29%</option><option value="30">30%</option><option value="31">31%</option><option value="32">32%</option><option value="33">33%</option><option value="34">34%</option><option value="35">35%</option><option value="36">36%</option><option value="37">37%</option><option value="38">38%</option><option value="39">39%</option><option  value="40">40%</option></select> 			</td></tr>'
@@ -660,7 +693,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 					 + '</table><table class="tbl_dades">'
 					 + '<tr><td>Cost de la inversió:</td><td><span id="fv_cost_i">' + this.addCommas( peticioSOS.resultset.OUTPUT.Cost_de_la_inversio_euros )+ '</span> <select  id="sel_cost"><option selected value="0">&euro;</option><option value="1">&euro;/kWp</option></select></td></tr>'
 					 + '<tr><td>Preu de l\'energia:</td><td><span id="fv_preu_e"><input   id="txt_preu" size="2"  type="text" value="' + this.addCommas( peticioSOS.resultset.OUTPUT.Preu_de_lenergia_EDIT) + '"></span> &euro;/kWh</td></tr>'
-					 + '<tr style="display:none"><td>Peatge d\'accés:</td><td><span id="fv_peatge"><input    id="txt_peatge"  size="2" type="text" value="0,5"></span> &euro;/MWh</td></tr>'
+					 + '<tr style="display:none"><td>Peatge d\'accés:</td><td><span id="fv_peatge"><input size="2"   id="txt_peatge"  size="2" type="text" value="0,5"></span> &euro;/MWh</td></tr>'
 					 + '<tr><td>Preu del panell:</td><td><span id="fv_preu_panell"><input  id="txt_preu_panell" size="2"  type="text" value="' + this.addCommas( peticioSOS.resultset.OUTPUT.Preu_del_panell_EDIT) + '"></span> &euro;</td></tr>'
 					 + '<tr><td>Preu inversor:</td><td><span id="fv_preu_inversor"><input  id="txt_preu_inversor" size="2"  type="text" value="' + this.addCommas( peticioSOS.resultset.OUTPUT.Preu_inversor_EDIT) + '"></span> &euro;/panell</td></tr>'
 					 + '<tr><td>Retorn previst:</td><td><span id="fv_retorn">' + this.addCommas( peticioSOS.resultset.OUTPUT.Retorn_previst )+ '</span> &euro;/any</td></tr>'
@@ -721,8 +754,8 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 				
 				htmlArrayText.push('<div class="tit_sos_div">Potencial d\'aprofitament solar tèrmic</div> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat_ts"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
 					 + '</table><table class="tbl_dades"><tr><td>Irradiació global:</td><td><span id="fv_global">' + this.addCommas( peticioSOS.resultset.OUTPUT.Irradiacio_global )+ '</span> kWh/any</td></tr></table><table class="tbl_dades"><tr><td>Àrea total:</td><td><span id="fv_area_t">' + this.addCommas( peticioSOS.resultset.OUTPUT.Area_total )+ '</span> m&sup2;</td></tr>'
-					 + '<tr><td>Inclinació:</td><td><span id="fv_inclina">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_inclina )+ '</span> &deg;</td></tr>'
-					 + '<tr><td>Orientació:</td><td><span id="fv_azimut">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_azimut )+ '</span> &deg;</td></tr>'
+					// + '<tr><td>Inclinació:</td><td><span id="fv_inclina">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_inclina )+ '</span> &deg;</td></tr>'
+					// + '<tr><td>Orientació:</td><td><span id="fv_azimut">' + this.addCommas( peticioSOS.resultset.OUTPUT.fv_azimut )+ '</span> &deg;</td></tr>'
 					 + '<tr><td>Àrea instalada:</td><td><span id="fv_area_i">' + this.addCommas(peticioSOS.resultset.OUTPUT.Area_instalada) + '</span> m&sup2;</td></tr>'
 					 + '<tr><td>Nombre de panells:</td><td><span id="fv_num_panells_span"><input  id="fv_num_panells" size="4"  type="text" value="' + this.addCommas( peticioSOS.resultset.OUTPUT.Nombre_de_panells_EDIT) + '"></span></td></tr>'
 					 + '<tr><td>Eficiència dels panells:</td><td><select id="efi_panells"><option value="30">30%</option><option value="31">31%</option><option value="32">32%</option><option value="33">33%</option><option value="34">34%</option><option value="35">35%</option><option value="36">36%</option><option value="37">37%</option><option value="38">38%</option><option value="39">39%</option><option selected value="40">40%</option><option value="41">41%</option><option value="42">42%</option><option value="43">43%</option><option value="44">44%</option><option value="45">45%</option><option value="46">46%</option><option value="47">47%</option><option value="48">48%</option><option value="49">49%</option><option value="50">50%</option><option value="51">51%</option><option value="52">52%</option><option value="53">53%</option><option value="54">54%</option><option value="55">55%</option><option value="56">56%</option><option value="57">57%</option><option value="58">58%</option><option value="59">59%</option><option value="60">60%</option></select> 			</td></tr>'
