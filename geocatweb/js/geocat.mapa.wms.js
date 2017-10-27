@@ -18,7 +18,7 @@ function generaLlistaServeisWMS() {
 			{
 				"TITOL" : "Base municipal",
 				"ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
-				"IDARXIU" : "http://galileo.icc.cat/arcgis/services/icc_limadmin_v_r/MapServer/WMSServer?",
+				"IDARXIU" : "http://geoserveis.icc.cat/icgc_bm5m/wms/service?",
 				"URN" : "urn:uuid:761da3ce-233c-11e2-a4dd-13da4f953834"
 			},
 			{
