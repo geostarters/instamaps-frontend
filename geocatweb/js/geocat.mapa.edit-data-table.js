@@ -617,7 +617,7 @@ function fillModalDataTable(obj, geomBid){
 						var nameF = name.field.toLowerCase();
 						var isFeatProp = "latitud"== nameF || "longitud"== nameF || "etrs89_x"== nameF || "etrs89_y"== nameF || "longitud (km)"==nameF || "area (ha)"==nameF;
 						if("accions" != nameF && "geometryid"!= nameF
-								&& "geometryBBOX"!= nameF && "geometrybid"!= nameF && !isFeatProp) {							
+								&& "geometrybbox"!= nameF && "geometrybid"!= nameF && !isFeatProp) {							
 							
 							if (!$.isEmptyObject(optionsF) && optionsF[name.field]!=undefined){
 								selectsRow[name.field] = dataFormatter.createOptions(name.field, optionsF[name.field],isFeatProp, i);
@@ -632,7 +632,7 @@ function fillModalDataTable(obj, geomBid){
 							
 						}
 						else if (isFeatProp){
-							selectsRow[name.field] =  dataFormatter.createOptions(name.field,'t',isFeatProp);
+							selectsRow[name.field] =  dataFormatter.createOptions(name.field, 't', isFeatProp, i);
 						}
 						if ("accions"===nameF){
 							selectsRow["accions"]="";
@@ -788,9 +788,9 @@ function dataTableSelectChanged(ctx, showAlert) {
 	{
 
 		var anchor = columns[i];
-		var value = "" + anchor.getAttribute('data-start-value');
+		var value = "" + $(anchor).data('startValue');
 
-		anchor.innerHTML = dataFormatter.formatValue(value, format, true, errors);
+		anchor.textContent = dataFormatter.formatValue(value, format, true, errors);
 
 	}
 

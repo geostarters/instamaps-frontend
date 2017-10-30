@@ -59,22 +59,21 @@
 			var value = inValue;
 			if(undefined === inValue)
 				value = '-';
-
-			if("t" == format) {
+			else if("t" === format) {
 				value = self.formatToText(value);
 				mightHaveError = false;
 			}
-			else if("euro" == format) {
+			else if("euro" === format) {
 				value = self.formatToEuro(value);
 			}
-			else if("dolar" == format) {
+			else if("dolar" === format) {
 				value = self.formatToDollar(value);
 			}
-			else if("n" == format) {
+			else if("n" === format) {
 				value = self.formatToNumber(value);
 			}
 
-			if(mightHaveError && (value == "e"))
+			if(mightHaveError && (value === "e"))
 			{
 
 				if(!shouldAddErrorSpan)
@@ -99,13 +98,23 @@
 
 		isEuro: function(value) {
 
-			return (value.indexOf('€') != -1)
+			/*
+				Pre: Assumes the euro character is the last character of the 
+				value string. With that in mind we can just check the last 
+				character instead of searching for it
+			*/
+			return (value.slice(-1) === '€');
 
 		},
 
 		isDollar: function(value) {
 
-			return (value.indexOf('$') != -1)
+			/*
+				Pre: Assumes the dollar character is the last character of the 
+				value string. With that in mind we can just check the last 
+				character instead of searching for it
+			*/
+			return (value.slice(-1) === '$')
 
 		},
 
@@ -119,13 +128,11 @@
 
 			var self = this;
 
-			var value = inValue;
-			if(self.isEuro(inValue))
-				value = value.replace("€", "");
-			else if(self.isDollar(inValue))
-				value = value.replace("$", "");
+			var value = inValue.trim();
+			if(self.isEuro(inValue) || self.isDollar(inValue))
+				value = value.substring(0, value.length -1);
 
-			return value.trim();
+			return value;
 
 		},
 
@@ -152,6 +159,7 @@
 				value = self.formatToNumber(value) + ' $';
 			}
 			else value="e";
+
 			return value;
 
 		},
