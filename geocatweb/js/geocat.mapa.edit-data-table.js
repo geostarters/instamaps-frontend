@@ -709,7 +709,7 @@ function fillModalDataTable(obj, geomBid){
 						else{
 							//Trigger an update to format the value
 							//If we had the cell name we could modify it directly...
-							dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'));
+							//dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'));
 							var dataUpdate ={
 									uid:Cookies.get('uid'),
 									geometryid: row["geometryid"],
