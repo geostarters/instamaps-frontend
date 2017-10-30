@@ -99,9 +99,7 @@
 								txt = parseUrlTextPopUp(value, key);
 								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 									if (propFormat!=undefined && propFormat[key.toLowerCase()]!=undefined){
-										var formatValue =dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
-										if (formatValue.indexOf("error")==-1) txt=formatValue;
-										//txt= dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
+										txt = dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
 									}
 									html+='<div class="popup_data_key">'+key+'</div>';
 									html+='<div class="popup_data_value">'+
@@ -114,9 +112,7 @@
 							}
 							else {
 								if (propFormat!=undefined && propFormat[key.toLowerCase()]!=undefined){
-									var formatValue =dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
-									if (formatValue.indexOf("error")==-1) txt=formatValue;
-									//txt= dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
+									txt = dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
 								}
 								html+='<div class="popup_data_key">'+key+'</div>';
 								html+='<div class="popup_data_value">'+txt+'</div>';
