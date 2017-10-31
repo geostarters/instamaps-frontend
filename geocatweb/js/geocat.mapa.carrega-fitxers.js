@@ -466,7 +466,7 @@ function addFuncioCarregaFitxers(){
 			} else if (jQuery(this).val() == "comarques") {
 				html = "<option value='ine'>NUM_COMARCA (2 digits)</option><option value='municat'>MUNICAT (10 digits)</option>";
 			} else if (jQuery(this).val() == "provincies"){
-				html = "<option value='ine'>CODIPROV (2 digits)</option><option value='municat'>MUNICAT (10 digits)</option>";
+				html = "<option value='ine'>CODIPROV (2 digits)</option><option value='codiens'>MUNICAT (10 digits)</option>";
 			}
 			jQuery('#cmd_codiType').html(html);
 		});
