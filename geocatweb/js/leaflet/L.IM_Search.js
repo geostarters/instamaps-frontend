@@ -998,7 +998,7 @@ L.Control.Search = L.Control.extend({
 			this._map.panTo(latlng);
 	
 		var v_url = window.location.href;
-		var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);	
+		
 		if(this._markerLoc)
 		{
 			
