@@ -790,7 +790,14 @@ function dataTableSelectChanged(ctx, showAlert) {
 		var anchor = columns[i];
 		var value = "" + $(anchor).data('startValue');
 
-		anchor.textContent = dataFormatter.formatValue(value, format, true, errors);
+		var oldErrors = errors.num;
+		var content = dataFormatter.formatValue(value, format, true, errors);
+		var hasErrors = (errors.num != oldErrors);
+
+		if(!hasErrors)
+			anchor.textContent = content;
+		else
+			anchor.innerHTML = content;
 
 	}
 
