@@ -34,8 +34,8 @@
 					"	<option value='t'"+selectedT+">Text</option>" +
 					"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
 					"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
-					"	<option value='n'"+selectedN+">Número s.d.=\",\"</option>" +
-					"	<option value='i'"+selectedI+">Número s.d.=\".\"</option>" +
+					"	<option value='n'"+selectedN+">Núm. separador \",\"</option>" +
+					"	<option value='i'"+selectedI+">Núm. separador \".\"</option>" +
 					"</select>";
 			}
 			else {
@@ -44,8 +44,8 @@
 				"	<option value='t'"+selectedT+">Text</option>" +
 				"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
 				"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
-				"	<option value='n'"+selectedN+" selected>Número s.d.=\",\"</option>" +
-				"	<option value='i'"+selectedI+" selected>Número s.d.=\".\"</option>" +
+				"	<option value='n'"+selectedN+" selected>Núm. separador \",\"</option>" +
+				"	<option value='i'"+selectedI+" selected>Núm. separador \".\"</option>" +
 				"</select>";
 			}
 			
