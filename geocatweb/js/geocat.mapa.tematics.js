@@ -33,6 +33,30 @@ function initButtonsTematic(){
 		showTematicLayersModal(tem_cluster,jQuery(this).attr('class'));
 		
 	});	
+
+	$('#updateRangeButton').on('click', function(e) {
+
+		var minValue = $('#customRangeMinimumValue').val();
+		var maxValue = $('#customRangeMaximumValue').val();
+		var noRepetits = $("#dialog_tematic_rangs").data("values-norepetits");
+		var first = noRepetits[0];
+		var last = noRepetits[noRepetits.length-1];
+
+		if(first.index == -1)
+			noRepetits[0].v = minValue;
+		else if(first.v != minValue)
+			noRepetits.unshift({index: -1, v: minValue, style: noRepetits[0].style});
+
+		if(last.index == -1)
+			noRepetits[noRepetits.length-1].v = maxValue;
+		else if(last.v != maxValue)
+			noRepetits.push({index: -1, v: maxValue, style: noRepetits[0].style});
+
+		$("#dialog_tematic_rangs").data("values-norepetits", noRepetits);
+		loadTematicValueTemplate(noRepetits,'unic');
+		updatePaletaRangs();
+
+	});
 }
 
 function showTematicLayersModal(tipus,className){
@@ -854,7 +878,7 @@ function addHtmlModalLayersTematic(){
 
 function addHtmlModalCategories(){
 	
-	jQuery('#mapa_modals').append(
+	var html = '' +
 	'	<!-- Modal Tematics Rangs -->'+
 	'		<div class="modal fade" id="dialog_tematic_rangs">'+
 	'		<div class="modal-dialog">'+
@@ -1100,40 +1124,49 @@ function addHtmlModalCategories(){
 	'					<div id="palet_warning" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>'+
 	'					<span lang="ca">Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</span></div>'+
 	'					<div id="list_tematic_values"></div>'+
+	'					<div id="valors_rangs_personalitzats" class="row" style="display: none;">' +
+	'						<div class="form-group col-md-5">' +
+	'							<div class="input-group">' +
+  	'								<span class="input-group-addon" id="valor-minim-text">Valor mínim:</span>' +
+  	'								<input type="number" class="form-control" id="customRangeMinimumValue" aria-describedby="valor-minim-text">' +
+	'							</div>' +
+	'						</div>' +
+	'						<div class="form-group col-md-5">' +
+	'							<div class="input-group">' +
+  	'								<span class="input-group-addon" id="valor-maxim-text">Valor màxim:</span>' +
+  	'								<input type="number" class="form-control" id="customRangeMaximumValue" aria-describedby="valor-maxim-text">' +
+	'							</div>' +
+	'						</div>' +
+	'						<div class="col-md-2">' +
+	'							<button id="updateRangeButton" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-refresh" title="Actualitza valors" aria-label="Actualitza valors"></span></button>' +
+	'						</div>' +
+	'					</div>' +
+	'					<div id="paletes_colors">' +
+	'						<div><span lang="ca">Tria la paleta de colors</span><span class="glyphicon glyphicon-arrow-down btn-reverse-palete"></span><span lang="ca" class="btn-reverse-palete">Inverteix paleta</span></div>';
 
-	'					<div id="paletes_colors">'+
-	'						<div><span lang="ca">Tria la paleta de colors</span><span class="glyphicon glyphicon-arrow-down btn-reverse-palete"></span><span lang="ca" class="btn-reverse-palete">Inverteix paleta</span></div>'+
-	'<div class="ramp BuGn"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(237,248,251)"/><rect y="15" height="15" width="15" fill="rgb(178,226,226)"/><rect y="30" height="15" width="15" fill="rgb(102,194,164)"/><rect y="45" height="15" width="15" fill="rgb(44,162,95)"/><rect y="60" height="15" width="15" fill="rgb(0,109,44)"/></svg></div>'+
-	'<div class="ramp BuPu"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(237,248,251)"/><rect y="15" height="15" width="15" fill="rgb(179,205,227)"/><rect y="30" height="15" width="15" fill="rgb(140,150,198)"/><rect y="45" height="15" width="15" fill="rgb(136,86,167)"/><rect y="60" height="15" width="15" fill="rgb(129,15,124)"/></svg></div>'+
-	'<div class="ramp GnBu"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(240,249,232)"/><rect y="15" height="15" width="15" fill="rgb(186,228,188)"/><rect y="30" height="15" width="15" fill="rgb(123,204,196)"/><rect y="45" height="15" width="15" fill="rgb(67,162,202)"/><rect y="60" height="15" width="15" fill="rgb(8,104,172)"/></svg></div>'+
-	'<div class="ramp OrRd"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(254,240,217)"/><rect y="15" height="15" width="15" fill="rgb(253,204,138)"/><rect y="30" height="15" width="15" fill="rgb(252,141,89)"/><rect y="45" height="15" width="15" fill="rgb(227,74,51)"/><rect y="60" height="15" width="15" fill="rgb(179,0,0)"/></svg></div>'+
-	'<div class="ramp PuBu"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(241,238,246)"/><rect y="15" height="15" width="15" fill="rgb(189,201,225)"/><rect y="30" height="15" width="15" fill="rgb(116,169,207)"/><rect y="45" height="15" width="15" fill="rgb(43,140,190)"/><rect y="60" height="15" width="15" fill="rgb(4,90,141)"/></svg></div>'+
-	'<div class="ramp PuBuGn"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(246,239,247)"/><rect y="15" height="15" width="15" fill="rgb(189,201,225)"/><rect y="30" height="15" width="15" fill="rgb(103,169,207)"/><rect y="45" height="15" width="15" fill="rgb(28,144,153)"/><rect y="60" height="15" width="15" fill="rgb(1,108,89)"/></svg></div>'+
-	
-	'<div class="ramp PuRd"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(241,238,246)"/><rect y="15" height="15" width="15" fill="rgb(215,181,216)"/><rect y="30" height="15" width="15" fill="rgb(223,101,176)"/><rect y="45" height="15" width="15" fill="rgb(221,28,119)"/><rect y="60" height="15" width="15" fill="rgb(152,0,67)"/></svg></div>'+
-	'<div class="ramp RdPu"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(254,235,226)"/><rect y="15" height="15" width="15" fill="rgb(251,180,185)"/><rect y="30" height="15" width="15" fill="rgb(247,104,161)"/><rect y="45" height="15" width="15" fill="rgb(197,27,138)"/><rect y="60" height="15" width="15" fill="rgb(122,1,119)"/></svg></div>'+
-	'<div class="ramp YlGn"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(255,255,204)"/><rect y="15" height="15" width="15" fill="rgb(194,230,153)"/><rect y="30" height="15" width="15" fill="rgb(120,198,121)"/><rect y="45" height="15" width="15" fill="rgb(49,163,84)"/><rect y="60" height="15" width="15" fill="rgb(0,104,55)"/></svg></div>'+
-	'<div class="ramp YlGnBu"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(255,255,204)"/><rect y="15" height="15" width="15" fill="rgb(161,218,180)"/><rect y="30" height="15" width="15" fill="rgb(65,182,196)"/><rect y="45" height="15" width="15" fill="rgb(44,127,184)"/><rect y="60" height="15" width="15" fill="rgb(37,52,148)"/></svg></div>'+
-	'<div class="ramp YlOrBr"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(255,255,212)"/><rect y="15" height="15" width="15" fill="rgb(254,217,142)"/><rect y="30" height="15" width="15" fill="rgb(254,153,41)"/><rect y="45" height="15" width="15" fill="rgb(217,95,14)"/><rect y="60" height="15" width="15" fill="rgb(153,52,4)"/></svg></div>'+
-	'<div class="ramp YlOrRd"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(255,255,178)"/><rect y="15" height="15" width="15" fill="rgb(254,204,92)"/><rect y="30" height="15" width="15" fill="rgb(253,141,60)"/><rect y="45" height="15" width="15" fill="rgb(240,59,32)"/><rect y="60" height="15" width="15" fill="rgb(189,0,38)"/></svg></div>'+
-	
-	'<div class="ramp BrBG"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(166,97,26)"/><rect y="15" height="15" width="15" fill="rgb(223,194,125)"/><rect y="30" height="15" width="15" fill="rgb(245,245,245)"/><rect y="45" height="15" width="15" fill="rgb(128,205,193)"/><rect y="60" height="15" width="15" fill="rgb(1,133,113)"/></svg></div>'+
-	'<div class="ramp PRGn"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(123,50,148)"/><rect y="15" height="15" width="15" fill="rgb(194,165,207)"/><rect y="30" height="15" width="15" fill="rgb(247,247,247)"/><rect y="45" height="15" width="15" fill="rgb(166,219,160)"/><rect y="60" height="15" width="15" fill="rgb(0,136,55)"/></svg></div>'+
-	'<div class="ramp PuOr"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(230,97,1)"/><rect y="15" height="15" width="15" fill="rgb(253,184,99)"/><rect y="30" height="15" width="15" fill="rgb(247,247,247)"/><rect y="45" height="15" width="15" fill="rgb(178,171,210)"/><rect y="60" height="15" width="15" fill="rgb(94,60,153)"/></svg></div>'+
-	'<div class="ramp RdGy"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(202,0,32)"/><rect y="15" height="15" width="15" fill="rgb(244,165,130)"/><rect y="30" height="15" width="15" fill="rgb(255,255,255)"/><rect y="45" height="15" width="15" fill="rgb(186,186,186)"/><rect y="60" height="15" width="15" fill="rgb(64,64,64)"/></svg></div>'+
-	'<div class="ramp RdYlBu"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(215,25,28)"/><rect y="15" height="15" width="15" fill="rgb(253,174,97)"/><rect y="30" height="15" width="15" fill="rgb(255,255,191)"/><rect y="45" height="15" width="15" fill="rgb(171,217,233)"/><rect y="60" height="15" width="15" fill="rgb(44,123,182)"/></svg></div>'+
-	'<div class="ramp RdYlGn"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(215,25,28)"/><rect y="15" height="15" width="15" fill="rgb(253,174,97)"/><rect y="30" height="15" width="15" fill="rgb(255,255,191)"/><rect y="45" height="15" width="15" fill="rgb(166,217,106)"/><rect y="60" height="15" width="15" fill="rgb(26,150,65)"/></svg></div>'+
-	'<div class="ramp Spectral"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(215,25,28)"/><rect y="15" height="15" width="15" fill="rgb(253,174,97)"/><rect y="30" height="15" width="15" fill="rgb(255,255,191)"/><rect y="45" height="15" width="15" fill="rgb(171,221,164)"/><rect y="60" height="15" width="15" fill="rgb(43,131,186)"/></svg></div>'+
-	
-	'<div class="ramp Paired"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(166,206,227)"/><rect y="15" height="15" width="15" fill="rgb(31,120,180)"/><rect y="30" height="15" width="15" fill="rgb(178,223,138)"/><rect y="45" height="15" width="15" fill="rgb(51,160,44)"/><rect y="60" height="15" width="15" fill="rgb(251,154,153)"/></svg></div>'+
-	'<div class="ramp Set3"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(141,211,199)"/><rect y="15" height="15" width="15" fill="rgb(255,255,179)"/><rect y="30" height="15" width="15" fill="rgb(190,186,218)"/><rect y="45" height="15" width="15" fill="rgb(251,128,114)"/><rect y="60" height="15" width="15" fill="rgb(128,177,211)"/></svg></div>'+
-	'<div class="ramp Set1"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(228,26,28)"/><rect y="15" height="15" width="15" fill="rgb(55,126,184)"/><rect y="30" height="15" width="15" fill="rgb(77,175,74)"/><rect y="45" height="15" width="15" fill="rgb(152,78,163)"/><rect y="60" height="15" width="15" fill="rgb(255,127,0)"/></svg></div>'+
-	'<div class="ramp Dark2"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(27,158,119)"/><rect y="15" height="15" width="15" fill="rgb(217,95,2)"/><rect y="30" height="15" width="15" fill="rgb(117,112,179)"/><rect y="45" height="15" width="15" fill="rgb(231,41,138)"/><rect y="60" height="15" width="15" fill="rgb(102,166,30)"/></svg></div>'+
-	
-//	'						<img id="paletaPaired" src="img/paleta2.png" class="btn-paleta" lang="ca" title="Paired">'+
-//	'						<img id="paletaPastel" src="img/paleta1.png" class="btn-paleta" lang="ca" title="Pastel">'+
-//	'						<img id="paletaDivergent" src="img/paleta_divergent.png" class="btn-paleta" lang="ca" title="Divergent">'+
-//	'						<img id="paletaSecuencial" src="img/paleta_sequencial.png" class="btn-paleta" lang="ca" title="Sequencial">'+
+	var palettes = ["BuGn", "BuPu", "GnBu", "OrRd", "PuBu", "PuBuGn", "PuRd", "RdPu", "YlGn", "YlGnBu", "YlOrBr", "YlOrRd", 
+		"BrBG", "PRGn", "PuOr", "RdGy", "RdYlBu", "RdYlGn", "Spectral", "Paired", "Set3", "Set1", "Dark2"];
+	$.each(palettes, function(index, palette) {
+		var palName = palette;
+		var scale = createScale(palName, 4, false);
+		html += '' +
+		'	<div class="ramp ' + palName + '">' +
+		'		<svg height="75" width="15">' + 
+		'			<defs>' +
+		'				<linearGradient id="gradient' + index + '" x1="0" x2="0" y1="0" y2="1">' +
+		'					<stop offset="0%" stop-color="' + scale(0).hex() + '"/>' + 
+		'					<stop offset="25%" stop-color="' + scale(1).hex() + '"/>' +
+		'					<stop offset="50%" stop-color="' + scale(2).hex() + '"/>' +
+		'					<stop offset="75%" stop-color="' + scale(3).hex() + '"/>' +
+		'					<stop offset="100%" stop-color="' + scale(4).hex() + '"/>' +
+		'				</linearGradient>' +
+		'			</defs>' +
+		'			<rect width="15" height="75" fill="url(#gradient' + index + ')" />' + 
+		'		</svg>' +
+		'	</div>';
+	});
+
+	html += '' +
 	'					</div>'+
 	
 	
@@ -1148,8 +1181,9 @@ function addHtmlModalCategories(){
 	'		<!-- /.modal-dialog -->'+
 	'	</div>'+
 	'	<!-- /.modal -->'+
-	'	<!-- fi Modal Tematics Rangs -->'		
-	);
+	'	<!-- fi Modal Tematics Rangs -->';
+
+	jQuery('#mapa_modals').append(html);
 }
 
 
