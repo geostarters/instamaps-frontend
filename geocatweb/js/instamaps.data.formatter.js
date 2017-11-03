@@ -23,6 +23,8 @@
 			selectVal=='dolar'?selectedDolar=' selected':selectedDolar='';	
 			var selectedN='';
 			selectVal=='n'?selectedN=' selected':selectedN='';	
+			var selectedI='';
+			selectVal=='i'?selectedI=' selected':selectedI='';	
 			
 			var html="";
 			var propEnabled="enabled";
@@ -32,7 +34,8 @@
 					"	<option value='t'"+selectedT+">Text</option>" +
 					"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
 					"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
-					"	<option value='n'"+selectedN+">Número</option>" +
+					"	<option value='n'"+selectedN+">Núm. separador \",\"</option>" +
+					"	<option value='i'"+selectedI+">Núm. separador \".\"</option>" +
 					"</select>";
 			}
 			else {
@@ -41,7 +44,8 @@
 				"	<option value='t'"+selectedT+">Text</option>" +
 				"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
 				"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
-				"	<option value='n'"+selectedN+" selected>Número</option>" +
+				"	<option value='n'"+selectedN+" selected>Núm. separador \",\"</option>" +
+				"	<option value='i'"+selectedI+" selected>Núm. separador \".\"</option>" +
 				"</select>";
 			}
 			
@@ -70,7 +74,10 @@
 				value = self.formatToDollar(value);
 			}
 			else if("n" === format) {
-				value = self.formatToNumber(value);
+				value = self.formatToNumber(value, false);
+			}
+			else if("i" === format) {
+				value = self.formatToNumber(value, true);
 			}
 
 			if(mightHaveError && (value === "e"))
@@ -118,9 +125,14 @@
 
 		},
 
-		isNumber: function(value) {
+		isNumber: function(value, inverted) {
 
-			return (0 < (value.match(/^(\d+|\d{1,3}([\.]\d{3})*)([,]\d+)?$/) || []).length);
+			var isInverted = inverted || false;
+
+			if(isInverted)
+				return (0 < (value.match(/^(\d+|\d{1,3}([,]\d{3})*)([\.]\d+)?$/) || []).length);
+			else
+				return (0 < (value.match(/^(\d+|\d{1,3}([\.]\d{3})*)([,]\d+)?$/) || []).length);
 
 		},
 
@@ -164,20 +176,22 @@
 
 		},
 
-		formatToNumber: function(inValue) {
+		formatToNumber: function(inValue, inverted) {
 
-			//Formats to 1.234,2556677
+			//Formats to 1.234,2556677 or to 1,234.2556677 if the inverted 
+			//flag is set
 			var self = this;
+			var isInverted = inverted || false;
 			
 			var value =  self.removeDecorators(inValue);
-			if(self.isNumber(value))
+			if(self.isNumber(value, isInverted))
 			{
 
-				var thousands = value.split(self.options.thousandsSeparator);
-				var decimals = value.split(self.options.decimalSeparator);
+				var thousands = value.split(isInverted ? self.options.decimalSeparator : self.options.thousandsSeparator);
+				var decimals = value.split(isInverted ? self.options.thousandsSeparator : self.options.decimalSeparator);
 				var hasDecimalSeparator = (1 < decimals.length);
 				var hasThousandsSeparator = (1 < thousands.length);
-				var integerPart = decimals[0].split(self.options.thousandsSeparator);
+				var integerPart = decimals[0].split(isInverted ? self.options.decimalSeparator : self.options.thousandsSeparator);
 				var decimalPart = hasDecimalSeparator ? decimals[1] : [];
 
 				if(!hasThousandsSeparator)
@@ -197,7 +211,7 @@
 
 				}
 
-				value = integerPart.join(self.options.thousandsSeparator) + (hasDecimalSeparator ? self.options.decimalSeparator + decimalPart : '');
+				value = integerPart.join(isInverted ? self.options.decimalSeparator : self.options.thousandsSeparator) + (hasDecimalSeparator ? (isInverted ? self.options.thousandsSeparator : self.options.decimalSeparator) + decimalPart : '');
 
 			}
 			else return "e";

@@ -463,8 +463,10 @@ function addFuncioCarregaFitxers(){
 			var html = "";
 			if (jQuery(this).val() == "municipis") {
 				html = "<option value='ine'>INE (5 digits)</option><option value='idescat'>IDESCAT (6 digits)</option><option value='municat'>MUNICAT (10 digits)</option><option value='cadastre'>CADASTRE (5 digits)</option>";
-			} else {
+			} else if (jQuery(this).val() == "comarques") {
 				html = "<option value='ine'>NUM_COMARCA (2 digits)</option><option value='municat'>MUNICAT (10 digits)</option>";
+			} else if (jQuery(this).val() == "provincies"){
+				html = "<option value='codiprov'>CODIPROV (2 digits)</option><option value='codiens'>MUNICAT (10 digits)</option>";
 			}
 			jQuery('#cmd_codiType').html(html);
 		});
