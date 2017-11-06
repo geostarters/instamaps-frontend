@@ -444,6 +444,12 @@ function addFuncioCarregaFitxers(){
 				
 			 if(isOK){enviarArxiu();}
 		});
+		
+		jQuery("#load_TXT_dades").on('click', function() {// fitxer només de dades
+			envioArxiu.tipusAcc='dades'; 
+			enviarArxiu();
+		});
+		
 
 		jQuery("#load_FF_SRS_coord").on('click', function() {
 			 var isOK = true;	
@@ -579,18 +585,21 @@ function accionaCarrega(file,isDrag) {
 			if ((ff.ext == "csv") || (ff.ext == "txt")) {				
 				$('#nav_pill a[href="#opt_adreca"]').css('display','block');
 				$('#nav_pill a[href="#opt_codi"]').css('display','block');
+				$('#nav_pill a[href="#opt_dades"]').css('display','block');
 				obteCampsCSV(file);
 				obroModal = true;
 				
 			} else if (ff.ext == "xlsx") {				
 				$('#nav_pill a[href="#opt_adreca"]').css('display','block');
 				$('#nav_pill a[href="#opt_codi"]').css('display','block');
+				$('#nav_pill a[href="#opt_dades"]').css('display','block');
 				obteCampsXLSX(file);
 				obroModal = true;
 				
 			} else if (ff.ext == "xls") {
 				$('#nav_pill a[href="#opt_adreca"]').css('display','block');
 				$('#nav_pill a[href="#opt_codi"]').css('display','block');
+				$('#nav_pill a[href="#opt_dades"]').css('display','block');
 				obteCampsXLSX(file);				
 				obroModal = true;
 				
@@ -618,6 +627,7 @@ function accionaCarrega(file,isDrag) {
 				jQuery('#dv_optCapa').show();
 				$('#nav_pill a[href="#opt_adreca"]').css('display','none');
 				$('#nav_pill a[href="#opt_codi"]').css('display','none');
+				$('#nav_pill a[href="#opt_dades"]').css('display','none');
 				$('#ul_coords #coordX1').css('display','none');
 				$('#ul_coords #coordY1').css('display','none');
 				$('#ul_coords #coordX2').css('display','block');
@@ -654,6 +664,7 @@ function analitzaMatriu(matriu) {
 
 	$('#nav_pill a[href="#opt_codi"]').attr("data-toggle","tab");
 	$('#nav_pill a[href="#opt_adreca"]').attr("data-toggle","tab");
+	$('#nav_pill a[href="#opt_dades"]').attr("data-toggle","tab");
 	
 	$.each(matriu, function(index, value) {
 		if (!jQuery.isNumeric(value)){
