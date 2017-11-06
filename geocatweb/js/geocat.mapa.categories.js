@@ -39,6 +39,7 @@ function showModalTematicCategories(data){
 	jQuery('#tipus_agrupacio_grp').hide();
 	jQuery('#num_rangs_grp').hide();
 	jQuery('#list_tematic_values').html("");
+	$('#valors_rangs_personalitzats').hide();
 	jQuery('#dialog_tematic_rangs .btn-success').hide();
 	
 	jQuery('.btn-reverse-palete').off('click');
@@ -87,6 +88,7 @@ function showModalTematicCategories(data){
 				jQuery('#tipus_agrupacio_grp').hide();
 				jQuery('#num_rangs_grp').hide();
 				jQuery('#list_tematic_values').html("");
+				$('#valors_rangs_personalitzats').hide();
 				jQuery('#dialog_tematic_rangs .btn-success').hide();
 			}else{				
 				readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
@@ -124,6 +126,7 @@ function showModalTematicCategories(data){
 				jQuery('#tipus_agrupacio_grp').hide();
 				jQuery('#num_rangs_grp').hide();
 				jQuery('#list_tematic_values').html("");
+				$('#valors_rangs_personalitzats').hide();
 				jQuery('#dialog_tematic_rangs .btn-success').hide();
 			}else{
 				var dataVis={
@@ -228,6 +231,7 @@ function getTipusValuesVisualitzacio(results,geomType){
 	if (results.geomType!=undefined) geometryType=results.geomType;
 	else geometryType=geomType;
 
+	$('#valors_rangs_personalitzats').hide();
 	
 	if (resultats.length === 0){
 		var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
@@ -260,7 +264,8 @@ function getTipusValuesVisualitzacio(results,geomType){
 				if (this_.val() == "U"){
 					jQuery('#num_rangs_grp').hide();
 					showVisualitzacioDataUnic(resultats,geometryType).then(function(results1){
-						loadTematicValueTemplate(results1,'unic');
+						loadTematicValueTemplate(results1,'unic', true);
+						$('#valors_rangs_personalitzats').show();
 					});
 				}else if(this_.val() == "S") {
 					jQuery('#num_rangs_grp').hide();
@@ -786,10 +791,22 @@ function updatePaletaRangs(softColors){
 	var tipusrang = jQuery("#dialog_tematic_rangs").data("tipusrang");
 	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
 	
-
-	
 	var val_leng = 0;
-	if (tipusrang == 'rangs'){
+	if(tipusrang == 'unic') {
+		var min = values[0];
+		var max = values[values.length-1];
+
+		if(min.hasOwnProperty('v'))
+			min = min.v;
+
+		if(max.hasOwnProperty('v'))
+			max = max.v;
+
+		if($.isNumeric(min) && $.isNumeric(max))
+			val_leng = max - min;
+		else
+			val_leng = values.length;
+	} else if (tipusrang == 'rangs'){
 		val_leng = rangs.length;
 	}else{
 		val_leng = values.length;
@@ -811,8 +828,24 @@ function updatePaletaRangs(softColors){
 		var length = (softColors ? elems.length + 1 : elems.length - 1);
 		var factor = val_leng/length;
 		var start = (softColors ? factor : 0);
-		elems.each(function(i, elm){
-			var color = scale(start + i*factor).hex();
+		elems.each(function(i, elm) {
+
+			var colorIndex = start + i*factor;
+			if('unic' == tipusrang) {
+
+				var value = values[i];
+				if(value.hasOwnProperty('v'))
+					value = value.v;
+
+				var min = values[0];
+				if(min.hasOwnProperty('v'))
+					min = min.v;
+
+				colorIndex = value - min;
+
+			}
+
+			var color = scale(colorIndex).hex();
 			jQuery(elm).css('background-color', color);
 		});
 	}else if (ftype == t_polyline){
@@ -913,9 +946,22 @@ function createRangsValues(rangs,geomType){
 	});
 }
 
-function loadTematicValueTemplate(results, rtype){
+function setCustomRangeValues(min, max) {
+
+	//Set the minimum value input max value to min so it can't reduce the range
+	//Set the maximum value input min value to max so it can't reduce the range
+
+	$('#customRangeMinimumValue').val(min);
+	$('#customRangeMinimumValue').attr("max", min);
+	$('#customRangeMaximumValue').val(max);
+	$('#customRangeMaximumValue').attr("min", max);
+
+}
+
+function loadTematicValueTemplate(results, rtype, setMinMax){
 
 	var source1;
+	var shouldSetMinMax = setMinMax || false;
 	var geometryType = results[0].style.geometryType;
 	if (!geometryType){
 		geometryType = results[0].style.tipus;
@@ -993,6 +1039,10 @@ function loadTematicValueTemplate(results, rtype){
 			html1 = template1({values:resultsNoRepetits});
 		}
 		jQuery("#dialog_tematic_rangs").data("values-norepetits",resultsNoRepetits);
+
+		if(shouldSetMinMax)
+			setCustomRangeValues(resultsFloat[0].v, resultsFloat[resultsFloat.length-1].v);
+
 	}
 	else {
 		
@@ -1028,6 +1078,7 @@ function loadTematicValueTemplate(results, rtype){
 	
 	
 	jQuery('#list_tematic_values').html(html1);
+
 	jQuery('#dialog_tematic_rangs .btn-success').show();
 	if (ftype == t_marker){
 		jQuery('#list_tematic_values div.awesome-marker-web').on('click',function(e){

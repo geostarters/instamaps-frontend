@@ -150,7 +150,7 @@ function editableColumnFormatter(inValue, row, index, name, pk, columnIndex) {
 	else {
 
 		value = dataFormatter.formatValue(inValue, format);
-		var rawValue = dataFormatter.removeDecorators(inValue);
+		var rawValue = (undefined === inValue) ? "" : dataFormatter.removeDecorators(inValue);
 
 		return '<a id="dataTable_' + index + '_' + columnIndex + '" class="dataTable_column_' + 
 			columnIndex + ' dataTable_row_' + index + '" href="javascript:void(0)" data-name="' + 
