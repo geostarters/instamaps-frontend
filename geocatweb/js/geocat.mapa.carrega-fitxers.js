@@ -1466,7 +1466,7 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 												map.removeLayer(capaEdicio.layer);
 												controlCapes.removeLayer(capaEdicio);	
 											}
-											addDropFileToMap(data,refrescar);									
+											addDropFileToMap(data,envioArxiu.tipusAcc);									
 										}								
 									});
 									
