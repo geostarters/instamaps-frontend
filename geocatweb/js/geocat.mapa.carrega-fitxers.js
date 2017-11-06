@@ -162,7 +162,7 @@ function creaAreesDragDropFiles() {
 									
 									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
 										if(data.status.indexOf("OK")!=-1){											
-												addDropFileToMap(data);
+												addDropFileToMap(data,envioArxiu.tipusAcc);
 										 }							
 									});
 									$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});
@@ -1058,7 +1058,7 @@ function miraFitxer(fitxer) {
 	return dfd.promise();
 }
 
-function addDropFileToMap(results) {
+function addDropFileToMap(results,tipusAcc) {
 	if(results.layer && results.layer.serverType.indexOf(t_vis_wms_noedit)!=-1){
 		loadVisualitzacioWmsLayer(results.layer);
 		jQuery('#info_uploadFile').hide();
@@ -1074,7 +1074,12 @@ function addDropFileToMap(results) {
 				var defer = $.Deferred();
 				loadVisualitzacioLayer(results.layerMarker).then(function(results1){
 					if(results1 && !jQuery.isEmptyObject(results1._layers)){
-						map.fitBounds(results1.getBounds());
+						if (tipusAcc!=null && tipusAcc=="dades") {
+							map.setView([ 41.4324, 1.1453 ], 8);
+						}
+						else {
+							map.fitBounds(results1.getBounds());
+						}
 					}								
 					jQuery('#info_uploadFile').hide();
 				});					
