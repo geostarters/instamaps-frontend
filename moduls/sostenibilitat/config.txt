@@ -1,0 +1,19 @@
+WMS
+http://geoserverdev.icgc.local:8080/geoserver/test2/wms?
+
+Potencial_fotovoltaic   Idoneïnat fotovoltaica
+
+
+Potencial_termosolar    Idoneïnat solar tèrmica
+
+
+
+
+WFS
+http://geoserverdev.icgc.local:8080/geoserver/test2/wfs?
+
+test2:edificis_fv
+test2:edificis_ts
+
+test2:teulades_fv
+test2:teulades_ts
