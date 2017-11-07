@@ -117,6 +117,7 @@
 									data-toggle="tab">Per coordenades</a></li>
 								<li ><a href="#opt_adreca" lang="ca" data-toggle="tab">Per adreces</a></li>
 								<li ><a href="#opt_codi" lang="ca" data-toggle="tab">Per codis</a></li>
+								<li ><a href="#opt_dades" lang="ca" data-toggle="tab">Sense coordenades</a></li>
 							</ul>
 							<!-- Tab panes -->
 							<div id="dv_contentOpt" class="tab-content tab-content-margin5px">
@@ -205,6 +206,7 @@
 										<select id="cmd_codiType_Capa">
 											<option lang="ca" selected value="municipis">Municipis</option>
 											<option lang="ca" value="comarques">Comarques</option>
+											<option lang="ca" value="provincies">Provincies</option>
 										</select>
 										</li>
 										<li><label lang="ca">Tipus codi</label></li>
@@ -220,6 +222,17 @@
 										<li><select style="width: 100%;" id="cmd_upload_codi"></select></li>
 									</ul>
 									<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_codi">Processar arxiu</button>
+								</div>
+								<div class="tab-pane" id="opt_dades">
+									Aquesta opci&oacute; permet carregar dades que no contenen informaci&oacute; geogr&agrave;fica. Instamaps crea una capa de punts localitzats arbitr&agrave;riament enfront Barcelona.<br/>
+									Aix&ograve; permet:
+									<ul>
+										<li>tenir a Instamaps una taula d'informaci&oacute; no geogr&agrave;fica,</li>
+										<li>pujar informaci&oacute; per vincular-la a una altra capa (mitjan&ccedil;ant uni&oacute; per columna), o b&eacute;</li>
+										<li>despla&ccedil;ar cada punt a la seva localitzaci&oacute; correcta (icona moure).</li>
+									</ul>
+									Vegeu el FAQ 48.
+									<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_dades">Processar arxiu</button>
 								</div>
 							</div>
 						</div>

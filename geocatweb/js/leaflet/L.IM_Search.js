@@ -998,7 +998,7 @@ L.Control.Search = L.Control.extend({
 			this._map.panTo(latlng);
 	
 		var v_url = window.location.href;
-		var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);	
+		
 		if(this._markerLoc)
 		{
 			
@@ -1058,7 +1058,7 @@ L.Control.Search = L.Control.extend({
 			}
 			else {
 							
-				
+				var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
 				var marker=null;
 				if(!defaultPunt.options.isCanvas){
 					marker=L.marker([0,0],

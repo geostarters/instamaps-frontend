@@ -5306,3 +5306,7 @@ li >.label-dof:focus {
 #id_llegenda .control-switch .controls .bootstrap-switch{
 	    min-width: 125px;
 }
+
+#valors_rangs_personalitzats {
+	margin-top: 10px;
+}

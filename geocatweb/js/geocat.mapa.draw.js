@@ -1181,7 +1181,7 @@ function objecteUserAdded(f){
 		var _this = this;
 		
 	
-		var opts = "text,nom,";
+		var opts = "nom,text,";
 		if  (f.layer.options.tipus==t_marker){
 			opts += "latitud,longitud,etrs89_x,etrs89_y";
 		}
@@ -1723,17 +1723,13 @@ function createPopUpContent(player,type, editant, propFormat, propPrivacitat){
 	if(player.properties.data.nom) {
 		auxNom = player.properties.data.nom;
 		if (propFormat!=undefined && propFormat['nom']!=undefined){
-			var formatValue =dataFormatter.formatValue(auxNom, propFormat['nom']);
-			if (formatValue.indexOf("error")>-1) auxNom=formatValue;
-			//auxNom= dataFormatter.formatValue(auxNom, propFormat['nom']);
+			auxNom = dataFormatter.formatValue(auxNom, propFormat['nom']);
 		}		
 	}
 	if(player.properties.data.text) {
 		auxText = player.properties.data.text;
 		if (propFormat!=undefined && propFormat['text']!=undefined){
-			var formatValue =dataFormatter.formatValue(auxText, propFormat['text']);
-			if (formatValue.indexOf("error")>-1) auxText=formatValue;
-			//auxText= dataFormatter.formatValue(auxText, propFormat['text']);
+			auxtext = dataFormatter.formatValue(auxText, propFormat['text']);
 		}
 	}
 	 var markerLatBound = null;

@@ -85,7 +85,7 @@
 			var propPrivacitat = "";
 			if (capa.options!=undefined && capa.options.propPrivacitat!=undefined) 	propPrivacitat = capa.options.propPrivacitat;
 			$.each( properties, function( key, value ) {
-				if (propPrivacitat!="" && propPrivacitat[key.toLowerCase()]==true) {
+				if (propPrivacitat==="" || (propPrivacitat!="" && propPrivacitat[key.toLowerCase()]==true)) {
 				if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
 						key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 					if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
@@ -99,9 +99,7 @@
 								txt = parseUrlTextPopUp(value, key);
 								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 									if (propFormat!=undefined && propFormat[key.toLowerCase()]!=undefined){
-										var formatValue =dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
-										if (formatValue.indexOf("error")==-1) txt=formatValue;
-										//txt= dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
+										txt = dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
 									}
 									html+='<div class="popup_data_key">'+key+'</div>';
 									html+='<div class="popup_data_value">'+
@@ -114,9 +112,7 @@
 							}
 							else {
 								if (propFormat!=undefined && propFormat[key.toLowerCase()]!=undefined){
-									var formatValue =dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
-									if (formatValue.indexOf("error")==-1) txt=formatValue;
-									//txt= dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
+									txt = dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
 								}
 								html+='<div class="popup_data_key">'+key+'</div>';
 								html+='<div class="popup_data_value">'+txt+'</div>';
@@ -238,7 +234,7 @@
 					+'</ul>'														
 					+'</div>';	
 			}else{
-				var capaLeafletId = feature.properties.capaLeafletId;
+				/*var capaLeafletId = feature.properties.capaLeafletId;
 				if(isValidValue(origen)) {
 					capaLeafletId = origen; 
 				}
@@ -246,7 +242,7 @@
 					+'<ul class="bs-popup">'						
 						+'<li class="consulta-popup"><a id="feature_data_table##'+feature._leaflet_id+'##'+type+'##'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Obrir la taula de dades')+'"></span></a>   </li>'
 					+'</ul>'														
-				+'</div>';			
+				+'</div>';*/			
 			}
 			return html;
 		},

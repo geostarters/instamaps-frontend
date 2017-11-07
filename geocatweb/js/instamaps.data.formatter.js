@@ -13,7 +13,8 @@
 			thousandsSeparator : '.'
 		},
 
-		createOptions: function(name,selectVal,isFeatProp) {
+		createOptions: function(name,selectVal,isFeatProp, columnIndex) {
+
 			var selectedT='';
 			selectVal=='t'?selectedT=' selected':selectedT='';	
 			var selectedEuro='';
@@ -22,23 +23,29 @@
 			selectVal=='dolar'?selectedDolar=' selected':selectedDolar='';	
 			var selectedN='';
 			selectVal=='n'?selectedN=' selected':selectedN='';	
+			var selectedI='';
+			selectVal=='i'?selectedI=' selected':selectedI='';	
 			
 			var html="";
 			var propEnabled="enabled";
 			if (!isFeatProp) {
-				html += "<select class='dataTableSelect' data-column='" + name + "'>" + 
+				html += "<select class='dataTableSelect' data-column-idx='" + columnIndex + 
+					"' data-column='" + name + "'>" + 
 					"	<option value='t'"+selectedT+">Text</option>" +
 					"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
 					"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
-					"	<option value='n'"+selectedN+">Número</option>" +
+					"	<option value='n'"+selectedN+">Núm. separador \",\"</option>" +
+					"	<option value='i'"+selectedI+">Núm. separador \".\"</option>" +
 					"</select>";
 			}
 			else {
-				html += "<select class='dataTableSelect' data-column='" + name + "' disabled>" + 
+				html += "<select class='dataTableSelect' data-column-idx='" + columnIndex + 
+				"' data-column='" + name + "' disabled>" + 
 				"	<option value='t'"+selectedT+">Text</option>" +
 				"	<option value='euro'"+selectedEuro+">Número (€)</option>" +
 				"	<option value='dolar'"+selectedDolar+">Número ($)</option>" +
-				"	<option value='n'"+selectedN+" selected>Número</option>" +
+				"	<option value='n'"+selectedN+" selected>Núm. separador \",\"</option>" +
+				"	<option value='i'"+selectedI+" selected>Núm. separador \".\"</option>" +
 				"</select>";
 			}
 			
@@ -46,28 +53,45 @@
 			return html;
 			
 		},
-		
-		changeIcon: function(){
-			
-		},
 
-		formatValue: function(inValue, format) {
+		formatValue: function(inValue, format, addErrorSpan, errors) {
 
 			var self = this;
+			var shouldAddErrorSpan = addErrorSpan || false;
+			var mightHaveError = true;
 
 			var value = inValue;
 			if(undefined === inValue)
 				value = '-';
-
-			if("t" == format)
+			else if("t" === format) {
 				value = self.formatToText(value);
-			else if("euro" == format)
+				mightHaveError = false;
+			}
+			else if("euro" === format) {
 				value = self.formatToEuro(value);
-			else if("dolar" == format)
+			}
+			else if("dolar" === format) {
 				value = self.formatToDollar(value);
-			else if("n" == format)
-				value = self.formatToNumber(value);
+			}
+			else if("n" === format) {
+				value = self.formatToNumber(value, false);
+			}
+			else if("i" === format) {
+				value = self.formatToNumber(value, true);
+			}
 
+			if(mightHaveError && (value === "e"))
+			{
+
+				if(!shouldAddErrorSpan)
+					value = inValue;
+				else
+					value = "<span style='color:red'>" + inValue + "</span>";
+
+				if(errors)
+					errors.num++;
+
+			}
 						
 			return value;
 
@@ -75,26 +99,40 @@
 
 		formatToText: function(inValue) {
 			var self = this;
-			//var value = self.removeErrorSpan(inValue);
 			return self.removeDecorators(inValue);
 
 		},
 
 		isEuro: function(value) {
 
-			return (value.indexOf('€') != -1)
+			/*
+				Pre: Assumes the euro character is the last character of the 
+				value string. With that in mind we can just check the last 
+				character instead of searching for it
+			*/
+			return (value.slice(-1) === '€');
 
 		},
 
 		isDollar: function(value) {
 
-			return (value.indexOf('$') != -1)
+			/*
+				Pre: Assumes the dollar character is the last character of the 
+				value string. With that in mind we can just check the last 
+				character instead of searching for it
+			*/
+			return (value.slice(-1) === '$')
 
 		},
 
-		isNumber: function(value) {
+		isNumber: function(value, inverted) {
 
-			return (0 < (value.match(/^(\d+|\d{1,3}([\.]\d{3})*)([,]\d+)?$/) || []).length);
+			var isInverted = inverted || false;
+
+			if(isInverted)
+				return (0 < (value.match(/^(\d+|\d{1,3}([,]\d{3})*)([\.]\d+)?$/) || []).length);
+			else
+				return (0 < (value.match(/^(\d+|\d{1,3}([\.]\d{3})*)([,]\d+)?$/) || []).length);
 
 		},
 
@@ -102,13 +140,11 @@
 
 			var self = this;
 
-			var value = inValue;
-			if(self.isEuro(inValue) || self.isDollar(inValue)) {
+			var value = inValue.trim();
+			if(self.isEuro(inValue) || self.isDollar(inValue))
+				value = value.substring(0, value.length -1);
 
-				value = value.replace("$", "").replace("€", "");
-
-			}
-			return value.trim();
+			return value;
 
 		},
 
@@ -120,7 +156,7 @@
 			if(self.isNumber(value)) {
 				value =  self.formatToNumber(value) + ' €';
 			}
-			else value="error";
+			else value="e";
 			
 			return value;
 
@@ -134,25 +170,28 @@
 			if(self.isNumber(value)) {
 				value = self.formatToNumber(value) + ' $';
 			}
-			else value="error";
+			else value="e";
+
 			return value;
 
 		},
 
-		formatToNumber: function(inValue) {
+		formatToNumber: function(inValue, inverted) {
 
-			//Formats to 1.234,2556677
+			//Formats to 1.234,2556677 or to 1,234.2556677 if the inverted 
+			//flag is set
 			var self = this;
+			var isInverted = inverted || false;
 			
 			var value =  self.removeDecorators(inValue);
-			if(self.isNumber(value))
+			if(self.isNumber(value, isInverted))
 			{
 
-				var thousands = value.split(self.options.thousandsSeparator);
-				var decimals = value.split(self.options.decimalSeparator);
+				var thousands = value.split(isInverted ? self.options.decimalSeparator : self.options.thousandsSeparator);
+				var decimals = value.split(isInverted ? self.options.thousandsSeparator : self.options.decimalSeparator);
 				var hasDecimalSeparator = (1 < decimals.length);
 				var hasThousandsSeparator = (1 < thousands.length);
-				var integerPart = decimals[0].split(self.options.thousandsSeparator);
+				var integerPart = decimals[0].split(isInverted ? self.options.decimalSeparator : self.options.thousandsSeparator);
 				var decimalPart = hasDecimalSeparator ? decimals[1] : [];
 
 				if(!hasThousandsSeparator)
@@ -172,10 +211,10 @@
 
 				}
 
-				value = integerPart.join(self.options.thousandsSeparator) + (hasDecimalSeparator ? self.options.decimalSeparator + decimalPart : '');
+				value = integerPart.join(isInverted ? self.options.decimalSeparator : self.options.thousandsSeparator) + (hasDecimalSeparator ? (isInverted ? self.options.thousandsSeparator : self.options.decimalSeparator) + decimalPart : '');
 
 			}
-			else return "error";
+			else return "e";
 
 			return value;
 		},
