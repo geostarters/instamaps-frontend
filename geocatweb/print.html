@@ -27,12 +27,21 @@ small{font-size: 10px}
 
 function init(){
 	document.getElementById("map").src=	opener.document.getElementById("img_canvas").src;
-	
+	var img = document.getElementById('map'); 
+	var img2 = opener.document.getElementById("img_canvas"); 
+	var width = img.clientWidth;
+	var height = img.clientHeight;
+	var width_natural = img2.naturalWidth;
+	var height_natural  = img2.naturalHeight;
+	var factorw=width_natural/width;
+	//jQuery('#map').css('height',parseInt(height_natural/factorw));
 	if(opener.document.getElementById("ll_canvas")){
 		document.getElementById("llegenda").src=opener.document.getElementById("ll_canvas").src;
 	}
 	
 	document.getElementById("titolUsuari").innerHTML="<b>"+opener.document.getElementById("nomAplicacio").innerHTML+"</b>";
+	jQuery('#map').css('height',parseInt(height_natural/factorw));
+
 }
 
 </script>
@@ -65,7 +74,7 @@ function init(){
             </div>
         </div>
         <!-- CONTENT INCLUDE -->
-		<img id="map" src="" style="height: 400px; width: 100%;background-color: #f4f4f4">
+		<img id="map" src="" style="width: 100%;background-color: #f4f4f4">
       
 		<img id="llegenda" src="/geocatweb/css/images/blank.gif" style="float: right; width: 25%;background-color: #ffffff"> 
 
