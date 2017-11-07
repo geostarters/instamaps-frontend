@@ -869,7 +869,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			
 			var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
 			arrRangsEstilsLegend.sort(sortByValueMax);
-			console.debug(arrRangsEstilsLegend);
+			//console.debug(arrRangsEstilsLegend);
 			if(geometryType == t_marker){
 
 				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
@@ -1444,7 +1444,7 @@ function loadMapLegendEdicio(layer){
 	
 	var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
 	arrRangsEstilsLegend.sort(sortByValueMax);
-	console.debug(arrRangsEstilsLegend);
+	//console.debug(arrRangsEstilsLegend);
 	
 	var totalLayers=0;
 	
