@@ -1058,7 +1058,7 @@ L.Control.Search = L.Control.extend({
 			}
 			else {
 							
-				
+				var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
 				var marker=null;
 				if(!defaultPunt.options.isCanvas){
 					marker=L.marker([0,0],
