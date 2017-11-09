@@ -841,7 +841,10 @@ function updatePaletaRangs(softColors){
 				if(min.hasOwnProperty('v'))
 					min = min.v;
 
-				colorIndex = value - min;
+				if($.isNumeric(min) && $.isNumeric(value))
+					colorIndex = value - min;
+				else
+					colorIndex = i;
 
 			}
 
@@ -1229,8 +1232,8 @@ function readDataVisualitzacio(visualitzacio, key){
 	var dataValues = [];
 	jQuery.each(visualitzacio.estil, function(index, item){
 		jQuery.each( item.geometria.features, function(i,feature) {
-			//var value = feature.properties[key.toLowerCase()];
-			var value = feature.properties[key];
+			var value = feature.properties[key.toLowerCase()];
+			//var value = feature.properties[key];
 			//Si es blanc assignem categoria "Sense valor" com una més
 			//if(isBlank(value)) value = window.lang.translate("Sense valor");
 			if(isBlank(value)) value = "nodata";
