@@ -392,7 +392,9 @@
 
 			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
-			$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+			var embedUrl = urlMap+'&embed=1';
+			if (urlMap.indexOf("?")==-1)  embedUrl = urlMap+'?embed=1';
+			$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+embedUrl+'"></iframe>');
 
 			$("#publish-form-error").hide();
 
@@ -804,7 +806,9 @@
         	$("#urlVisorMap a").attr("href", urlMap);
 
         	$('#urlMap').val(urlMap);
-        	$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+        	var embedUrl = urlMap+'&embed=1';
+			if (urlMap.indexOf("?")==-1)  embedUrl = urlMap+'?embed=1';
+        	$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+embedUrl+'" ></iframe>');
 
 			//console.info(mapLegend);
 
@@ -959,7 +963,9 @@
 
         					$("#urlVisorMap a").attr("href", urlMap);
         					$('#urlMap').val(urlMap);
-        					$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+        					var embedUrl = urlMap+'&embed=1';
+        					if (urlMap.indexOf("?")==-1)  embedUrl = urlMap+'?embed=1';
+        					$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+embedUrl+'" ></iframe>');
 
         					var txtPubBoto = $('.bt_publicar>span').html();
         					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1 && mapConfig.bloquejat.indexOf("null")==-1) {
