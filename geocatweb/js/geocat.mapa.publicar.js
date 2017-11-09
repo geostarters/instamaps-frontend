@@ -727,7 +727,9 @@
         	}
 
         	//Revisio de capes amb permis de descarrega
+        	console.debug(this.downloadableData);
         	this._updateDownloadableData();
+        	console.debug(this.downloadableData);
 
         	//Revisamos los parametros del visor e iframe
         	this._updateParamsData();
