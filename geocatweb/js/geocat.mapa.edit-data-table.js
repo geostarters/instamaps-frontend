@@ -193,10 +193,10 @@ function fillModalDataTable(obj, geomBid){
 //			console.debug(scroll);
 			
 			 var parentDiv =  $('div.fixed-table-body');
-			 var innerListItem = $('a.dataTable_row_'+row);
+			 var elementToScrollTo = $('div.fixed-table-body #layer-data-table tbody tr.success').prev();
 			 if(!editat) {
 				 try {
-					 parentDiv.scrollTo(innerListItem);
+					 parentDiv.scrollTo(elementToScrollTo);
 				 }catch(e){
 					 
 				 }
@@ -663,7 +663,7 @@ function fillModalDataTable(obj, geomBid){
 //					checkboxHeader: true,
 //					showColumns: true,
 //					 showHeader: true,
-					rowStyle: 'rowStyle',
+					rowStyle: rowStyle,
 				    columns: columNames,
 				    showExport: true,			
 				    showRefresh: showRefresh,
@@ -847,28 +847,24 @@ function dataTableSelectChanged(ctx, showAlert) {
 
 function rowStyle(row, index) {
 	
+	var rowClass = '';
 	numRows = numRows + 1;
-	if (row.geometrybid == geomBusinessId) {
-//    	console.debug("rowStyle:");
-   
-//    	console.debug(index);
+
+	if (isCurrentGeometry(row.geometrybid)) {
+
     	geomRowIndex = index;
-        return {
-            classes: 'success'//classes[index / 2]
-        };
+    	rowClass = 'success';
+
     }
-    return {};
+
+    return rowClass;
 	
-//    var classes = ['active', 'success', 'info', 'warning', 'danger'];
-//    
-//    if (index % 2 === 0 && index / 2 < classes.length) {
-//    	console.debug("rowStyle:");
-//    	console.debug(row);
-//        return {
-//            classes: classes[index / 2]
-//        };
-//    }
-//    return {};
+}
+
+function isCurrentGeometry(test) {
+
+	return test == geomBusinessId;
+
 }
 
 function actionFormatter(value, row, index) {
