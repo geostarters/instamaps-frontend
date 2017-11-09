@@ -405,7 +405,9 @@
 						$('#urlMap').val(results.id);
 					});
 					$('#urlVisor').attr("href", urlMap);
-					$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+					var embedUrl = urlMap+'&embed=1';
+					if (urlMap.indexOf("?")==-1)  embedUrl = urlMap+'?embed=1';
+					$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+embedUrl+'" ></iframe>');
 					$('#dialgo_url_iframe').modal('show');
 					$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'enllaça mapa', 'referral']});
 
@@ -1049,7 +1051,9 @@ if(isSostenibilitatUser(false)){urlMap=urlMap+"?&appmodul=sostenibilitat";}
 					$('#urlMap').val(results.id);
 				});
 				$('#urlVisor').attr("href", urlMap);
-				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+				var embedUrl = urlMap+'&embed=1';
+				if (urlMap.indexOf("?")==-1)  embedUrl = urlMap+'?embed=1';
+				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+embedUrl+'" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
 				$.publish('analyticsEvent',{event:['galeria publica', tipus_user+'enllaça mapa', 'referral']});
 				//_kmq.push(['record', 'enllaça mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
