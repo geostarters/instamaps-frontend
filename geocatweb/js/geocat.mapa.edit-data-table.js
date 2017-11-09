@@ -55,7 +55,7 @@ function addFuncioEditDataTable(){
     	var geometryid = $('#dialog_delete_row .btn-danger').data("geometryid");
     	var geometriesBusinessId = $('#dialog_delete_row .btn-danger').data("geometriesBusinessId");
     	var businessId = $('#dialog_delete_row .btn-danger').data("businessId");		
-		
+    	$('#modal_data_table').modal('hide');
     	removeGeometryDB(geometryid,businessId,geometriesBusinessId);
 	});
 	
@@ -89,8 +89,9 @@ function addFuncioEditDataTable(){
 				}
 				
 			});
-			
+			var jaRefrescat = false;
 			if (!$.isEmptyObject(optionsF) || !$.isEmptyObject(optionsPrivacitat)) {
+				jaRefrescat=true;
 				var optionsNoves = {
 					propFormat: optionsF,
 					propPrivacitat: optionsPrivacitat
@@ -110,20 +111,22 @@ function addFuncioEditDataTable(){
 					reloadSingleLayer(capaEdicio, layerServidor);
 				});
 			}
-			
-			//si hem editat dades recarreguem la capa per visualitzar els canvis
-			if(editat && $.isEmptyObject(optionsF)){
-				var layerServidor = $('#modal_data_table').data("layerServidor");
-				layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
-				//Eliminem la capa de controlCapes i mapa
-				reloadSingleLayer(capaEdicio, layerServidor);
-			}
-			//si hem editat dades recarreguem la capa per visualitzar els canvis
-			else if(editat  && $.isEmptyObject(optionsF)){
-				var layerServidor = $('#modal_data_table').data("layerServidor");
-				layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
-				//Eliminem la capa de controlCapes i mapa
-				reloadSingleLayer(capaEdicio, layerServidor);
+			else {//si hem editat dades recarreguem la capa per visualitzar els canvis
+				if (!jaRefrescat){
+					if(editat && $.isEmptyObject(optionsF)){
+						var layerServidor = $('#modal_data_table').data("layerServidor");
+						layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
+						//Eliminem la capa de controlCapes i mapa
+						reloadSingleLayer(capaEdicio, layerServidor);
+					}
+					//si hem editat dades recarreguem la capa per visualitzar els canvis
+					else if(editat  && $.isEmptyObject(optionsPrivacitat)){
+						var layerServidor = $('#modal_data_table').data("layerServidor");
+						layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
+						//Eliminem la capa de controlCapes i mapa
+						reloadSingleLayer(capaEdicio, layerServidor);
+					}
+				}
 			}
 			editat = false;
 			geomBusinessId = '-1';
@@ -190,8 +193,14 @@ function fillModalDataTable(obj, geomBid){
 //			console.debug(scroll);
 			
 			 var parentDiv =  $('div.fixed-table-body');
-			 var innerListItem = $('div.fixed-table-body #layer-data-table tbody tr.success');
-			 if(!editat) parentDiv.scrollTo(innerListItem);
+			 var elementToScrollTo = $('div.fixed-table-body #layer-data-table tbody tr.success').prev();
+			 if(!editat) {
+				 try {
+					 parentDiv.scrollTo(elementToScrollTo);
+				 }catch(e){
+					 
+				 }
+			 }
 			 
 		});
 	}
@@ -654,7 +663,7 @@ function fillModalDataTable(obj, geomBid){
 //					checkboxHeader: true,
 //					showColumns: true,
 //					 showHeader: true,
-					rowStyle: 'rowStyle',
+					rowStyle: rowStyle,
 				    columns: columNames,
 				    showExport: true,			
 				    showRefresh: showRefresh,
@@ -838,28 +847,24 @@ function dataTableSelectChanged(ctx, showAlert) {
 
 function rowStyle(row, index) {
 	
+	var rowClass = '';
 	numRows = numRows + 1;
-	if (row.geometrybid == geomBusinessId) {
-//    	console.debug("rowStyle:");
-   
-//    	console.debug(index);
+
+	if (isCurrentGeometry(row.geometrybid)) {
+
     	geomRowIndex = index;
-        return {
-            classes: 'success'//classes[index / 2]
-        };
+    	rowClass = 'success';
+
     }
-    return {};
+
+    return rowClass;
 	
-//    var classes = ['active', 'success', 'info', 'warning', 'danger'];
-//    
-//    if (index % 2 === 0 && index / 2 < classes.length) {
-//    	console.debug("rowStyle:");
-//    	console.debug(row);
-//        return {
-//            classes: classes[index / 2]
-//        };
-//    }
-//    return {};
+}
+
+function isCurrentGeometry(test) {
+
+	return test == geomBusinessId;
+
 }
 
 function actionFormatter(value, row, index) {
@@ -898,10 +903,7 @@ function removeGeometryDB(geometryid, businessId, geometriesBusinessId){
 		
 		if(results.status == "OK"){
 			editat = true;
-		    $('#modal_data_table_body #layer-data-table').bootstrapTable('remove', {
-	            field: 'geometryid',
-	            values: [geometryid]
-	        }); 
+			
 		}else{
 			console.debug("ERROR removeGeometriaFromProperties");
 		}

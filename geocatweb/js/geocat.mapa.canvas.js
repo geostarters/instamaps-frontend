@@ -153,14 +153,29 @@ function pucPassar(item) {
 
 function ompleCapesMatriu(item) {
     var mainColor = "#FF0000";
+	
     if (pucPassar(item)) {
         var L_JSON = item.layer.toGeoJSONcustom();
         jQuery.each(L_JSON.features, function(i, feature) {
+			
+			
             var tipus = feature.geometry.type;
             if (tipus.indexOf("Point") != -1) {
                 if (!feature.styles.icon) {
-                    feature.properties.OGR = "PEN(c:" + feature.styles.color + ",w:6px);BRUSH(fc:" + feature.styles.fillColor + ")";
-                    mainColor = feature.styles.fillColor;
+					
+					var _r=6;
+					
+					if(feature.styles && feature.styles.radius){
+						_r=feature.styles.radius;
+
+						}
+						
+					if(_r <= 6){
+						feature.properties.OGR = "PEN(c:" + feature.styles.color + ",w:6px,s:"+_r+"px);BRUSH(fc:" + feature.styles.fillColor + ",s:"+_r+"px)";
+					}else{
+						feature.properties.OGR = "SYMBOL(o:" + feature.styles.color + ",w:6px,s:"+parseInt(_r*1.8)+"px,c:" + feature.styles.fillColor + ");";
+					}
+				   mainColor = feature.styles.fillColor;
                 } else {
                     var icona;
                     if (feature.styles.icon.options.markerColor) {
