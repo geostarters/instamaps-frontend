@@ -72,7 +72,6 @@
 		},
 
 		drawGaleria: function(data){
-			console.info(data);
 			var self = this;
 			if(self.options.publica){
 				self.drawPublic();
@@ -185,7 +184,6 @@
 		},
 
 		drawPrivate: function(results){
-			console.info(results);
 			var self = this;
 			$('#loadingGaleria').hide();
 
