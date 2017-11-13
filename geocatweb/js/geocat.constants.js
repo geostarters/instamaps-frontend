@@ -22,7 +22,7 @@ var downloadableData = {};
 var _UsrID;
 
 var dades1;
-
+ 
 // variable per sostenibilitat;
 var _Sostenibilitat;
 
