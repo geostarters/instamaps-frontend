@@ -387,7 +387,7 @@
 				if(!self.shouldShowNoViewerModal($this.parent().parent().data("hasoptions"), $this.parent().parent().data("nom")))
 				{
 
-					var urlMap = 'http://'+DOMINI+paramUrl.visorPage+'?businessid='+$this.data("businessid");
+					var urlMap = 'https://'+DOMINI+paramUrl.visorPage+'?businessid='+$this.data("businessid");
 					if ($.trim($this.data("idusr")) != ""){
 						urlMap += "&id="+$this.data("idusr");
 					}
@@ -1034,7 +1034,7 @@
 				event.preventDefault();
 				event.stopImmediatePropagation();
 				var $this = $(this);
-				var urlMap = 'http://'+DOMINI+paramUrl.visorPage+'?businessid='+$this.data("businessid");
+				var urlMap = 'https://'+DOMINI+paramUrl.visorPage+'?businessid='+$this.data("businessid");
 				if ($.trim($this.data("idusr")) != ""){
 					urlMap += "&id="+$this.data("idusr");
 				}
