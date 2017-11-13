@@ -1465,6 +1465,8 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 		loadVisualitzacioCluster(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva, defer);
 	}else{
 		var capaVisualitzacio = new L.FeatureGroup();
+		var visOptions = visualitzacio.options;
+		var optionsVis = getOptions(visualitzacio);
 		if(layOptions){
 			if ( layOptions.group) {
 				capaVisualitzacio.options = {
@@ -1476,7 +1478,8 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 					estil: visualitzacio.estil,
 					group: layOptions.group,
 					propFormat: layOptions.propFormat,
-					propPrivacitat: layOptions.propPrivacitat
+					propPrivacitat: layOptions.propPrivacitat,
+					propName: optionsVis.propName
 				};
 			}
 			else{
@@ -1488,7 +1491,8 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 						geometryType: visualitzacio.geometryType,
 						estil: visualitzacio.estil,
 						propFormat: layOptions.propFormat,
-						propPrivacitat: layOptions.propPrivacitat
+						propPrivacitat: layOptions.propPrivacitat,
+						propName: optionsVis.propName
 					};
 			}
 		}else{
@@ -1502,8 +1506,7 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 			};
 		}
 		
-		var visOptions = visualitzacio.options;
-		var optionsVis = getOptions(visualitzacio);
+		
 		
 		if(hasSource) {
 			capaVisualitzacio.options.source = optionsVis.source;
