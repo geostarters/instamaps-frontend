@@ -1101,7 +1101,12 @@
                 var field = this.header.fields[j],
                     value = item[field];
 
-                value = that.header.formatters[j](value, item, i);
+                try{
+                	value = that.header.formatters[j](value, item, i);
+                }
+                catch(e){
+                	
+                }
                 value = typeof value === 'undefined' || value === null ?
                     that.options.undefinedText : value;
                 

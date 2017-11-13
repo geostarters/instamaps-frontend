@@ -273,7 +273,7 @@ function fillModalDataTable(obj, geomBid){
 					}else{			
 						propName = options.propName;	
 					}
-					if (propName!=undefined && propName.toString().indexOf("text")==-1) {
+					if (propName!=undefined ) {
 						
 						for(var x in propName){	
 							if (propName[x].toLowerCase()!="geomorigen") {
