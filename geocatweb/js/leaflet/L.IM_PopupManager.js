@@ -75,8 +75,11 @@
 		_getPropertiesHtml: function(feature,data,estil_do){
 			var html="";
 			var propFormat="";
+			var propName="";
 			var capa=data.capa;
 			if (capa.options!=undefined && capa.options.propFormat!=undefined) 	propFormat = capa.options.propFormat;
+			if (capa.options!=undefined && capa.options.propName!=undefined) 	propName = capa.options.propName;
+			
 			var esVisor=data.esVisor;
 			var origen=data.origen;
 			var properties;
@@ -84,10 +87,11 @@
 			else if (feature.properties!=undefined) properties=feature.properties;
 			var propPrivacitat = "";
 			if (capa.options!=undefined && capa.options.propPrivacitat!=undefined) 	propPrivacitat = capa.options.propPrivacitat;
-			$.each( properties, function( key, value ) {
+			var dataNames = (typeof propName === "string" ? propName.split(',') : propName);
+			for(var x in dataNames){
+				var key  = dataNames[x];
 				if (propPrivacitat==="" || (propPrivacitat!="" && propPrivacitat[key.toLowerCase()]==true)) {
-				if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
-						key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
+					var value = properties[key.toLowerCase()];
 					if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
 						if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
 								key != 'NOM' && key != 'Nom' && key != 'nom' && 
@@ -138,8 +142,10 @@
 						}
 					}
 				}
-			 }
-			});	
+			}
+			
+			
+		
 			return html;
 		},
 		_addGeometriesProps: function(feature, type){

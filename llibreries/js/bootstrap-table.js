@@ -1030,7 +1030,7 @@
             for(var i=0, len=fields.length; i<len; ++i) { 
  
                 var td = document.createElement('td'); 
-                row.appendChild(td); 
+                row.appendChild(td);
  
             } 
  
@@ -1040,10 +1040,11 @@
  
     }; 
  
-    BootstrapTable.prototype.addRowToFragment = function(frag, row, attributes, i, values) { 
+    BootstrapTable.prototype.addRowToFragment = function(frag, row, attributes, i, values, item) { 
  
         var newRow = row.cloneNode(true); 
-        newRow.setAttribute('data-index', i); 
+        newRow.setAttribute('data-index', i);
+        newRow.className = this.options.rowStyle(item, i);
  
         var keys = Object.keys(attributes); 
         for(var key in keys) { 
@@ -1100,7 +1101,12 @@
                 var field = this.header.fields[j],
                     value = item[field];
 
-                value = that.header.formatters[j](value, item, i);
+                try{
+                	value = that.header.formatters[j](value, item, i);
+                }
+                catch(e){
+                	
+                }
                 value = typeof value === 'undefined' || value === null ?
                     that.options.undefinedText : value;
                 
@@ -1112,14 +1118,14 @@
 
             }
 
-            this.addRowToFragment(frag, emptyRow, attributes, i, values);
+            this.addRowToFragment(frag, emptyRow, attributes, i, values, item);
 
         }
 
         // show no records
         if (this.pageFrom == this.pageTo) {
 
-            this.addRowToFragment(frag, emptyRow, {}, '', 'no-records-found', 0, [])
+            this.addRowToFragment(frag, emptyRow, {}, '', 'no-records-found', 0, [], {});
 
         }
 

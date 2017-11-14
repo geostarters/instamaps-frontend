@@ -20,7 +20,7 @@ function httpOrhttps(_url,_invers){
         _url=_url.replace('http:','https:');
     }  */  
     
-    return _url;
+    return _url; 
 }
 
 HOST_APP = httpOrhttps(HOST_APP,false);

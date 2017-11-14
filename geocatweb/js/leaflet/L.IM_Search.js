@@ -992,7 +992,7 @@ L.Control.Search = L.Control.extend({
 	},
 
 	showLocation: function(latlng, title,nom) {	//set location on map from _recordsCache
-		if(this.options.zoom)
+		if(this.options!=undefined && this.options.zoom)
 			this._map.setView(latlng, this.options.zoom);
 		else
 			this._map.panTo(latlng);
@@ -1006,8 +1006,9 @@ L.Control.Search = L.Control.extend({
 			if(v_url.indexOf('visor')==-1){
 				
 				var marker;
+				var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
 				//this._markerLoc.setLatLng(latlng);  //show circle/marker in location found
-				if(defaultPunt.options.markerColor!="punt_r"){					
+				if(defaultPunt.options && defaultPunt.options.markerColor!="punt_r"){					
 					marker=L.marker([0,0],
 						{icon: defaultPunt,isCanvas:defaultPunt.options.isCanvas,
 						 tipus: t_marker});
@@ -1047,9 +1048,21 @@ L.Control.Search = L.Control.extend({
 						'capaLeafletId': capaUsrActiva._leaflet_id,
 						'tipusFeature':t_marker};	
 				
+				var auxLat = latlng.lat;
+				auxLat= auxLat.toFixed(5);
+				var auxLon = latlng.lng;
+				auxLon= auxLon.toFixed(5);
+				var etrs = latLngtoETRS89(latlng.lat, latlng.lng);
+				var auxX = etrs.x;
+			    var auxY = etrs.y;
+			    
 				marker.properties.data={
 						'nom':nom,
 						'text':title,
+						'latitud':auxLat,
+						'longitud':auxLon,
+						'etrs89_x':auxX,
+						'etrs89_y':auxY
 				};
 				
 				capaUsrActiva.on('layeradd',objecteUserAdded);
@@ -1060,7 +1073,7 @@ L.Control.Search = L.Control.extend({
 							
 				var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
 				var marker=null;
-				if(!defaultPunt.options.isCanvas){
+				if(defaultPunt.options && !defaultPunt.options.isCanvas){
 					marker=L.marker([0,0],
 						{icon: defaultPunt,isCanvas:defaultPunt.options.isCanvas,
 						 tipus: t_marker});
@@ -1098,7 +1111,7 @@ L.Control.Search = L.Control.extend({
 		clearTimeout(this.timerKeypress);
 		
 		//FIXME autoCollapse option hide this._markerLoc before that visualized!!
-		if(this.options.autoCollapse)
+		if(this.options!=undefined && this.options.autoCollapse)
 			this.collapse();
 		return this;
 	}
