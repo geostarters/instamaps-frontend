@@ -1467,6 +1467,8 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 		var capaVisualitzacio = new L.FeatureGroup();
 		var visOptions = visualitzacio.options;
 		var optionsVis = getOptions(visualitzacio);
+		var propName="";
+		if (optionsVis!=undefined) propName=optionsVis.propName;
 		if(layOptions){
 			if ( layOptions.group) {
 				capaVisualitzacio.options = {
@@ -1479,7 +1481,7 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 					group: layOptions.group,
 					propFormat: layOptions.propFormat,
 					propPrivacitat: layOptions.propPrivacitat,
-					propName: optionsVis.propName
+					propName: propName
 				};
 			}
 			else{
@@ -1492,7 +1494,7 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 						estil: visualitzacio.estil,
 						propFormat: layOptions.propFormat,
 						propPrivacitat: layOptions.propPrivacitat,
-						propName: optionsVis.propName
+						propName: propName
 					};
 			}
 		}else{
@@ -1508,7 +1510,7 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 		
 		
 		
-		if(hasSource) {
+		if(hasSource && optionsVis!=undefined) {
 			capaVisualitzacio.options.source = optionsVis.source;
 		}
 		
