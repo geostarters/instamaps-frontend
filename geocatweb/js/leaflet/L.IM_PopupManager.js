@@ -87,7 +87,7 @@
 			else if (feature.properties!=undefined) properties=feature.properties;
 			var propPrivacitat = "";
 			if (capa.options!=undefined && capa.options.propPrivacitat!=undefined) 	propPrivacitat = capa.options.propPrivacitat;
-			var dataNames = propName.split(',');
+			var dataNames = (typeof propName === "string" ? propName.split(',') : propName);
 			for(var x in dataNames){
 				var key  = dataNames[x];
 				if (propPrivacitat==="" || (propPrivacitat!="" && propPrivacitat[key.toLowerCase()]==true)) {
