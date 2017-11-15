@@ -6,7 +6,7 @@
 
 	var Galeria = function(options){
 		return new Galeria.init(options);
-	}
+	} 
 
 	var pageGaleria = 0;
 	var	userList;
