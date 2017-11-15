@@ -6,7 +6,7 @@ function actionCompleted(jqXHR, status) {
 	runningActions.splice(index, 1);
 }
 
-function addXHR(jqXHR, settings)
+function addXHR(jqXHR, settings) 
 {
 
 	runningActions.push(jqXHR);
