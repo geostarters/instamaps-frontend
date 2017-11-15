@@ -10,7 +10,7 @@ function addXHR(jqXHR, settings)
 {
 
 	runningActions.push(jqXHR);
-
+  
 }
 
 function completedWithErrors(jqXHR, status, error)
