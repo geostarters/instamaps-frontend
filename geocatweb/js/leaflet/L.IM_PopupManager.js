@@ -333,7 +333,7 @@
 
 				}
 
-				control.render($.Deferred(), key, value, layer).then(function(data) {
+				control.render($.Deferred(), key.toLowerCase(), value, layer).then(function(data) {
 					if(!layer.hasOwnProperty("semaforics"))
 						layer.semaforics = {};
 				
