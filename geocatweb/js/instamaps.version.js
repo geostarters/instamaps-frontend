@@ -1,0 +1,1 @@
+var CURRENT_VERSION = "0.27.0";
