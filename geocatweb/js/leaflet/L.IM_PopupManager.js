@@ -121,7 +121,7 @@
 								html+='<div class="popup_data_key">'+key+'</div>';
 								html+='<div class="popup_data_value">'+txt+'</div>';
 			
-								if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && 
+								if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key.toLowerCase()] && 
 									(esVisor && visor.colorscalecontrol && ("" == origen)) || (!esVisor && ("" == origen)) || ("" != origen && (key == capa.options.trafficLightKey)))
 								{
 			
@@ -333,7 +333,7 @@
 
 				}
 
-				control.render($.Deferred(), key, value, layer).then(function(data) {
+				control.render($.Deferred(), key.toLowerCase(), value, layer).then(function(data) {
 					if(!layer.hasOwnProperty("semaforics"))
 						layer.semaforics = {};
 				
