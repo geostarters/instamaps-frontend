@@ -33,7 +33,7 @@ if (location.protocol != 'https:') {
 L.Control.addModulSostenibilitat = L.Control.extend({
 
 		options: {
-			urlWFS: _protocol + ':geoserveis.icgc.cat/rubi_arbres/wms/service',
+			urlWFS: _protocol + '//:geoserveis.icgc.cat/rubi_arbres/wms/service',
 			sostenibilitat: {},
 			parametersWFS: {
 				service: 'WFS',
@@ -198,13 +198,13 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 					shapeOptions: {
 						color: '#a94442'
 					},
-					repeatMode: true
+					repeatMode: false
 				},
 				polygon: {
 					shapeOptions: {
 						color: '#a94442'
 					},
-					repeatMode: true
+					repeatMode: false
 				},
 				//marker : false
 
@@ -451,7 +451,8 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 					}
 
 				});
-				/*
+				
+				/*	
 					$.ajax({
 						url: _requestWFS,
 						dataType: "jsonp",
