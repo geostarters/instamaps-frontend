@@ -376,7 +376,7 @@ gulp.task('clean', function() {
 
 gulp.task('build',function(callback){
   runSequence('validateJS', 'clean',
-  ['bump', 'bumpS', 'bumpM'],
+  ['bump', 'bumpS', 'bumpM', 'bumpT'],
   ['styles','fonts','images','scripts'],
   callback)
 });
@@ -407,6 +407,12 @@ gulp.task('bumpM',function(){
   gulp.src(config.srcFolder+'/mapa.html')
   .pipe(bump({key:'InstaMaps Beta v.', type: 'minor'}))
   .pipe(gulp.dest(config.srcFolder));
+});
+
+gulp.task('bumpT',function(){
+	  gulp.src(config.templateFolder + "/template_visor.html")
+	  .pipe(bump({key:'CURRENT_VERSION_TEMPLATE', type: 'minor'}))
+	  .pipe(gulp.dest(config.templateFolder));
 });
 
 gulp.task('default', ['clean','styles','fonts','images','scripts','watch']);

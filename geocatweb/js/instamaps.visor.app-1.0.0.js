@@ -57,6 +57,40 @@ var visorOptions = {
 
 var visor; 
 
+function doModal(heading, formContent) {
+    html =  '<div id="dynamicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirm-modal" aria-hidden="true">';
+    html += '<div class="modal-dialog">';
+    html += '<div class="modal-content">';
+    html += '<div class="modal-header">';
+    html += '<a class="close" data-dismiss="modal">×</a>';
+    html += '<h4>'+heading+'</h4>'
+    html += '</div>';
+    html += '<div class="modal-body">';
+    html += formContent;
+    html += '</div>';
+    html += '<div class="modal-footer">';
+    html += '<span class="btn btn-primary" data-dismiss="modal">'+window.lang.translate("Acceptar")+'</span>';
+    html += '</div>';  // content
+    html += '</div>';  // dialog
+    html += '</div>';  // footer
+    html += '</div>';  // modalWindow
+    $('body').append(html);
+    $("#dynamicModal").modal();
+    $("#dynamicModal").modal('show');
+
+    $('#dynamicModal').on('hidden.bs.modal', function (e) {
+        $(this).remove();
+      //alert("Versions diferents!");
+		var data={
+			businessId: visorOptions.businessid
+		};
+		replaceVisorFileByBusinessid(data).then(function(results){
+			location.reload(true);
+		})
+    });
+   
+}
+
 jQuery(document).ready(function() {
 	//TODO ver si esto es mejor ponerlo cuando ya esté cargado todo el visor para cojer bien el titulo, etc.
 	//$.publish('trackPageview', null);
@@ -76,14 +110,11 @@ jQuery(document).ready(function() {
 		visorOptions.businessid=busid;
 	}
 	getCurrentVersion().then(function(results){
-		if (undefined===CURRENT_VERSION || results.current_version!=CURRENT_VERSION){
-			alert("Versions diferents!");
-			var data={
-				businessId: visorOptions.businessid
-			};
-			replaceVisorFileByBusinessid(data).then(function(results){
-				location.reload(true);
-			})
+		if (typeof CURRENT_VERSION === 'undefined' 
+		  || typeof CURRENT_VERSION_TEMPLATE === 'undefined' 
+		  || (typeof CURRENT_VERSION_TEMPLATE !== 'undefined' && results.current_version!==CURRENT_VERSION_TEMPLATE) 
+		  || (typeof CURRENT_VERSION !== 'undefined' && results.current_version!==CURRENT_VERSION)){
+			doModal(window.lang.translate("Actualització d'Instamaps"),window.lang.translate("Instamaps ha canviat de versió. Si voleu refrescar el visor seleccioneu Acceptar"));
 			
 		}
 	});
