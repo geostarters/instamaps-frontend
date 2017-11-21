@@ -241,28 +241,30 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			var esticEdicio=false;
 			map.on('draw:drawstop', function (e) {
 				changeWMSQueryable(true);
-				map.closePopup();
-				esticEdicio=false;
-
+				map.closePopup();				
+				esticEdicio=true;
+			
 			});
 
 			map.on('draw:editstop', function (e) {
 				changeWMSQueryable(true);
 				map.closePopup();
+				
 			});
 
 			map.on('draw:drawstart', function (e) {
 				changeWMSQueryable(false);
 				map.closePopup();
 				esticEdicio=true;
+				
 			});
 			
 			
 			map.on('click', function (e) {
-				
+				map.closePopup();
 				
 				if(esticEdicio){
-				
+					//setTimeout(function(){ map.closePopup();}, 1000);
 				map.closePopup();
 				}
 			});
