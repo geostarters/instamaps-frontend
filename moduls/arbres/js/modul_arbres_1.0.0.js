@@ -47,7 +47,7 @@ if (location.protocol != 'https:'){_protocol="http:";}
 L.Control.addModulArbres = L.Control.extend({
 
 		options : {
-			urlWFS : "https://geoserveis.icgc.cat/rubi_arbres/wms/service',
+			urlWFS : 'https://geoserveis.icgc.cat/rubi_arbres/wms/service',
 			parametersWFS : {
 				service : 'WFS',
 				outputFormat : 'text/javascript',
