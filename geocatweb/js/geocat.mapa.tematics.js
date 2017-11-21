@@ -1775,9 +1775,16 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 		props = optionsVis.propName.split(',');
 		capaVisualitzacio.isPropertyNumeric = new Array(props.length);
 		$.each(props, function(index, prop) {
-			capaVisualitzacio.isPropertyNumeric[prop] = true;
+			capaVisualitzacio.isPropertyNumeric[prop.toLowerCase()] = true;
 		});
 		checkNumericProperties = true;
+
+	} else {
+
+		var props = Object.keys(capaVisualitzacio.isPropertyNumeric);
+		for(var i=0, len=props.length; i<len; ++i) {
+			capaVisualitzacio.isPropertyNumeric[props[i].toLowerCase()] = capaVisualitzacio.isPropertyNumeric[props[i]];
+		};
 
 	}
 	
@@ -1818,8 +1825,9 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				//vector de propietats a comprovar
 				var toRemove = [];
 				$.each(props, function(index, prop) {
-					capaVisualitzacio.isPropertyNumeric[prop] = capaVisualitzacio.isPropertyNumeric[prop] && $.isNumeric(geom.properties[prop]);
-					if(!capaVisualitzacio.isPropertyNumeric[prop])
+					var lowerCaseProperty = prop.toLowerCase();
+					capaVisualitzacio.isPropertyNumeric[lowerCaseProperty] = capaVisualitzacio.isPropertyNumeric[lowerCaseProperty] && $.isNumeric(geom.properties[lowerCaseProperty]);
+					if(!capaVisualitzacio.isPropertyNumeric[lowerCaseProperty])
 						toRemove.push(index);
 				});
 				for(var i=toRemove.length-1; i>=0; i--)
