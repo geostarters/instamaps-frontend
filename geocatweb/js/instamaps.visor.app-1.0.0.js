@@ -60,6 +60,8 @@ var visor;
 jQuery(document).ready(function() {
 	//TODO ver si esto es mejor ponerlo cuando ya esté cargado todo el visor para cojer bien el titulo, etc.
 	//$.publish('trackPageview', null);
+	
+	
 	var urlFile = url("query");
 	if (urlFile && urlFile.indexOf("&url=")>-1) urlFile = urlFile.substring(urlFile.indexOf("&url=")+5);
 	else urlFile=null;
@@ -73,6 +75,18 @@ jQuery(document).ready(function() {
 		var busid = url(-2);
 		visorOptions.businessid=busid;
 	}
+	getCurrentVersion().then(function(results){
+		if (undefined===CURRENT_VERSION || results.current_version!=CURRENT_VERSION){
+			alert("Versions diferents!");
+			var data={
+				businessId: visorOptions.businessid
+			};
+			replaceVisorFileByBusinessid(data).then(function(results){
+				location.reload(true);
+			})
+			
+		}
+	});
 	visor = Visor(visorOptions).draw();
 	
 	
