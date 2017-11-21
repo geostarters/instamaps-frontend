@@ -450,4 +450,3 @@ L.Marker.include({
 	}
 });
 
-
