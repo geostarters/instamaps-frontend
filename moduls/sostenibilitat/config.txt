@@ -1,5 +1,18 @@
+
+
+http://84.88.72.158:8082/geoserver/test2/wms?
+
+http://84.88.72.158:8082/geoserver/test2/wfs?
+
+http://84.88.72.158:8082/geoserver/sostenibilitat_granollers/wms? 
+ 
+http://84.88.72.158:8082/geoserver/sostenibilitat_granollers/wfs?   
+
+
+
+
 WMS
-http://geoserverdev.icgc.local:8080/geoserver/test2/wms?
+http://172.17.50.108:8082/geoserver/test2/wms?
 
 Potencial_fotovoltaic   Idoneïnat fotovoltaica
 
@@ -10,10 +23,32 @@ Potencial_termosolar    Idoneïnat solar tèrmica
 
 
 WFS
-http://geoserverdev.icgc.local:8080/geoserver/test2/wfs?
+http://172.17.50.108:8082/geoserver/test2/wfs?
 
 test2:edificis_fv
 test2:edificis_ts
 
 test2:teulades_fv
 test2:teulades_ts
+
+
+WMS
+http://172.17.50.108:8082/geoserver/sostenibilitat_granollers/wms?  
+
+
+
+Potencial_fotovoltaic   Idoneïnat fotovoltaica
+
+
+Potencial_termosolar    Idoneïnat solar tèrmica
+
+
+WFS
+http://172.17.50.108:8082/geoserver/sostenibilitat_granollers/wfs?
+
+
+sostenibilitat_granollers:edificis_fv
+sostenibilitat_granollers:edificis_ts
+
+sostenibilitat_granollers:teulades_fv
+sostenibilitat_granollers:teulades_ts
