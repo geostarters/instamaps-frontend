@@ -13,6 +13,7 @@ var del = require('del');
 var pump = require('pump');
 var runSequence = require('run-sequence');
 var jsValidate = require('gulp-jsvalidate');
+var bump = require('gulp-bump');
 var Q = require('q');
 
 var config = {
@@ -231,6 +232,7 @@ gulp.task('scripts', function() {
   ], 'leaflet.js');
 
   pipeline.add([
+    config.dirJsInstamaps+'/instamaps.version.js',
     config.dirJsInstamaps+'/leaflet/L.IM_ControlLayerManager.js',
     config.dirJsInstamaps+'/leaflet/L.IM_Search.js',
     config.dirJsInstamaps+'/leaflet/L.IM_Map-2.0.0.js',
@@ -374,7 +376,15 @@ gulp.task('clean', function() {
 
 gulp.task('build',function(callback){
   runSequence('validateJS', 'clean',
-  ['styles','fonts','images','scripts'], 
+  'bumpProd',
+  ['styles','fonts','images','scripts'],
+  callback)
+});
+
+gulp.task('builddev',function(callback){
+  runSequence('validateJS', 'clean',
+  'bumpDev',
+  ['styles','fonts','images','scripts'],
   callback)
 });
 
@@ -382,13 +392,51 @@ gulp.task('build+',function(callback){
   runSequence('build', 'revreplace', callback);
 });
 
-gulp.task('validateJS', function() {
+gulp.task('build+dev',function(callback){
+  runSequence('builddev', 'revreplace', callback);
+});
 
+gulp.task('validateJS', function() {
   return gulp.src([config.dirJsInstamaps + '/leaflet/*.js',
     config.dirJsInstamaps + '/*.js']
   ).pipe(jsValidate());
-
 });
 
+var type = 'prerelease';
+
+gulp.task('bumpDev',function(callback){
+  type = 'patch';
+  runSequence('bumpJ', 'bumpS', 'bumpM', 'bumpT', callback)
+});
+
+gulp.task('bumpProd',function(callback){
+  type = 'minor';
+  runSequence('bumpJ', 'bumpS', 'bumpM', 'bumpT', callback)
+});
+
+gulp.task('bumpS',function(){
+  gulp.src(config.dirJsInstamaps+'/instamaps.version.js')
+  .pipe(bump({key:'CURRENT_VERSION', type: type}))
+  .pipe(gulp.dest(config.dirJsInstamaps));
+});
+
+gulp.task('bumpJ',function(){
+  gulp.src(config.dirJsInstamaps+'/instamaps.version.json')
+  .pipe(bump({key:'current_version', type: type}))
+  .pipe(gulp.dest(config.dirJsInstamaps));
+});
+
+gulp.task('bumpM',function(){
+  gulp.src(config.srcFolder+'/mapa.html')
+  .pipe(bump({key:'InstaMaps Beta v.', type: type}))
+  .pipe(gulp.dest(config.srcFolder));
+});
+
+gulp.task('bumpT',function(){
+	  gulp.src(config.templateFolder + "/template_visor.html")
+	  .pipe(bump({key:'CURRENT_VERSION_TEMPLATE', type: type}))
+	  .pipe(gulp.dest(config.templateFolder));
+});
 
 gulp.task('default', ['clean','styles','fonts','images','scripts','watch']);
+
