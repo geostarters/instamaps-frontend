@@ -85,6 +85,8 @@
 			var properties;
 			if (feature.properties.data!=undefined && ("string" !== typeof feature.properties.data)) properties=feature.properties.data;
 			else if (feature.properties!=undefined) properties=feature.properties;
+			if ("" === propName) propName = Object.keys(properties).join();
+			
 			var propPrivacitat = "";
 			if (capa.options!=undefined && capa.options.propPrivacitat!=undefined) 	propPrivacitat = capa.options.propPrivacitat;
 			var dataNames = (typeof propName === "string" ? propName.split(',') : propName);
