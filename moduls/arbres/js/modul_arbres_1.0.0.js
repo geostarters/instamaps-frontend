@@ -40,7 +40,7 @@ setTimeout(function () {
 //urlWFS : 'http://geoserver.icgc.cat:8080/geoserver/Arbres/wms',
 //urlWFS : 'http://172.30.22.42:8080/geoserver/Arbres/wms',
 
-var _protocol="https";
+var _protocol="https:";
 if (location.protocol != 'https:'){_protocol="http:";}
 
 
