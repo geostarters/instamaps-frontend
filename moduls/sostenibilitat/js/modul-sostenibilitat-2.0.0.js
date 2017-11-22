@@ -238,7 +238,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			map.addControl(this.controlDraw);
 
 			var that = this;
-			var esticEdicio=false;
+			var esticEdicio=true;
 			map.on('draw:drawstop', function (e) {
 				changeWMSQueryable(true);
 				map.closePopup();				
@@ -261,8 +261,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 			
 			
 			map.on('click', function (e) {
-				map.closePopup();
-				
+				//map.closePopup();			
 				if(esticEdicio){
 					//setTimeout(function(){ map.closePopup();}, 1000);
 				map.closePopup();
