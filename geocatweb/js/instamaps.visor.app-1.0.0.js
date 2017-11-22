@@ -80,13 +80,17 @@ function doModal(heading, formContent) {
 
     $('#dynamicModal').on('hidden.bs.modal', function (e) {
         $(this).remove();
-      //alert("Versions diferents!");
-		var data={
-			businessId: visorOptions.businessid
-		};
-		replaceVisorFileByBusinessid(data).then(function(results){
-			location.reload(true);
-		})
+        if (-1 != $(location).attr('href').indexOf('instavisor')){
+			var data={
+				businessId: visorOptions.businessid
+			};
+			replaceVisorFileByBusinessid(data).then(function(results){
+				location.reload(true);
+			});
+        }
+        else {
+        	location.reload(true);
+        }
     });
    
 }
