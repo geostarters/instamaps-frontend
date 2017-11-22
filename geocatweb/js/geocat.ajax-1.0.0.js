@@ -1049,3 +1049,20 @@ function generateTokenRemember(data){
 		method: 'post'
 	});
 }
+
+function getCurrentVersion(){
+	return createXHR({
+		url: paramUrl.getCurrentVersion, 
+		dataType: 'json',
+		contentType: "application/json; charset=utf-8",
+		method: 'get'
+	});
+}
+
+function replaceVisorFileByBusinessid(data){
+	return createXHR({
+		url: paramUrl.replaceVisorFileByBusinessid, 
+		data: data,
+		method: 'post'
+	});
+}
