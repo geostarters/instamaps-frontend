@@ -10,6 +10,6 @@
 maps
 assets
 node_modules
-!geocatweb/visor.html
+geocatweb/visor.html
 geocatweb/dist/*
 geocatweb/dist/
