@@ -406,12 +406,12 @@ var type = 'prerelease';
 
 gulp.task('bumpDev',function(callback){
   type = 'patch';
-  runSequence('bumpJ', 'bumpS', 'bumpM', 'bumpT', callback)
+  runSequence('bumpJ', 'bumpS', 'bumpM', 'bumpT', 'bumpT2', callback)
 });
 
 gulp.task('bumpProd',function(callback){
   type = 'minor';
-  runSequence('bumpJ', 'bumpS', 'bumpM', 'bumpT', callback)
+  runSequence('bumpJ', 'bumpS', 'bumpM', 'bumpT','bumpT2', callback)
 });
 
 gulp.task('bumpS',function(){
@@ -434,6 +434,12 @@ gulp.task('bumpM',function(){
 
 gulp.task('bumpT',function(){
 	  gulp.src(config.templateFolder + "/template_visor.html")
+	  .pipe(bump({key:'CURRENT_VERSION_TEMPLATE', type: type}))
+	  .pipe(gulp.dest(config.templateFolder));
+});
+
+gulp.task('bumpT2',function(){
+	  gulp.src(config.templateFolder + "/visor.html")
 	  .pipe(bump({key:'CURRENT_VERSION_TEMPLATE', type: type}))
 	  .pipe(gulp.dest(config.templateFolder));
 });
