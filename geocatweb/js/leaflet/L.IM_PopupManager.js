@@ -275,7 +275,7 @@
 			if (feature.properties.data!=undefined) properties=feature.properties.data;
 			else if (feature.properties!=undefined) properties=feature.properties;
 			$.each( properties, function( key, value ) {
-				if(estil_do!=undefined && (key.toLowerCase()==estil_do.dataField || key=estil_do.dataField)) dataFieldValue = value;
+				if(estil_do!=undefined && (key.toLowerCase()==estil_do.dataField || key==estil_do.dataField)) dataFieldValue = value;
 			});
 			return dataFieldValue;
 		},
