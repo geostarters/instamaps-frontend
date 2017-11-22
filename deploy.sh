@@ -8,6 +8,8 @@ su nginx
 git fetch origin production
 git fetch --tags
 rm geocatweb/dist/template_visor.html
+rm geocatweb/templates/template_visor.html
+rm geocatweb/templates/visor.html
 rm geocatweb/visor.html
 rm geocatweb/mapa.html
 rm geocatweb/js/instamaps.version.js
