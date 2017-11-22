@@ -336,7 +336,7 @@ function fillModalDataTable(obj, geomBid){
 						}
 						//Recalculem el widthcolumn mirant les columnes que s'oculten i les que es mostren
 						for(var x in options.propName){
-							if (propPrivacitat!=null && propPrivacitat[options.propName[x].toLowerCase()]==false){
+							if (propPrivacitat!=null && (propPrivacitat[options.propName[x]]==false || propPrivacitat[options.propName[x].toLowerCase()]==false)){
 								totalColumns = totalColumns-1;
 							}
 						}
@@ -346,7 +346,7 @@ function fillModalDataTable(obj, geomBid){
 								var isVisible=true;
 								if  (options.propPrivacitat!=undefined) {
 									propPrivacitat=options.propPrivacitat;
-									isVisible=propPrivacitat[options.propName[x].toLowerCase()];
+									isVisible=(propPrivacitat[options.propName[x].toLowerCase()] || propPrivacitat[options.propName[x]]);
 								}
 								
 								try{

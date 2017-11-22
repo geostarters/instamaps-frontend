@@ -1510,7 +1510,7 @@ function loadURLfileLayer(layer){
 						}
 					}
 
-					if(key.toLowerCase()==estil_do.dataField) dataFieldValue = value;
+					if(key.toLowerCase()==estil_do.dataField || key==estil_do.dataField) dataFieldValue = value;
 				});	
 				html+='</div></div>';    	
 
@@ -1557,7 +1557,7 @@ function loadURLfileLayer(layer){
 							html+= '</div>';
 						}
 					}
-					if(key.toLowerCase()==estil_do.dataField) dataFieldValue = value;
+					if(key.toLowerCase()==estil_do.dataField || key==estil_do.dataField) dataFieldValue = value;
 				});	
 				html+='</div></div>'; 
 				$.each( estil_do.estils, function( index, estil ) {
