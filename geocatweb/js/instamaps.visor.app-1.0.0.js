@@ -78,8 +78,8 @@ function doModal(heading, formContent) {
     $("#dynamicModal").modal();
     $("#dynamicModal").modal('show');
 
-    $('#dynamicModal').on('hidden.bs.modal', function (e) {
-        $(this).remove();
+    $('#dynamicModal .btn-primary').on('click', function(e){
+    	$(this).remove();
         if (-1 != $(location).attr('href').indexOf('instavisor')){
 			var data={
 				businessId: visorOptions.businessid
@@ -92,7 +92,12 @@ function doModal(heading, formContent) {
         	location.reload(true);
         }
     });
-   
+    
+    /*
+    $('#dynamicModal').on('hidden.bs.modal', function (e) {
+        
+    });
+   */
 }
 
 jQuery(document).ready(function() {
@@ -113,15 +118,17 @@ jQuery(document).ready(function() {
 		var busid = url(-2);
 		visorOptions.businessid=busid;
 	}
+	/*
 	getCurrentVersion().then(function(results){
 		if (typeof CURRENT_VERSION === 'undefined' 
 		  || typeof CURRENT_VERSION_TEMPLATE === 'undefined' 
 		  || (typeof CURRENT_VERSION_TEMPLATE !== 'undefined' && results.current_version!==CURRENT_VERSION_TEMPLATE) 
 		  || (typeof CURRENT_VERSION !== 'undefined' && results.current_version!==CURRENT_VERSION)){
 			doModal(window.lang.translate("Actualització d'Instamaps"),window.lang.translate("Instamaps ha canviat de versió. Si voleu refrescar el visor seleccioneu Acceptar"));
-			
 		}
 	});
+	*/
+	
 	visor = Visor(visorOptions).draw();
 	
 	
