@@ -253,7 +253,7 @@
 			$('.modal').modal('hide');
 			$('#dialgo_publicar').modal('show');
 
-			if(isGeolocalUser()){ //solo usuarios geolocal
+			//if(isGeolocalUser()){ //solo usuarios geolocal
 				//aspecte
 				if (self.mapConfig.options){
 					if(self.mapConfig.options.barColor){
@@ -291,9 +291,9 @@
 					$(".logo").prop('src',"/logos/"+self.mapConfig.logo);
 				}
 				$('#geolocal_tab').attr("style","display:inline");
-			}else{
-				$(".modal-public-aspect").hide();
-			}
+			//}else{
+			//	$(".modal-public-aspect").hide();
+			//}
 
 			//Dialeg publicar
 			$('#publish-private').tooltip({
@@ -683,7 +683,7 @@
 			}
 
 			var logo = null;
-        	if(isGeolocalUser()){
+        	//if(isGeolocalUser()){
         		//aspecte
             	options.fontType = $('.bfh-selectbox input[type=hidden]').val();
             	options.textColor = rgb2hex($('#dv_color_text_bar').css('background-color'));
@@ -695,7 +695,7 @@
             			logo = logo.substring(0,logo.indexOf('?'));
                 	}
             	}
-        	}
+        	//}
 
         	var visibilitat = visibilitat_open;
 
