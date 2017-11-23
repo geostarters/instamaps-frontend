@@ -78,8 +78,8 @@ function doModal(heading, formContent) {
     $("#dynamicModal").modal();
     $("#dynamicModal").modal('show');
 
-    $('#dynamicModal').on('hidden.bs.modal', function (e) {
-        $(this).remove();
+    $('#dynamicModal .btn-primary').on('click', function(e){
+    	$(this).remove();
         if (-1 != $(location).attr('href').indexOf('instavisor')){
 			var data={
 				businessId: visorOptions.businessid
@@ -92,7 +92,12 @@ function doModal(heading, formContent) {
         	location.reload(true);
         }
     });
-   
+    
+    /*
+    $('#dynamicModal').on('hidden.bs.modal', function (e) {
+        
+    });
+   */
 }
 
 jQuery(document).ready(function() {
