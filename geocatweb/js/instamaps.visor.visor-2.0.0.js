@@ -1120,6 +1120,30 @@
 				$(this).attr('data-original-title', window.lang.translate($(this).data('lang-title')));
 			});
 
+			if (_mapConfig.options.barColor){
+				$('#navbar-visor').css('background-color', _mapConfig.options.barColor);
+			}
+
+			if (_mapConfig.options.textColor){
+				$('#navbar-visor').css('color', _mapConfig.options.textColor).css('border-color', '#ffffff');
+				$('.navbar-brand').css('color', _mapConfig.options.textColor);
+				$('#mapTitle').css('color', _mapConfig.options.textColor);
+				$('#mapTitle h3').css('color', '#ffffff');
+				$('.navbar-inverse .navbar-nav > li > a').css('color', _mapConfig.options.textColor);
+				$('#menu_user > a > span').removeClass('green').css('color', _mapConfig.options.textColor);
+				$('.navbar-form').css('border-color', 'transparent');
+				$('.bt-sessio').css('border-color', '#ffffff');
+			}
+
+			if (_mapConfig.options.fontType){
+				$('#navbar-visor').css('font-family', _mapConfig.options.fontType);
+			}
+
+			$('.escut').show();
+			if (_mapConfig.logo){
+				$('.escut img').prop('src', '/logos/'+_mapConfig.logo);
+			}
+			
 			//TODO quitar la global ya que se usa en el control de capas.
 			downloadableData = (_mapConfig.options && _mapConfig.options.downloadable?
 					_mapConfig.options.downloadable:[]);

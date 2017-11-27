@@ -1780,12 +1780,13 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 		checkNumericProperties = true;
 
 	} else {
-
-		var props = Object.keys(capaVisualitzacio.isPropertyNumeric);
-		for(var i=0, len=props.length; i<len; ++i) {
-			capaVisualitzacio.isPropertyNumeric[props[i].toLowerCase()] = capaVisualitzacio.isPropertyNumeric[props[i]];
-		};
-
+		
+	if (capaVisualitzacio.isPropertyNumeric != undefined) {
+			var props = Object.keys(capaVisualitzacio.isPropertyNumeric);
+			for(var i=0, len=props.length; i<len; ++i) {
+				capaVisualitzacio.isPropertyNumeric[props[i].toLowerCase()] = capaVisualitzacio.isPropertyNumeric[props[i]];
+			};
+		}
 	}
 	
 	//per cada estil de la visualitzacio

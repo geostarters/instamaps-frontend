@@ -12,16 +12,16 @@
 			<div class="modal-body">
 				<ul class="nav nav-tabs etiqueta">
 					<li><a href="#id_info" id="id_info_tab" lang="ca"
-						data-toggle="tab"">Informació</a></li>
+						data-toggle="tab"">InformaciÃ³</a></li>
 					<li><a href="#id_privacitat" id="id_privacitat_tab" lang="ca"
 						data-toggle="tab">Privacitat</a></li>
 					<li><a href="#id_llegenda" id="id_llegenda_tab" lang="ca"
 						data-toggle="tab">Llegenda</a></li>
 					<li><a href="#id_reuse" id="id_reuse_tab" lang="ca"
-						data-toggle="tab">Reutilització</a></li>
-					<li><a href="#id_parametres" id="id_parametres_tab" lang="ca" data-toggle="tab">Paràmetres visor</a></li>
+						data-toggle="tab">ReutilitzaciÃ³</a></li>
+					<li><a href="#id_parametres" id="id_parametres_tab" lang="ca" data-toggle="tab">ParÃ metres visor</a></li>
 					<li style="display: none;" id="geolocal_tab"><a
-						href="#id_geolocal" lang="ca" data-toggle="tab">Geolocal</a></li>
+						href="#id_geolocal" lang="ca" data-toggle="tab">Aspecte del visor</a></li>
 				</ul>
 				<div class="tab-content tab-content-margin5px">
 					<div class="tab-pane fade" id="id_info">
@@ -30,7 +30,7 @@
 								<input lang="ca" id="nomAplicacioPub" type="text" required
 									class="form-control my-border" placeholder="Nom del mapa" value="">
 								<input lang="ca" id="optDescripcio" type="text"
-									class="form-control my-border" placeholder="Descripció"
+									class="form-control my-border" placeholder="DescripciÃ³"
 									value=""> <input lang="ca" id="optTags" type="text"
 									class="form-control my-border" placeholder="Etiquetes" value="">
 									<input lang="ca" id="optAlies" type="text"
@@ -39,7 +39,7 @@
 						</section>
 						<div lang="ca" class="alert alert-info">
 							<span class="glyphicon glyphicon-info-sign"></span> 
-							<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span>
+							<span lang="ca" id="publish-warn-text">El mapa es publicarÃ  amb la vista actual: Ã rea geogrÃ fica, nivell de zoom i capes visibles</span>
 						</div>
 					</div>
 					<div class="tab-pane fade" id="id_privacitat">
@@ -48,11 +48,11 @@
 							<span><span class='fa fa-unlock' style="font-size: 20px"></span>&nbsp;&nbsp;<input
 								type="radio" name="privacitat" value="obert">&nbsp;<span
 								lang='ca' style="font-size: 15px;" id="checkObert">Obert</span><span
-								lang='ca' style="margin-left: 30px;" id="txtPublic">Tothom amb l'enllaç pot accedir al mapa</span></span><br /> <span><span
+								lang='ca' style="margin-left: 30px;" id="txtPublic">Tothom amb l'enllaÃ§ pot accedir al mapa</span></span><br /> <span><span
 								class='fa fa-lock' style="font-size: 20px"></span>&nbsp;&nbsp;&nbsp;<input
 								type="radio" name="privacitat" value="restringit">&nbsp;<span
 								lang='ca' style="font-size: 15px;" id="checkRestringit">Restringit</span><span
-								lang='ca' style="margin-left: 8px;" id="txtPrivat">L'accés al mapa es protegit amb clau</span></span>
+								lang='ca' style="margin-left: 8px;" id="txtPrivat">L'accÃ©s al mapa es protegit amb clau</span></span>
 							<div class="control-group protegit"
 								style="display: inline; float: right;">
 								<span class="clau"><input type="password" id="map_clau"
@@ -67,11 +67,11 @@
 								style="font-size: 15px"></span>&nbsp;&nbsp;<input type="radio"
 								name="publicitat" value="public">&nbsp;<span lang='ca'
 								style="font-size: 15px;" id="checkPublic">P&uacute;blic</span><span
-								lang='ca' style="margin-left: 31px;" id="txtVisible">El mapa és visible a la galeria pública</span></span><br /> <span><span
+								lang='ca' style="margin-left: 31px;" id="txtVisible">El mapa Ã©s visible a la galeria pÃºblica</span></span><br /> <span><span
 								class='glyphicon glyphicon-eye-close' style="font-size: 15px"></span>&nbsp;&nbsp;&nbsp;<input
 								type="radio" name="publicitat" value="privat">&nbsp;<span
 								lang='ca' style="font-size: 15px;" id="checkPrivat">Privat</span><span
-								lang='ca' style="margin-left: 30px;" id="txtNoVisible">El mapa només és visible a la teva galeria privada</span></span>
+								lang='ca' style="margin-left: 30px;" id="txtNoVisible">El mapa nomÃ©s Ã©s visible a la teva galeria privada</span></span>
 						</div>
 
 					</div>
@@ -112,17 +112,17 @@
 						<div class="modal-downloadable"></div>
 					</div>
 					<div class="tab-pane fade" id="id_parametres">
-						<div lang="ca">Escull els paràmetres que vols afegir al visor</div>
+						<div lang="ca">Escull els parÃ metres que vols afegir al visor</div>
 						<br/>
 						<div class="row">
-							<div lang="ca" class="col-md-8">Paràmetres:</div>
+							<div lang="ca" class="col-md-8">ParÃ metres:</div>
 							<div lang="ca" class="col-md-2 text-center">Visor</div>
 							<div lang="ca" class="col-md-2 text-center">Iframe</div>
 						</div>
 						<div id="div_params_visor" class="row">
         					<div class="separate-visor-row-all"></div>
         					<div class="visor-subrow-all fluent-row">
-        						<div class="col-xs-8 visor-name-all" lang="ca">Tots els paràmetres</div>
+        						<div class="col-xs-8 visor-name-all" lang="ca">Tots els parÃ metres</div>
         						<div class="col-xs-2 text-center">
         							<input id="visor-chck-all" class="download-chck" type="checkbox">
         						</div>
@@ -209,7 +209,7 @@
 				<span lang="ca">Cal donar un nom al mapa</span>
 			</div>
 			<div class="modal-footer" lang="ca">
-				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal" id="cancelPublicar">Cancel·lar</button>
+				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal" id="cancelPublicar">CancelÂ·lar</button>
 				<button lang="ca" type="button" class="btn btn-primary" id="okPublicar">Publicar</button>
 			</div>
 		</div><!-- /.modal-content -->

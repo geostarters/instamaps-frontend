@@ -11,6 +11,7 @@
   "accepta la":"acepta la",
   "Acceptar":"Aceptar",
   "ACCIONS":"ACCIONES",
+  "Actualització d'Instamaps":"Actualitzación de Instamaps",
   "Actualitzar contrasenya":"Actualizar contraseña",
   "Actualitzar dades":"Actualizar datos",
   "Adaptable a qualsevol dispositiu: PC, telèfon mòbil, tauleta.":"Adaptable a cualquier dispositivo: PC, teléfono móvil, tableta.",
@@ -58,6 +59,7 @@
   "Arxiu d'exemple":"Archivo de ejemplo",
   "arxiu tipus":"archivo de ejemplo",
   "Aspecte":"Aspecto",
+  "Aspecte del visor":"Aspecto del visor",
   "Atenció":"Atención",
   
   "baixa":"baja",
@@ -460,6 +462,7 @@
   "Inicia la sessió":"Inicia la sesión",
   "Insereix i enllaça":"Inserta y enlaza",
   "InstaMaps encara no està operatiu. Hi estem treballant":"InstaMaps aún no está operativo, estamos trabajando.",
+  "Instamaps ha canviat de versió. Si voleu refrescar el visor seleccioneu Acceptar":"Instamaps ha cambiado de versión. Si quereis refrescar el visor clicar Aceptar",
   "InstaMaps llegeix els següents formats":"InstaMaps lee los siguientes formatos",
   "Instamaps carrega serveis WMS globals en EPSG:3857 i EPSG:4326":"Instamaps carga servicios WMS globales en EPSG:3857 y EPSG:4326",
   "Intersecar":"Intersectar",
