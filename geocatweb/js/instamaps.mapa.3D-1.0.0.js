@@ -25,7 +25,7 @@ var modeDebug3D=true;
 var _urlTerrenys = 'https://tilemaps.icgc.cat/terrenys/demextes';
 var urlApp=document.location.href;
 
-if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
+if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.20.70.11')!=-1)){
 	 //_urlTerrenys = 'http://imtilemapsdev.icgc.local/terrenys/dem2out';
 	_urlTerrenys = 'https://tilemaps.icgc.cat/terrenys/demextes';
 }
@@ -689,8 +689,8 @@ var IM_aplicacio = function (options) {
 						if (raster.layer.options.opacity) {
 							opacity = raster.layer.options.opacity;
 						}
-						if (urlApp.indexOf('172.70.1.11') != -1) {
-							_url = _url.replace('betaserver.icgc.cat', '172.70.1.31');
+						if (urlApp.indexOf('172.20.70.11') != -1) {
+							_url = _url.replace('betaserver.icgc.cat', '172.20.70.31');
 						}
 						var provider = new Cesium.WebMapServiceImageryProvider({
 							url : _url,

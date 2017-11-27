@@ -50,7 +50,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		var params = this.getFeatureInfoUrl(evt.latlng);
 		params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text/html");
 		if(this.options.queryable){
-			if ((params.indexOf('instamaps.cat')!=-1 || params.indexOf('172.70.1.11')!=-1 || params.indexOf('localhost')!=-1) && params.indexOf('instaserver')==-1){
+			if ((params.indexOf('instamaps.cat')!=-1 || params.indexOf('172.20.70.11')!=-1 || params.indexOf('localhost')!=-1) && params.indexOf('instaserver')==-1){
 				if (params.indexOf('/geoservicelocal/')!=-1){
 					params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
 					params = params.replace("INFO_FORMAT=text/html","INFO_FORMAT=text/plain");

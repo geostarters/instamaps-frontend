@@ -44,9 +44,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			var params = this.getFeatureUrl();
 
 			var urlApp = document.location.href;
-			if ((urlApp.indexOf('localhost') != -1) || (urlApp.indexOf('.local') != -1) || (urlApp.indexOf('172.70.1.11') != -1)) {
-				params = params.replace('betaserver.icgc.cat', '172.70.1.31');
-				params = params.replace('www.instamaps.cat', '172.70.1.11');
+			if ((urlApp.indexOf('localhost') != -1) || (urlApp.indexOf('.local') != -1) || (urlApp.indexOf('172.20.70.11') != -1)) {
+				params = params.replace('betaserver.icgc.cat', '172.20.70.31');
+				params = params.replace('www.instamaps.cat', '172.20.70.11');
 				
 				//params = params.replace('172.70.1.11', 'localhost');
 			}
@@ -67,7 +67,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					
 				}
 			
-				if((params.indexOf('instamaps.cat')!=-1) || (params.indexOf('instaweb') != -1) || (params.indexOf('172.70.1.11') != -1)){
+				if((params.indexOf('instamaps.cat')!=-1) || (params.indexOf('instaweb') != -1) || (params.indexOf('172.20.70.11') != -1)){
 										
 									jQuery.ajax({
 										url : paramsWFS.url,
@@ -164,9 +164,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			//	aturaClick(evt);
 
 				var urlApp = document.location.href;
-				if ((urlApp.indexOf('localhost') != -1) || (urlApp.indexOf('.local') != -1) || (urlApp.indexOf('172.70.1.11') != -1)) {
-					params = params.replace('betaserver.icgc.cat', '172.70.1.31');
-					params = params.replace('www.instamaps.cat', '172.70.1.11');
+				if ((urlApp.indexOf('localhost') != -1) || (urlApp.indexOf('.local') != -1) || (urlApp.indexOf('172.20.70.11') != -1)) {
+					params = params.replace('betaserver.icgc.cat', '172.20.70.31');
+					params = params.replace('www.instamaps.cat', '172.20.70.11');
 					
 					//params = params.replace( '172.70.1.11','localhost');
 				}
@@ -195,7 +195,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					}
 					
 
-									if((params.indexOf('instamaps.cat')!=-1) || (params.indexOf('instaweb') != -1)|| (params.indexOf('172.70.1.11') != -1)){
+									if((params.indexOf('instamaps.cat')!=-1) || (params.indexOf('instaweb') != -1)|| (params.indexOf('172.20.70.11') != -1)){
 										
 									jQuery.ajax({
 										url : paramsWFS.url,

@@ -61,7 +61,7 @@ var urlServerTilesW="https://{s}tilemaps.icgc.cat";
 
 
 var urlApp=document.location.href;
-if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
+if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.20.70.11')!=-1)){
 
 
 	urlServerTiles="https://{s}tilemaps.icgc.cat";
