@@ -22,7 +22,7 @@ allowedHosts = ['www.icc.cat', 'openlayers.org',
                 'www.openstreetmap.org', 'sample.azavea.com',
                 'v2.suite.opengeo.org', 'v-swe.uni-muenster.de:8080', 
                 'vmap0.tiles.osgeo.org', 'www.openrouteservice.org',
-                '172.70.1.11','127.0.0.1','172.70.1.12',
+                '172.20.70.11','127.0.0.1','172.20.70.12',
                 '84.88.72.121','172.30.2.33','172.30.2.34',
                 '84.88.72.122','172.30.2.49','172.30.2.50'
                 'localhost','localhost:8080','84.88.72.36']

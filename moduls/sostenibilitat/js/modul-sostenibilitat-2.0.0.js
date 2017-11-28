@@ -376,7 +376,7 @@ L.Control.addModulSostenibilitat = L.Control.extend({
 
 				if (this.options.typeServer == 'MNU') {
 
-					if ((this.options.urlWFS.indexOf('instamaps.cat') == -1) || (this.options.urlWFS.indexOf('instaweb') != -1) || (this.options.urlWFS.indexOf('172.70.1.11') != -1)) {
+					if ((this.options.urlWFS.indexOf('instamaps.cat') == -1) || (this.options.urlWFS.indexOf('instaweb') != -1) || (this.options.urlWFS.indexOf('172.20.70.11') != -1)) {
 						
 						jQuery.ajax({
 							url: _requestWFS,
