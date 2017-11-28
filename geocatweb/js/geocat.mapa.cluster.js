@@ -395,7 +395,7 @@ function loadDadesObertesClusterLayer(layer, dfd){
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
 //		controlCapes._lastZIndex++;
-		activaPanelCapes(true);		
+	//	activaPanelCapes(true);		
 		
 		if(dfd){
 			try{
@@ -497,7 +497,7 @@ function loadJsonClusterLayer(layer){
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
 //		controlCapes._lastZIndex++;
-		activaPanelCapes(true);	
+		//activaPanelCapes(true);	
 
 	});
 }
@@ -530,7 +530,7 @@ function loadTematicCluster(layer, zIndex, layerOptions, capesActiva){
 	var origen = getLeafletIdFromBusinessId(options.origen);
 	controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true, origen);
 //	controlCapes._lastZIndex++;
-	activaPanelCapes(true);		
+//	activaPanelCapes(true);		
 }
 
 function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva, dfd){
@@ -620,7 +620,7 @@ function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva, dfd)
 			var origen = getLeafletIdFromBusinessId(options.origen);
 			controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
 //			controlCapes._lastZIndex++;
-			activaPanelCapes(true);	
+			//activaPanelCapes(true);	
 			
 			if(dfd){
 				try{

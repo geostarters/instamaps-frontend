@@ -1985,7 +1985,7 @@ function loadURLfileLayer2(layer) {
 	capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
 	controlCapes.addOverlay(capaURLfile, layer.serverName, true);
 	controlCapes._lastZIndex++;
-	activaPanelCapes(true);	
+	//activaPanelCapes(true);	
 	return defer.promise();
 }
 
