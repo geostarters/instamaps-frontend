@@ -232,34 +232,211 @@
 			var html="";
 			
 			if(editable){
-				html+= '<div id="footer_edit"  class="modal-footer">'
-					+'<ul class="bs-popup">'
-						+'<li class="edicio-popup"><a id="feature_edit##'+feature._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="geostart-palette gris-semifosc font18" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>';
-						if(type == t_polyline || type == t_polygon){
-							html+='<li class="edicio-popup"><a id="feature_move##'+feature._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-pencil gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>';
-						}	
-						else {
-							html+='<li class="edicio-popup"><a id="feature_move##'+feature._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Moure')+'"></span></a>   </li>';
-						}
-						html+='<li class="edicio-popup"><a id="feature_remove##'+feature._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>'
-						+'<li class="edicio-popup"><a id="feature_data_table##'+feature._leaflet_id+'##'+type+'##'+feature.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>'
-						+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><span class="fa fa-question-circle-o gris-semifosc font21"></span></a></span></li>'
-					+'</ul>'														
-					+'</div>';	
+				html += this._createEditableFooterButtons(feature, type);
 			}else{
-				/*var capaLeafletId = feature.properties.capaLeafletId;
-				if(isValidValue(origen)) {
-					capaLeafletId = origen; 
-				}
-				html+= '<div id="footer_edit"  class="modal-footer">'
-					+'<ul class="bs-popup">'						
-						+'<li class="consulta-popup"><a id="feature_data_table##'+feature._leaflet_id+'##'+type+'##'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Obrir la taula de dades')+'"></span></a>   </li>'
-					+'</ul>'														
-				+'</div>';*/			
+
+				html += this._createNonEditableFooterButtons(feature, type);
+
 			}
 			return html;
 		},
-	
+
+		_createEditableFooterButtons: function(feature, type) {
+
+			var footerContent = this._createEditableFooterContent(feature, type);
+			return this._createFooter(footerContent);
+
+		},
+
+		_createNonEditableFooterButtons: function(feature, type) {
+
+			var footerContent = this._createNonEditableFooterContent(feature, type);
+			return this._createFooter(footerContent);
+
+		},
+
+		_createEditableFooterContent: function(feature, type) {
+
+			return this._createEditableIconList(feature, type);
+
+		},
+
+		_createFooter: function(content) {
+
+			return '<div id="footer_edit"  class="modal-footer">' + 
+				content + 
+				'</div>';
+
+		},
+
+		_createEditableIconList: function(feature, type) {
+
+			var html = '<ul class="bs-popup">';
+			html += this._createStyleListItem(feature, type);
+			if(this._isPolyline(type) || this._isPolygon(type)) {
+
+				html += this._createEditListItem(feature, type);
+
+				if(this._isPolyline(type)) {
+
+					html += this._createProfileListItem(feature, type);
+				}
+
+			}
+			else {
+				html += this._createMoveListItem(feature, type);
+			}
+			html += this._createRemoveListItem(feature, type);
+			html += this._createDataTableListItem(feature, type);
+			html += this._createFAQListItem(feature, type);
+			html += '</ul>';
+
+			return html;
+
+		},
+
+		_createStyleListItem: function(feature, type) {
+
+			var icon = this._createStyleIcon(feature, type);
+			return this._createListItem(icon)
+
+		},
+
+		_createEditListItem: function(feature, type) {
+
+			var icon = this._createEditIcon(feature, type);
+			return this._createListItem(icon)
+
+		},
+
+		_createProfileListItem: function(feature, type) {
+
+			var icon = this._createProfileIcon(feature, type);
+			return this._createListItem(icon)
+
+		},
+
+		_createMoveListItem: function(feature, type) {
+
+			var icon = this._createMoveIcon(feature, type);
+			return this._createListItem(icon)
+
+		},
+
+		_createRemoveListItem: function(feature, type) {
+
+			var icon = this._createRemoveIcon(feature, type);
+			return this._createListItem(icon)
+
+		},
+
+		_createDataTableListItem: function(feature, type) {
+
+			var icon = this._createDataTableIcon(feature, type);
+			return this._createListItem(icon)
+
+		},
+
+		_createFAQListItem: function(feature, type) {
+
+			var icon = this._createFAQIcon(feature, type);
+			return this._createListItem(icon)
+
+		},
+
+		_createStyleIcon: function(feature, type) {
+
+			return this._createIconLink('edit', feature._leaflet_id, type, 'geostart-palette font18', window.lang.translate('Estils'));
+
+		},
+
+		_createEditIcon: function(feature, type) {
+
+			return this._createIconLink('move', feature._leaflet_id, type, 'glyphicon glyphicon-pencil', window.lang.translate('Editar'));
+
+		},
+
+		_createProfileIcon: function(feature, type) {
+
+			return this._createIconLink('profile', feature._leaflet_id, type, 'glyphicon glyphicon-signal', window.lang.translate('Perfil'));
+
+		},
+
+		_createMoveIcon: function(feature, type) {
+
+			return this._createIconLink('move', feature._leaflet_id, type, 'glyphicon glyphicon-move', window.lang.translate('Moure'));
+
+		},
+
+		_createRemoveIcon: function(feature, type) {
+
+			return this._createIconLink('remove', feature._leaflet_id, type, 'glyphicon glyphicon-trash', window.lang.translate('Esborrar'));
+
+		},
+
+		_createDataTableIcon: function(feature, type) {
+
+			return this._createIconLink('data_table', feature._leaflet_id, type + '##' + feature.properties.capaLeafletId, 'glyphicon glyphicon-list-alt', window.lang.translate('Dades'));
+
+		},
+
+		_createFAQIcon: function(feature, type) {
+
+			return '<a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><span class="fa fa-question-circle-o gris-semifosc font21"></span></a>';
+
+		},
+
+		_createIconLink: function(iconType, featureId, type, className, name) {
+
+			return '<a id="feature_' + iconType + '##' + 
+				featureId + 
+				'##' + type + '" lang="ca" href="#">' + 
+				'<span class="gris-semifosc ' + className + '" data-toggle="tooltip" data-placement="bottom" title="' +
+				name +
+				'"></span></a>';
+
+		},
+		
+		_createListItem: function(content) {
+
+			return '<li class="edicio-popup">' +
+				content +
+				'</li>';
+
+		},
+
+		_isPolyline: function(type) {
+		
+			return type == t_polyline;
+
+		},
+
+		_isPolygon: function(type) {
+		
+			return type == t_polygon;
+
+		},
+
+		_createNonEditableFooterContent: function(feature, type) {
+
+			return this._createNonEditableIconList(feature, type);
+
+		},
+
+		_createNonEditableIconList: function(feature, type) {
+		
+			var html = '<ul class="bs-popup">';
+			if(this._isPolyline(type)) {
+
+				html += this._createProfileListItem(feature, type);
+
+			}
+			html += '</ul>';
+
+			return html;
+
+		},
+		
 		getPropName: function(feature){
 			var propName = "";
 			var properties;
@@ -543,6 +720,10 @@
 							alert(window.lang.translate('Has de posar un nom de capa'));	
 						}
 					}
+				}else if(undefined != accio[0] && accio[0].indexOf("feature_profile") != -1) {
+
+					$("body").trigger("showProfile", [accio[1]]);
+
 				}else{
 				//accio tanca
 					map.closePopup();

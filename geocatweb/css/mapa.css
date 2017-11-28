@@ -5310,3 +5310,13 @@ li >.label-dof:focus {
 #valors_rangs_personalitzats {
 	margin-top: 10px;
 }
+
+.elevation.lime-theme.leaflet-control {
+	background-color: rgba(255,255,255,0.5);
+}
+
+.profileText {
+	margin-left: 10px;
+	font-size: 18px;
+	text-align: center;
+}

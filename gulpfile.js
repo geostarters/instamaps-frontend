@@ -148,7 +148,8 @@ gulp.task('styles', function() {
     config.dirCssInstamaps+'/instamaps.visor.estils.css',
     config.dirCssInstamaps+'/instamaps.visor.geocat.css',
     config.dirCssInstamaps+'/instamaps.visor.mapa.css',
-    config.dirCssInstamaps+'/collapse_visor.css'
+    config.dirCssInstamaps+'/collapse_visor.css',
+    config.dirCssInstamaps+'/dual-elevation.css'
   ], 'instamaps.css');
 
   pipeline.run(app.addStyle);
@@ -262,6 +263,7 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/leaflet/L.Twitter.js',
     config.dirJsInstamaps+'/leaflet/L.IM_Label.js',
     config.dirJsInstamaps+'/leaflet/L.IM_PopupManager.js',
+    config.dirJsInstamaps+'/leaflet/L.IM_ProfileManager.js',
     config.dirJsInstamaps+'/geocat.config-1.0.0.js',
     config.dirJsInstamaps+'/geocat.constants.js',
     config.dirJsInstamaps+'/geocat.ajax-1.0.0.js',
@@ -307,7 +309,10 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/instamaps.visor.geolocal.js',
     config.dirJsInstamaps+'/instamaps.visor.simple.js',
     config.dirJsInstamaps+'/instamaps.mapa.color-scale.js',
-    config.dirJsInstamaps+'/instamaps.app-1.0.0.js'
+    config.dirJsInstamaps+'/instamaps.app-1.0.0.js',
+    config.dirJsInstamaps+'/instamaps.data.converter.js',
+    config.dirJsInstamaps+'/instamaps.height.service.js',
+    config.dirJsInstamaps+'/llibreries/js/dual.elevation.js',
   ], 'instamaps.js');
 
   return pipeline.run(app.addScript);
