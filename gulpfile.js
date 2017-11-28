@@ -195,7 +195,7 @@ gulp.task('scripts', function() {
     config.dirJsVendors+'/chroma.min.js',
     config.dirJsVendors+'/DateFormat.js',
     config.dirJsVendors+'/iso8601.js',
-    config.dirJsVendors+'/proj4js/proj4.2.4.3.js',
+    config.dirJsVendors+'/proj4js/proj4.2.4.3.js'
   ], 'jquery.js');
 
   pipeline.add([
@@ -229,7 +229,8 @@ gulp.task('scripts', function() {
     config.dirJsVendors+'/leaflet/plugin/lrm-mapzen.js',
     config.dirJsVendors+'/leaflet/plugin/Control.Geocoder.js',
     config.dirJsVendors+'/leaflet/plugin/leaflet-pip.js',
-    config.dirJsVendors+'/leaflet/plugin/toGeoJSON.js'
+    config.dirJsVendors+'/leaflet/plugin/toGeoJSON.js',
+    config.dirJsVendors+'/dual.elevation.js',
   ], 'leaflet.js');
 
   pipeline.add([
@@ -312,7 +313,6 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/instamaps.app-1.0.0.js',
     config.dirJsInstamaps+'/instamaps.data.converter.js',
     config.dirJsInstamaps+'/instamaps.height.service.js',
-    config.dirJsInstamaps+'/llibreries/js/dual.elevation.js',
   ], 'instamaps.js');
 
   return pipeline.run(app.addScript);
