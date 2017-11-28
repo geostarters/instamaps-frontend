@@ -13,6 +13,7 @@ function addXHR(jqXHR, settings)
   
 }
 
+
 function completedWithErrors(jqXHR, status, error)
 {
 
