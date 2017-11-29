@@ -466,7 +466,7 @@ function addExternalWMS(fromParam) {
 	wmsLayer.options.nom = nomCapaWMS;
 	wmsLayer.options.tipus = t_wms;
 	wmsLayer.options.tipus = t_wms;
-	wmsLayer.options.sostenibilitat = wms.sostenibilitat;
+	wmsLayer.options.sostenibilitat = ActiuWMS.sostenibilitat;
 	
 	if(typeof url('?businessid') == "string"){
 		var data = {
