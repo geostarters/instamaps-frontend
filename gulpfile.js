@@ -231,6 +231,9 @@ gulp.task('scripts', function() {
     config.dirJsVendors+'/leaflet/plugin/leaflet-pip.js',
     config.dirJsVendors+'/leaflet/plugin/toGeoJSON.js',
     config.dirJsVendors+'/dual.elevation.js',
+    config.dirJsVendors+'/canvg/canvg.js',
+    config.dirJsVendors+'/canvg/rgbcolor.js',
+    config.dirJsVendors+'/canvg/StackBlur.js',
   ], 'leaflet.js');
 
   pipeline.add([
