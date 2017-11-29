@@ -343,6 +343,37 @@ function hackGeoPDF() {
     }
 }
 
+function restoreClasses(divPerfil, perfilVisible) {
+
+    jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').removeAttr('data-html2canvas-ignore');
+    jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore');
+    jQuery(".leaflet-sidebar").removeAttr('data-html2canvas-ignore');
+    jQuery(".leaflet-top.leaflet-left").removeAttr('data-html2canvas-ignore');
+
+    if(perfilVisible)
+        jQuery(".leaflet-top.leaflet-right>div:not(:last-child)").removeAttr('data-html2canvas-ignore');
+    else
+        jQuery(".leaflet-top.leaflet-right").removeAttr('data-html2canvas-ignore');
+
+    jQuery(".leaflet-bottom.leaflet-left").removeAttr('data-html2canvas-ignore');
+    jQuery(".leaflet-bottom.leaflet-right div").removeAttr('data-html2canvas-ignore');
+
+    $(divPerfil).find('.screenshotTempCanvas').remove();
+    $(divPerfil).find('.tempHide').show().removeClass('tempHide');
+
+    if(perfilVisible) {
+    
+        var svgElements= $(divPerfil).find('svg');
+        svgElements.each(function () {
+
+            $(this).show();
+
+        });
+
+    }
+
+}
+
 function generaCaptura(_tipusCaptura, w, h, factor) {
 
    
@@ -354,12 +385,20 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
     }
     var transform = "";
 
+    var divPerfil = ".leaflet-control.elevation";
+    var divActiuCanvas = '#map';
+    var perfilVisible = $(divPerfil).is(":visible");
 
     jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore', 'true');
     jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore');
     jQuery(".leaflet-sidebar").attr("data-html2canvas-ignore", "true");
     jQuery(".leaflet-top.leaflet-left").attr("data-html2canvas-ignore", "true");
-    jQuery(".leaflet-top.leaflet-right").attr("data-html2canvas-ignore", "true");
+
+    if(perfilVisible)
+        jQuery(".leaflet-top.leaflet-right>div:not(:last-child)").attr("data-html2canvas-ignore", "true");
+    else
+        jQuery(".leaflet-top.leaflet-right").attr("data-html2canvas-ignore", "true");
+
     jQuery(".leaflet-bottom.leaflet-left").attr("data-html2canvas-ignore", "true");
     jQuery(".leaflet-bottom.leaflet-right div").attr("data-html2canvas-ignore", "true");
 
@@ -368,8 +407,24 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
         jQuery("#mapLegend div").removeAttr("data-html2canvas-ignore");
     }
 
+    if(perfilVisible) {
 
-    var divActiuCanvas = '.leaflet-map-pane';
+        var svgElements= $(divPerfil).find('svg');
+        svgElements.each(function () {
+
+            var canvas = document.createElement("canvas");
+            canvas.className = "screenshotTempCanvas";
+            xml = (new XMLSerializer()).serializeToString(this);
+            xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
+            canvg(canvas, xml);
+            $(canvas).insertAfter(this);
+            this.className = "tempHide";
+            $(this).hide();
+
+        });
+
+    }
+
     var colorMapBackGround = jQuery('#map').css('background-color');
 
     if (estatMapa3D) {
@@ -383,8 +438,9 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
         snd.play();
         html2canvas(jQuery(divActiuCanvas), {
             onrendered: function(canvas) {
-                ActDesPrintMode(false);
 
+                restoreClasses(divPerfil, perfilVisible);
+                ActDesPrintMode(false);
 
                 var imgData = canvas.toDataURL('image/png', 0.92);
                 imgData = JSON.stringify(imgData.replace(
@@ -430,7 +486,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
         html2canvas(jQuery(divActiuCanvas), {
             onrendered: function(canvas) {
                 ActDesPrintMode(false);
-
+                restoreClasses(divPerfil, perfilVisible);
 
                 var imgData = canvas.toDataURL('image/png', 0.92);
                 imgData = JSON.stringify(imgData.replace(
@@ -488,6 +544,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
         html2canvas(jQuery(divActiuCanvas), {
             onrendered: function(canvas) {
                 ActDesPrintMode(false);
+                restoreClasses(divPerfil, perfilVisible);
                 var imgCaptura = canvas.toDataURL('image/jpeg', 0.50);
                 imgCaptura = JSON.stringify(imgCaptura.replace(
                     /^data:image\/(png|jpeg);base64,/, ""));
@@ -523,6 +580,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
         html2canvas(jQuery(divActiuCanvas), {
             onrendered: function(canvas) {
                 ActDesPrintMode(false);
+                restoreClasses(divPerfil, perfilVisible);
                 var imgData = canvas.toDataURL('image/jpeg', 0.72);
                 imgData = JSON.stringify(imgData.replace(
                     /^data:image\/(png|jpeg);base64,/, ""));

@@ -655,7 +655,7 @@ L.Control.Elevation = L.Control.extend({
 
             if (!this._marker) {
 
-                this._marker = new L.Marker(ll).addTo(this._map);
+                this._marker = new L.circleMarker(ll, {fillColor: "red", color: "red"}).addTo(this._map);
 
             } else {
 
@@ -1012,6 +1012,14 @@ L.Control.Elevation = L.Control.extend({
         this._data = null;
         this._dist = null;
         this._maxElevation = null;
+
+        if(this._marker && this._marker._map) {
+
+            this._marker._map.removeLayer(this._marker);
+            this._marker = null;
+
+        }
+
     },
 
     /*

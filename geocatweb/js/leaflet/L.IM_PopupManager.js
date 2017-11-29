@@ -232,7 +232,7 @@
 			var html="";
 			
 			if(editable){
-				html += this._createEditableFooterButtons(feature, type);
+				html += this.createEditableFooterButtons(feature, type);
 			}else{
 
 				html += this._createNonEditableFooterButtons(feature, type);
@@ -241,7 +241,7 @@
 			return html;
 		},
 
-		_createEditableFooterButtons: function(feature, type) {
+		createEditableFooterButtons: function(feature, type) {
 
 			var footerContent = this._createEditableFooterContent(feature, type);
 			return this._createFooter(footerContent);
@@ -358,7 +358,7 @@
 
 		_createProfileIcon: function(feature, type) {
 
-			return this._createIconLink('profile', feature._leaflet_id, type, 'glyphicon glyphicon-signal', window.lang.translate('Perfil'));
+			return this._createIconLink('profile', feature._leaflet_id, type, 'fa fa-area-chart', window.lang.translate('Perfil'));
 
 		},
 
@@ -472,9 +472,16 @@
 		},
 		
 		addEventsPopup: function(){
-			//Afegim els events de clicks per al semafòric
-			jQuery(document).on('click', ".traffic-light-icon", function(e) {
 
+			var self = this;
+			self.addEventSemaforic();
+			self.addEventsAccionsPopup();
+		},
+
+		addEventSemaforic: function() {
+
+			jQuery(document).on('click', ".traffic-light-icon", function(e) {
+				
 				e.stopImmediatePropagation();
 				var layerId = $(this).data("leafletid");
 				var parentId = $(this).data("origen");
@@ -532,8 +539,11 @@
 				});
 
 			});
-			
-			//Afegim events/accions al popUp
+
+		},
+
+		addEventsAccionsPopup: function() {
+
 			jQuery(document).on('click', ".bs-popup li a", function(e) {
 				e.stopImmediatePropagation();
 				var accio;
@@ -655,42 +665,12 @@
 							fillColor: '#fe57a1',
 							fillOpacity: 0.1
 						};
-					
-					/*crt_Editing=new L.EditToolbar.SnapEdit(map, {
-						featureGroup: capaEdicio,
-						selectedPathOptions: opcionsSel,
-						snapOptions: {
-							guideLayer: guideLayers
-						}
-					});*/
+
 					crt_Editing=new L.EditToolbar.Edit(map, {
 						featureGroup: capaEdicio,
 						selectedPathOptions: opcionsSel
 					});
-					crt_Editing.enable();
-					
-					//crt_Editing.enable();
-					
-					/*if(map._layers[objEdicio.featureID].properties.tipusFeature=="marker" && map._layers[objEdicio.featureID].options.isCanvas){
-						crt_Editing=new L.EditToolbar.Edit(map, {
-							featureGroup: capaEdicio,
-							selectedPathOptions: opcionsSel
-						});
-						crt_Editing.enable();
-					}
-					else {
-						crt_Editing=new L.EditToolbar.SnapEdit(map, {
-							featureGroup: capaEdicio,
-							selectedPathOptions: opcionsSel,
-							snapOptions: {
-								guideLayer: guideLayers
-							}
-						});
-						crt_Editing.enable();
-						//activarSnapping(capaEdicio);
-					}*/
-					
-					//activarSnapping(capaEdicio);			
+					crt_Editing.enable();			
 					
 					map.closePopup();
 					
@@ -729,6 +709,7 @@
 					map.closePopup();
 				}
 			});	
+
 		},
 		
 		createPopupContents: function(matches)

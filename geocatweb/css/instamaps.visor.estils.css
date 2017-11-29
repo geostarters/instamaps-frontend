@@ -938,3 +938,17 @@ div.leaflet-routing-geocoder input:-moz-placeholder { opacity: 0.8; }
 .nomargin{
 	margin:0px !important;
 }
+
+.elevation.lime-theme.leaflet-control {
+	background-color: rgba(255,255,255,0.5);
+}
+
+.profileText {
+	margin-left: 10px;
+	font-size: 18px;
+	text-align: center;
+}
+
+.edicio-popup {
+	text-align: center;
+}

@@ -31,17 +31,18 @@
                 //Refresquem el perfil amb les dades de la línia
                 self.elevationControl.clear();
                 $("#profileText").show();
-                $("#preloader6").show();
+                $(".profileLoader").show();
 
             } else  {
             
                 self.elevationControl = L.control.elevation({useHeightIndicator: false}).addTo(map);
                 $(".elevation.leaflet-control").append('<button id="profileClose" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>');
                 $(".elevation.leaflet-control").append('<div id="profileText" class="profileText" lang="ca">Calculant perfil<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');
-                $(".elevation.leaflet-control").append('<div id="preloader6"><span></span><span></span><span></span><span></span></div>');
+                $(".elevation.leaflet-control").append('<div id="preloader6" class="profileLoader"><span></span><span></span><span></span><span></span></div>');
                 $(".elevation.leaflet-control svg").hide();
                 $("#profileClose").on('click', function(e){ 
                     map.removeControl(self.elevationControl);
+                    self.elevationControl.clear();
                     self.elevationControl = null;
                 });
             }
@@ -71,7 +72,7 @@
             this.elevationControl.addData(data.features[0]);
 
             $("#profileText").hide();
-            $("#preloader6").hide();
+            $(".profileLoader").hide();
             $(".elevation.leaflet-control svg").show();
         },
 
