@@ -461,7 +461,6 @@ function addExternalWMS(fromParam) {
 	}
 	
 	nomCapaWMS=ActiuWMS.servidor;	
-	
 	wmsLayer.options.businessId = '-1';
 	wmsLayer.options.nom = nomCapaWMS;
 	wmsLayer.options.tipus = t_wms;
