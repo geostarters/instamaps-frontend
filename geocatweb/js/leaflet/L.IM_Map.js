@@ -47,7 +47,7 @@ var urlServerTiles="http://www.{s}.instamaps.cat"
 var urlServerTilesW="http://www.instamaps.cat"	
 var urlApp=document.location.href;
 
-if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
+if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.20.70.11')!=-1)){
 	//urlServerTiles="http://172.70.1.11"
 	urlServerTiles="http://instamaps.{s}.icgc.local"	
 	urlServerTilesW="http://instamaps.icgc.local"		

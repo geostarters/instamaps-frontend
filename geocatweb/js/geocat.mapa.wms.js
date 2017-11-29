@@ -647,7 +647,7 @@ function checkExceptionsType(_server){
 	if(_server.indexOf('instamaps.cat')==-1 ||
 		 _server.indexOf('betaserver.icgc')==-1 ||
 		 _server.indexOf('localhost')==-1 ||
-		 _server.indexOf('172.70.1.11')==-1){
+		 _server.indexOf('172.20.70.11')==-1){
 		exceptions='application/vnd.ogc.se_inimage';
 
 	}

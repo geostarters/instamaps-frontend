@@ -85,13 +85,16 @@
 			var properties;
 			if (feature.properties.data!=undefined && ("string" !== typeof feature.properties.data)) properties=feature.properties.data;
 			else if (feature.properties!=undefined) properties=feature.properties;
+			if ("" === propName) propName = Object.keys(properties).join();
+			
 			var propPrivacitat = "";
 			if (capa.options!=undefined && capa.options.propPrivacitat!=undefined) 	propPrivacitat = capa.options.propPrivacitat;
 			var dataNames = (typeof propName === "string" ? propName.split(',') : propName);
 			for(var x in dataNames){
 				var key  = dataNames[x];
-				if (propPrivacitat==="" || (propPrivacitat!="" && propPrivacitat[key.toLowerCase()]==true)) {
-					var value = properties[key.toLowerCase()];
+				if (propPrivacitat==="" || (propPrivacitat!="" && (propPrivacitat[key]==true || propPrivacitat[key.toLowerCase()]==true))) {
+					var value = properties[key];
+					if (undefined==value) value=properties[key.toLowerCase()];
 					if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
 						if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
 								key != 'NOM' && key != 'Nom' && key != 'nom' && 
@@ -102,8 +105,10 @@
 							if (!$.isNumeric(txt)) {
 								txt = parseUrlTextPopUp(value, key);
 								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-									if (propFormat!=undefined && propFormat[key.toLowerCase()]!=undefined){
-										txt = dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
+									if (propFormat!=undefined && (propFormat[key]!=undefined || propFormat[key.toLowerCase()]!=undefined)){
+										var propF = propFormat[key.toLowerCase()];
+										if (undefined == propF) propF=propFormat[key];
+										txt = dataFormatter.formatValue(txt, propF);
 									}
 									html+='<div class="popup_data_key">'+key+'</div>';
 									html+='<div class="popup_data_value">'+
@@ -115,13 +120,15 @@
 								}
 							}
 							else {
-								if (propFormat!=undefined && propFormat[key.toLowerCase()]!=undefined){
-									txt = dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
+								if (propFormat!=undefined && (propFormat[key]!=undefined || propFormat[key.toLowerCase()]!=undefined)){
+									var propF = propFormat[key.toLowerCase()];
+									if (undefined == propF) propF=propFormat[key];
+									txt = dataFormatter.formatValue(txt, propF);
 								}
 								html+='<div class="popup_data_key">'+key+'</div>';
 								html+='<div class="popup_data_value">'+txt+'</div>';
 			
-								if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key.toLowerCase()] && 
+								if(undefined != capa.isPropertyNumeric && (capa.isPropertyNumeric[key] || capa.isPropertyNumeric[key.toLowerCase()]) && 
 									(esVisor && visor.colorscalecontrol && ("" == origen)) || (!esVisor && ("" == origen)) || ("" != origen && (key == capa.options.trafficLightKey)))
 								{
 			
@@ -270,7 +277,7 @@
 			if (feature.properties.data!=undefined) properties=feature.properties.data;
 			else if (feature.properties!=undefined) properties=feature.properties;
 			$.each( properties, function( key, value ) {
-				if(estil_do!=undefined && key.toLowerCase()==estil_do.dataField) dataFieldValue = value;
+				if(estil_do!=undefined && (key.toLowerCase()==estil_do.dataField || key==estil_do.dataField)) dataFieldValue = value;
 			});
 			return dataFieldValue;
 		},
@@ -332,7 +339,7 @@
 					}
 
 				}
-
+				
 				control.render($.Deferred(), key.toLowerCase(), value, layer).then(function(data) {
 					if(!layer.hasOwnProperty("semaforics"))
 						layer.semaforics = {};

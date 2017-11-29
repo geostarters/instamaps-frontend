@@ -452,7 +452,7 @@ function loadCapaFromJSON(layer) {
 				controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true, origen);
 			}			
 			
-			activaPanelCapes(true);	
+		//	activaPanelCapes(true);	
 			return defer.resolve();
 		},function(results){
 			alert(window.lang.translate("No s'ha interpretar l'estructura del JSON"));
