@@ -1123,6 +1123,7 @@
 			if (_mapConfig.options.barColor){
 				$('#navbar-visor').css('background-color', _mapConfig.options.barColor);
 			}
+			else $('#navbar-visor').css('background-color',"#333333");
 
 			if (_mapConfig.options.textColor){
 				$('#navbar-visor').css('color', _mapConfig.options.textColor).css('border-color', '#ffffff');
@@ -1134,11 +1135,21 @@
 				$('.navbar-form').css('border-color', 'transparent');
 				$('.bt-sessio').css('border-color', '#ffffff');
 			}
+			else {
+				$('#navbar-visor').css('color', '#9d9d9d').css('border-color', '#ffffff');
+				$('.navbar-brand').css('color','#9d9d9d');
+				$('#mapTitle').css('color', '#9d9d9d');
+				$('#mapTitle h3').css('color', '#9d9d9d');
+				$('.navbar-inverse .navbar-nav > li > a').css('color', '#9d9d9d');
+				$('#menu_user > a > span').removeClass('green').css('color', '#9d9d9d');
+				$('.navbar-form').css('border-color', 'transparent');
+				$('.bt-sessio').css('border-color', '#ffffff');
+			}
 
 			if (_mapConfig.options.fontType){
 				$('#navbar-visor').css('font-family', _mapConfig.options.fontType);
 			}
-
+			
 			$('.escut').show();
 			if (_mapConfig.logo){
 				$('.escut img').prop('src', '/logos/'+_mapConfig.logo);
