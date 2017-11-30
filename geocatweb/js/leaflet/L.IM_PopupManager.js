@@ -978,7 +978,7 @@
 
 			var self = this;
 			var $btn = $('#popup-' + self.options.id + '-prev');
-			var offset = Number.parseInt($btn.data('taboffset')) - 1;
+			var offset = parseInt($btn.data('taboffset')) - 1;
 			$btn.data('taboffset', offset);
 
 			var displayPrev = (0 == offset || -1 == offset) ? 'none' : 'block';
@@ -994,7 +994,7 @@
 			var self = this;
 			var $btnPrev = $('#popup-' + self.options.id + '-prev');
 			var $btn = $('#popup-' + self.options.id + '-next');
-			var offset = Number.parseInt($btnPrev.data('taboffset')) + 1;
+			var offset = parseInt($btnPrev.data('taboffset')) + 1;
 			$btnPrev.data('taboffset', offset);
 
 			var displayNext = ((offset + self.numVisibleTabs) >= self.numTabs) ? 'none' : 'block';
@@ -1011,7 +1011,7 @@
 
 			var $tabs = $('[id^=popup-' + self.options.id + '-tab-');
 			var $btnPrev = $('#popup-' + self.options.id + '-prev');
-			var offset = Number.parseInt($btnPrev.data('taboffset'));
+			var offset = parseInt($btnPrev.data('taboffset'));
 			var maxVisible = offset + self.options.maxVisibleTabs;
 			var currentTabId = 0;
 			
