@@ -46,7 +46,7 @@ function getBoundingBox(l)
   if(l._radius)
   {
   
-    var radius = Number.parseInt(l._radius);
+    var radius = parseInt(l._radius);
     bbox = [-radius, -radius, radius, radius];
 
   }
@@ -56,8 +56,8 @@ function getBoundingBox(l)
   {
 
     var radius = l.properties.estil.iconSize.split('#');
-    var radiusX = Number.parseInt(radius[0]) / 2;
-    var radiusY = Number.parseInt(radius[1]);
+    var radiusX = parseInt(radius[0]) / 2;
+    var radiusY = parseInt(radius[1]);
     bbox = [-radiusX, -radiusY, radiusX, 0];
 
   } 
