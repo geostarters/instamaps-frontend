@@ -3,7 +3,7 @@
 
     var HeightService = function() {
         
-        this.url = 'http://betaserver2.icgc.cat/terrain/' 
+        this.url = '/terrain/' 
 
 	}
 
