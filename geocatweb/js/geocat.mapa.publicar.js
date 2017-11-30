@@ -260,10 +260,18 @@
 						$('#dv_fill_menu_bar').css('background-color',self.mapConfig.options.barColor);
 						$("#in_fill_menu_bar").val(self.mapConfig.options.barColor);
 					}
+					else {
+						$('#dv_fill_menu_bar').css('background-color',"#333333");
+						$("#in_fill_menu_bar").val("#333333");
+					}
 
 					if(self.mapConfig.options.textColor){
 						$('#dv_color_text_bar').css('background-color',self.mapConfig.options.textColor);
 						$("#in_color_text_bar").val(self.mapConfig.options.textColor);
+					}
+					else {
+						$('#dv_color_text_bar').css('background-color',"#9d9d9d");
+						$("#in_color_text_bar").val("#9d9d9d");
 					}
 
 					if(self.mapConfig.options.fontType){
