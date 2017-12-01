@@ -991,7 +991,18 @@ L.Control.Search = L.Control.extend({
 			return false;
 	},
 
+	removeLocation:function(){
+		alert(1);
+		
+		if(map.hasLayer(this._layer)){					
+			map.removeLayer(this._layer);
+		}
+		
+	},
+	
+	
 	showLocation: function(latlng, title,nom) {	//set location on map from _recordsCache
+	
 		if(this.options!=undefined && this.options.zoom)
 			this._map.setView(latlng, this.options.zoom);
 		else
@@ -1070,13 +1081,14 @@ L.Control.Search = L.Control.extend({
 				
 			}
 			else {
-							
+					
 				var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
 				var marker=null;
 				if(defaultPunt.options && !defaultPunt.options.isCanvas){
 					marker=L.marker([0,0],
 						{icon: defaultPunt,isCanvas:defaultPunt.options.isCanvas,
-						 tipus: t_marker});
+						 tipus: t_marker,
+						 tmp_cerca:true});
 				}else{
 					//Si és cercle sense glifon
 					marker= L.circleMarker([0,0],
@@ -1087,7 +1099,8 @@ L.Control.Search = L.Control.extend({
 							  weight :  defaultPunt.options.weight,
 							  opacity :  defaultPunt.options.opacity,
 							  fillOpacity : defaultPunt.options.fillOpacity,
-							  tipus: t_marker}							
+							  tipus: t_marker,
+							  tmp_cerca:true}							
 					);
 					
 				}
@@ -1104,6 +1117,8 @@ L.Control.Search = L.Control.extend({
 				
 				this._layer.addLayer(marker);
 				map.addLayer(this._layer);
+				
+				
 				//map.addLayer(this._layer);
 			}
 			

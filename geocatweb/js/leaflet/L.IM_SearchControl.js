@@ -116,8 +116,20 @@ L.Control.SearchControl = L.Control.extend({
 	
 	hide: function() {
 		L.DomUtil.removeClass(this._div, 'greenfort');
-		L.DomUtil.addClass(this._div, 'grisfort');
+		L.DomUtil.addClass(this._div, 'grisfort');		
 		$('#searchBar').hide();
+		
+		try{
+		map.eachLayer(function (layer) {			
+			if(layer && layer.options && layer.options.tmp_cerca){
+					map.removeLayer(layer);
+			}
+		});
+		}catch(err){
+			console.debug(err);
+			
+		}
+		
 	},
 	
 	show: function(e){

@@ -3,11 +3,11 @@ geostart Webfont
 */
 @font-face {
 	font-family: 'geostart';
-	src: url('fonts/geostart.eot?1490277913754');
-	src: url('fonts/geostart.eot?#iefix-1490277913754') format('embedded-opentype'),
-		url('fonts/geostart.woff2?1490277913754') format('woff2'),
-		url('fonts/geostart.woff?1490277913754') format('woff'),
-		url('fonts/geostart.ttf?1490277913754') format('truetype');
+	src: url('/geocatweb/css/fonts/geostart.eot?1490277913754');
+	src: url('/geocatweb/css/fonts/geostart.eot?#iefix-1490277913754') format('embedded-opentype'),
+		url('/geocatweb/css/fonts/geostart.woff2?1490277913754') format('woff2'),
+		url('/geocatweb/css/fonts/geostart.woff?1490277913754') format('woff'),
+		url('/geocatweb/css/fonts/geostart.ttf?1490277913754') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }

@@ -145,6 +145,7 @@ gulp.task('styles', function() {
   pipeline.add([
     config.dirCssInstamaps+'/L.IM_ControlLayerManager.css',
     config.dirCssInstamaps+'/L.IM_LegendControl.css',
+	config.dirCssInstamaps+'/fonts-geostart.css',
     config.dirCssInstamaps+'/instamaps.visor.estils.css',
     config.dirCssInstamaps+'/instamaps.visor.geocat.css',
     config.dirCssInstamaps+'/instamaps.visor.mapa.css',
