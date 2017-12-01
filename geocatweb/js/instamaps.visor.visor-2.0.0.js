@@ -1128,8 +1128,8 @@
 			if (_mapConfig.options.textColor){
 				$('#navbar-visor').css('color', _mapConfig.options.textColor).css('border-color', '#ffffff');
 				$('.navbar-brand').css('color', _mapConfig.options.textColor);
-				$('#mapTitle').css('color', _mapConfig.options.textColor);
-				$('#mapTitle h3').css('color', '#ffffff');
+				$('#mapTitle #mapNameContainer > span').css('color', _mapConfig.options.textColor);
+				//$('#mapTitle h3').css('color', '#ffffff');
 				$('.navbar-inverse .navbar-nav > li > a').css('color', _mapConfig.options.textColor);
 				$('#menu_user > a > span').removeClass('green').css('color', _mapConfig.options.textColor);
 				$('.navbar-form').css('border-color', 'transparent');
