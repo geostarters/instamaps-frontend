@@ -21,14 +21,36 @@ jQuery(document).ready(function() {
 				}
 				redirectLogin(results, trackEventFrom);
 			}else if(results.results === 'cannot_authenticate'){
-				$('#modal_wrong_user').modal('toggle');						
+				showModal(results.results);								
 			}
 		});
+	}
+	
+	if(url('?error')){
+		showModal(url('?error'));
 	}
 	
 	$.publish('loadConfig', null);
 	
 });//Fi document ready
+
+function showModal(type){
+	if(type === 'cannot_authenticate'){
+		$('#modal_wrong_user').modal('toggle');	
+	}else if(type === 'ko'){
+		$('#modal_login_ko').modal('toggle');
+	}else if(type === 'account_locked'){
+		$('#modal_account_block').modal('toggle');						
+	}else if(type === 'unregistered_user'){
+		$('#modal_login_ko_donat_baixa').modal('toggle');
+		if (Cookies.get('collaboratebid')) Cookies.remove('collaboratebid');
+		if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');	
+	}else if (type === 'MAIL'){
+		window.location = results.url;
+	}else{
+		$('#modal_login_ko').modal('toggle');				
+	}
+}
 
 jQuery("#login_button").click(function(){
 
@@ -63,39 +85,27 @@ jQuery("#login_button").click(function(){
 				}else{
 					redirectLogin(results, trackEventFrom);
 				}
-			}else if(results.results === 'cannot_authenticate'){
-				$('#modal_wrong_user').modal('toggle');						
-			}else if(results.results === 'account_locked'){
-				$('#modal_account_block').modal('toggle');						
-			}else if(results.results === 'unregistered_user'){
-				$('#modal_login_ko_donat_baixa').modal('toggle');
-				if (Cookies.get('collaboratebid')) Cookies.remove('collaboratebid');
-				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');	
-			}else if (results.status === 'MAIL'){
-				window.location = results.url;
 			}else{
-				$('#modal_login_ko').modal('toggle');				
+				showModal(results.results);
 			}				
 		},function(results){
-			$('#modal_login_ko').modal('toggle');					
+			showModal('ko');					
 		});
 	}
 });
 
-
 //Recordar/modificar contrasenya
 jQuery("#btn_remember_pssw").click(function(){
 	window.location.href = paramUrl.oblidatPage;
-	
 });
 
 jQuery("#perfil_button_remember").click(function(){
 var contingut= "Tal i com ens has sol·licitat hem procedit a assignar-te una nova contrasenya per l'accés als serveis de la nostra web. Les noves dades d'accés són:";
 var data = {
-		to:$('#perfil_email').val(),
-		subject:window.lang.translate('Instamaps.Recordatori contrasenya'),
-		esRecordatoriContrasenya: 'S',
-		content: contingut
+	to:$('#perfil_email').val(),
+	subject:window.lang.translate('Instamaps.Recordatori contrasenya'),
+	esRecordatoriContrasenya: 'S',
+	content: contingut
 };
 sendMail(data).then(function(results){
 	//console.debug(results);							
