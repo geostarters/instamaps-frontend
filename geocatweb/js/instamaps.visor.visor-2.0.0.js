@@ -1144,7 +1144,7 @@
 				$('#menu_user > a > span').removeClass('green').css('color', '#9d9d9d');
 				$('.navbar-form').css('border-color', 'transparent');
 				$('.bt-sessio').css('border-color', '#ffffff');
-			}
+			} 
 
 			if (_mapConfig.options.fontType){
 				$('#navbar-visor').css('font-family', _mapConfig.options.fontType);
