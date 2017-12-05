@@ -97,7 +97,7 @@
 					legend: false,
 					layers: false,
 					minimap: false,
-					widgets: false
+					widgets: false			
 				};
 			}else{
 				optionsBtn = {
@@ -275,6 +275,8 @@
 			if (!self.colorscalecontrol) self.colorscalecontrol = 0;
 			
 			if (!self.layerscontrol) self.layerscontrol=0;
+			
+			if (!self.measurecontrol) self.measurecontrol=0;
 
 			$.publish('analyticsEvent',{event:[ 'visor', 'embed']});
 			return self;
@@ -1153,6 +1155,11 @@
 			$('.escut').show();
 			if (_mapConfig.logo){
 				$('.escut img').prop('src', '/logos/'+_mapConfig.logo);
+				if(_mapConfig.logo!="blank.gif"){
+					
+					$('.brand-txt').hide();
+					$('.img-circle2-icon').hide();
+				}
 			}
 			
 			//TODO quitar la global ya que se usa en el control de capas.
@@ -1259,7 +1266,7 @@
 				if(self.embed){
 					self.addLogoInstamap();
 				}
-				$(".leaflet-control-draw-measure").hide();	//Eliminem el control de mesura si no és geolocal/AOC
+				if (!self.measurecontrol) $(".leaflet-control-draw-measure").hide();	//Eliminem el control de mesura si no és geolocal/AOC
 				$.publish('analyticsEvent',{event:[ 'visor', 'visor_instamaps', _mapConfig.entitatUid, 1]});
 			}else if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
