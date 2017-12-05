@@ -808,6 +808,7 @@ function createPopupWindow(layer,type, editant,propFormat, propPrivacitat){
 	var html = createPopUpContent(layer,type, editant,propFormat, propPrivacitat);
 	//layer.bindPopup(html,{'offset':[0,-25]});
 	//eventos del popup
+		
 	jQuery(document).on('click', "#titol_pres", function(e) {
 		modeEditText();
 	});
@@ -1359,10 +1360,13 @@ function updateFeatureNameDescr(layer, titol, descr){
 				jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+descr+'</span>');
 				jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 			}
-			
+			if(layer.properties.tipusFeature == t_marker){
+				layer.bindLabel(layer.properties.data.nom,
+					{opacity:1, noHide: true, clickable:true, direction: 'center',className: "etiqueta_style_"+data.businessId,offset: [0, 0]});
+			}
 			jQuery('.popup_pres').show();
 			jQuery('.popup_edit').hide();  
-						
+			
 			
 	    }else{
 	        console.debug("updateGeometria ERROR");
@@ -1674,8 +1678,13 @@ function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
 			moveGeometriaToVisualitzacio(data).then(function(resultsMove) {
 				console.debug("moveGeometriaToVisualitzacio:"+ resultsMove.status);
 				if(resultsMove.status === 'OK'){
-					reloadSingleLayer(controlCapes._layers[leafletID], resultsMove.layerFrom);
-					reloadSingleLayer(controlCapes._layers[capaUsrActiva2._leaflet_id], resultsMove.layerTo);
+					findLayerByBusinessId(data.fromBusinessId).then(function(layerAct){
+						reloadSingleLayer(controlCapes._layers[layerAct._leaflet_id], resultsMove.layerFrom);
+						findLayerByBusinessId(data.toBusinessId).then(function(layerAct2){							
+							reloadSingleLayer(controlCapes._layers[layerAct2._leaflet_id], resultsMove.layerTo);
+						});
+					});
+					
 					capaUsrActiva=capaUsrActiva2;
 				}else{
 					console.debug("moveGeometriaToVisualitzacio ERROR");
