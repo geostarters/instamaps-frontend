@@ -1689,7 +1689,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var layerId = e.currentTarget.layerId;
 		var obj = this._layers[layerId];	
 		$('#dialog_info_capa').modal('show');
-		$('#dialog_info_capa #url_capa').val(obj.layer.options.url);
+		if (obj.layer.options.urlFileOriginal!=undefined){
+			$('#dialog_info_capa #url_capa').val(obj.layer.options.urlFileOriginal);
+		}
+		else {
+			$('#dialog_info_capa #url_capa').val(obj.layer.options.url);
+		}
 	
 	},
 	
