@@ -1154,6 +1154,7 @@
 			if (_mapConfig.logo){
 				$('.escut img').prop('src', '/logos/'+_mapConfig.logo);
 				if(_mapConfig.logo!="blank.gif"){
+					
 					$('.brand-txt').hide();
 					$('.img-circle2-icon').hide();
 				}
