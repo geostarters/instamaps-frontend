@@ -876,14 +876,24 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				_menu_item_checkbox.appendChild(col);
 			}
 			// Icona Taula de Dades Sempre
-			if ((obj.layer.options.source || obj.layer.options.geometryType=="marker" ||  obj.layer.options.geometryType=="polyline" 
-				||  obj.layer.options.geometryType=="polygon") && !obj.layer.options.dinamic ) {
+			if ((obj.layer.options.geometryType=="marker" || obj.layer.options.geometryType=="point" ||  obj.layer.options.geometryType=="polyline" 
+				||  obj.layer.options.geometryType=="polygon")  ) {
 				if (getModeMapa()){
-					col = L.DomUtil.create('div',
-						'data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
-					col.layerId = input.layerId;
-					L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
-					_menu_item_checkbox.appendChild(col);
+					if (obj.layer.options.dinamic){
+						col = L.DomUtil.create('div',
+								 ' leaflet-link glyphicon glyphicon-link');
+							col.layerId = input.layerId;
+							console.debug(col.layerId);
+							L.DomEvent.on(col, 'click', this._onInfoDinamic, this);
+							_menu_item_checkbox.appendChild(col);
+					}
+					else {
+						col = L.DomUtil.create('div',
+							'data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
+						col.layerId = input.layerId;
+						L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
+						_menu_item_checkbox.appendChild(col);
+					}
 				}
 				else {
 					if(downloadableData[obj.layer.options.businessId]){
@@ -1673,6 +1683,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (WMS_BBOX !=null) map.fitBounds(WMS_BBOX);
 			});
 		}
+	},
+	
+	_onInfoDinamic: function(e){
+		var layerId = e.currentTarget.layerId;
+		var obj = this._layers[layerId];	
+		$('#dialog_info_capa').modal('show');
+		$('#dialog_info_capa #url_capa').val(obj.layer.options.url);
+	
 	},
 	
 	_hideSpiner: function(){

@@ -24,7 +24,8 @@
 		"addFuncioEditDataTable()",
 		"addHtmlInterficieFuncionsSIG()",
 		"addFuncioEtiquetesCapa()",
-		"addHtmlModalBloqueigMapa()"
+		"addHtmlModalBloqueigMapa()",
+		"addFuncioInfoLayer()"
 	],
     "required": ["id", "name", "price"]
 }
