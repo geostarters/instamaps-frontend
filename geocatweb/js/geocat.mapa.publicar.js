@@ -9,8 +9,8 @@
 				{
 					"param": "zoomcontrol",
 					"text":"Control de zoom",
-					"visor": true,
-					"iframe": true
+					"visor": false,
+					"iframe": false
 				},
 				{
 					"param": "openinstamaps",
@@ -20,38 +20,38 @@
 				{
 					"param": "homecontrol",
 					"text":"Control de tornar a la vista inicial",
-					"visor": true
+					"visor": false
 				},
 				{
 					"param": "locationcontrol",
 					"text":"Control de localització",
-					"visor": true
+					"visor": false
 				},
 				{
 					"param": "searchcontrol",
 					"text":"Control de cerca",
-					"visor": true
+					"visor": false
 				},
 				{
 					"param": "routingcontrol",
 					"text":"Control de routing",
-					"visor": true
+					"visor": false
 				},
 				{
 					"param": "sharecontrol",
 					"text":"Control de compartir en xarxes socials",
-					"visor": true
+					"visor": false
 				},
 				{
 					"param": "likecontrol",
 					"text":"Control de M'agrada",
-					"visor": true,
-					"iframe": true
+					"visor": false,
+					"iframe": false
 				},
 				{
 					"param": "fonscontrol",
 					"text":"Control de fons",
-					"visor": true
+					"visor": false
 				},
 				{
 					"param": "layerscontrol",
@@ -62,12 +62,12 @@
 				{
 					"param": "control3d",
 					"text":"Control de 3D",
-					"visor": true
+					"visor": false
 				},
 				{
 					"param": "snapshotcontrol",
 					"text":"Control d'exportar mapa",
-					"visor": true
+					"visor": false
 				},
 				/*
 				{
@@ -84,28 +84,35 @@
 				{
 					"param": "llegenda",
 					"text":"Llegenda en el visor",
-					"visor": true
+					"visor": true,
+					"iframe": true
 				},
 				{
 					"param": "minimapcontrol",
 					"text":"Control minimapa",
-					"visor": true,
+					"visor": false,
 					"iframe": false
 				},
 				{
 					"param": "mouseposition",
 					"text":"Coordenades del ratolí",
-					"visor": true
+					"visor": false
 				},
 				{
 					"param": "scalecontrol",
 					"text":"Control d'escala",
-					"visor": true
+					"visor": false
 				},
 				{
 					"param": "colorscalecontrol",
 					"text":"Control d'escala de color",
   					"visor": false
+  				},  				
+				{
+					"param": "measurecontrol",
+					"text":"Control de mesura",
+  					"visor": false,
+  					"iframe":false
   				}
 			]
         },
