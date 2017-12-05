@@ -1092,6 +1092,7 @@ function objecteUserAdded(f){
 				findLayerByBusinessId(businessIdCapaOrigen).then(function(layerAct){
 					capaUsrActiva = layerAct;
 					finishAddFeatureToTematic(f.layer).then(function(){
+						updateFeatureCount(null, capaUsrActiva.options.businessId);
 						reloadSingleLayer(controlCapes._layers[capaUsrActiva._leaflet_id], layerServidor);
 					})
 			
