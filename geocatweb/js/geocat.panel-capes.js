@@ -526,3 +526,11 @@ function addHtmlModalEtiquetesLayer(){
 		});*/
 	});
 }
+
+function addFuncioInfoLayer(){
+		$.get("templates/modalInfoLayer.html",function(data){
+			//TODO ver como pasar el modal container
+			$('#mapa_modals').append(data);  
+		
+		});	
+}
