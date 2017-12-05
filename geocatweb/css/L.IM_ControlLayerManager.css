@@ -728,7 +728,10 @@ ol.ac-large li.placeholder:before {
 	cursor:pointer;
 }
 
-
+.leaflet-control-layers .leaflet-link {
+	float:right;
+	margin-right:4px;
+}
 
 
 
