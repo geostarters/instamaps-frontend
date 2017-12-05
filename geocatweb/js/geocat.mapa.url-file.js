@@ -49,6 +49,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		busy = false;
 		var propName = "";
 		var urlFileHttps=urlFile;
+
 		var isHttps=false;
 		if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
 			isHttps=true;
@@ -259,6 +260,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									'","nom":"'+nomCapa+
 									'","propName":"'+propName+
 									'","url":"'+urlFile+
+									'","urlFileOriginal":"'+urlFileHttps+
 									'","tipus":"'+t_url_file+
 									'","epsgIN":"'+epsgIN+
 									'", "geometryType":"'+geometryType+
