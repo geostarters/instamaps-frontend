@@ -808,7 +808,6 @@ function createPopupWindow(layer,type, editant,propFormat, propPrivacitat){
 	var html = createPopUpContent(layer,type, editant,propFormat, propPrivacitat);
 	//layer.bindPopup(html,{'offset':[0,-25]});
 	//eventos del popup
-		
 	jQuery(document).on('click', "#titol_pres", function(e) {
 		modeEditText();
 	});
@@ -1035,14 +1034,7 @@ function objecteUserAdded(f){
 						f.layer.properties.businessId = results.feature.businessId;
 						f.layer.properties.estil = results.results.estil[0];
 						f.layer.properties.feature = results.feature;	
-						findLayerByBusinessId(businessIdCapaOrigen).then(function(layerAct){
-							capaUsrActiva = layerAct;
-							finishAddFeatureToTematic(f.layer).then(function(){
-								updateFeatureCount(null, capaUsrActiva.options.businessId);
-								reloadSingleLayer(controlCapes._layers[capaUsrActiva._leaflet_id], layerServidor);
-							})
-					
-						});		
+						finishAddFeatureToTematic(f.layer);			
 					
 						
 					}else{
@@ -1368,13 +1360,13 @@ function updateFeatureNameDescr(layer, titol, descr){
 				jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+descr+'</span>');
 				jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 			}
-			if(layer.properties.tipusFeature == t_marker){
-				layer.bindLabel(layer.properties.data.nom,
-					{opacity:1, noHide: true, clickable:true, direction: 'center',className: "etiqueta_style_"+data.businessId,offset: [0, 0]});
-			}
+			
+			/*findLayerByBusinessId(layer.properties.capaBusinessId).then(function(layerAct){
+				reloadSingleLayer(controlCapes._layers[layerAct._leaflet_id], controlCapes._layers[layerAct._leaflet_id].layer);
+			});*/
 			jQuery('.popup_pres').show();
 			jQuery('.popup_edit').hide();  
-			
+						
 			
 	    }else{
 	        console.debug("updateGeometria ERROR");

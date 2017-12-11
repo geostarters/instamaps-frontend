@@ -12,7 +12,6 @@ function reloadSingleLayer(capaEdicio, layerServidor) {
 	map.closePopup();
 	map.removeLayer(capaEdicio.layer);
 	controlCapes.removeLayer(capaEdicio);
-	
 	//Recarrego la capa origen
 	loadVisualitzacioLayer(layerServidor).then(function(results){
 		//recarrego les sublayers si les te
@@ -350,7 +349,7 @@ function fillModalDataTable(obj, geomBid){
 								}
 								
 								try{
-									if (options.propName[x].toLowerCase()!="geomorigen" ) {
+									if (options.propName[x].toLowerCase()!="geomorigen" && isVisible) {
 										var obj = {
 											title: options.propName[x].toUpperCase(),
 											field: options.propName[x].toLowerCase(),

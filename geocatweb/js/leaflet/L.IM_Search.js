@@ -1067,6 +1067,13 @@ L.Control.Search = L.Control.extend({
 				var auxX = etrs.x;
 			    var auxY = etrs.y;
 			    
+			    var markerLatBound = L.latLngBounds(L.latLng(latlng.lat, latlng.lng), L.latLng(latlng.lat, latlng.lng));
+				var sC=map.miraBBContains(markerLatBound);
+			    if((sC===0)){
+			    	auxX="-";
+			    	auxY="-";
+			    }
+			    
 				marker.properties.data={
 						'nom':nom,
 						'text':title,
