@@ -933,7 +933,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			}
 		}
 		else{
-			
 			//Si es simpleTematic, amb el primer element de rang ja tenim prou, no ens cal recorrer tots el rangs 
 			//pq seran tots iguals
 			if(layer.options.tipusRang && layer.options.tipusRang==tem_simple){
@@ -978,6 +977,9 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 
 							//Reinicialitzem
 							layerName = layer.options.nom;
+							if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+								layerName=layerName+' ('+layer.getLayers().length+')';
+							}
 							checked = "";						
 							var index=-1;
 							if (undefined!=mapLegend[layer.options.businessId]) {
@@ -988,9 +990,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 								if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 							}		
 							
-							if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
-								layerName=layerName+' ('+layer.getLayers().length+')';
-							}
+							
 							
 							html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 							html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';					
@@ -1017,6 +1017,9 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 	
 							//Reinicialitzem
 							layerName = layer.options.nom;
+							if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+								layerName=layerName+' ('+layer.getLayers().length+')';
+							}
 							checked = "";						
 							var index=-1;
 							if (undefined!=mapLegend[layer.options.businessId]) {
@@ -1027,9 +1030,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 								if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 							}		
 							
-							if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
-								layerName=layerName+' ('+layer.getLayers().length+')';
-							}
+						
 							
 							html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 							html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';						
@@ -1070,9 +1071,9 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							layerName = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}					
-						if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+						/*if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
 							layerName=layerName+' ('+layer.getLayers().length+')';
-						}
+						}*/
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
 						html += '<div class="col-md-2 legend-symbol">'+
@@ -1118,9 +1119,9 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							layerName = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}						
-						if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+						/*if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
 							layerName=layerName+' ('+layer.getLayers().length+')';
-						}
+						}*/
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';					
 						html += '<div class="col-md-2 legend-symbol">'+
