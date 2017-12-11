@@ -1057,7 +1057,11 @@
         for(var i=0, len=values.length; i<len; ++i) { 
  
             var child = childs[i];
-            child.innerHTML = values[i]; 
+            try{
+            	child.innerHTML = values[i];
+            }catch(e){
+            	
+            }
  
         } 
  

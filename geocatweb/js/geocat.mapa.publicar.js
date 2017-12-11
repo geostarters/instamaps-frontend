@@ -242,10 +242,10 @@
 						$('#txt_llegenda_chk2').html("La llegenda del conjunt de les capes es mostra de manera contínua.");
 					}
 					if (self.mapConfig.options.llegendaOpt && self.mapConfig.options.llegendaOpt=="false"){
-						$('#llegenda_chk3').bootstrapSwitch('state', true, true);
+						$('#llegenda_chk3').bootstrapSwitch('state', false, false);
 					}
 					else {
-						$('#llegenda_chk3').bootstrapSwitch('state', false, false);
+						$('#llegenda_chk3').bootstrapSwitch('state', true, true);
 					}
 
 				}
@@ -460,6 +460,8 @@
             			$('#llegenda_chk2').bootstrapSwitch('state', true, true);
             			$('#div_llegenda_chk3').attr("style","display:inline;");
             			$('#llegenda_chk3').bootstrapSwitch('state', true, true);
+            		
+            			
             			if (self.mapConfig!=undefined && (self.mapConfig.options==null || (self.mapConfig.options!=null && !self.mapConfig.options.llegenda))) {
             				//Per defecte seleccionem tots si es selecciona que es vol llegenda
             				$('.legend-subrow-all input').iCheck('check');
