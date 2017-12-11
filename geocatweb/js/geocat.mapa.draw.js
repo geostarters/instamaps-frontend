@@ -1026,7 +1026,7 @@ function objecteUserAdded(f){
 						options: opts
 //							geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b014'//Bid de la geometria q estas afegint						
 				};
-				
+				var businessIdCapaOrigen = data.businessId;
 				addGeometriaToVisualitzacio(data).then(function(results) {
 					if(results.status === 'OK'){
 					
@@ -1035,7 +1035,14 @@ function objecteUserAdded(f){
 						f.layer.properties.businessId = results.feature.businessId;
 						f.layer.properties.estil = results.results.estil[0];
 						f.layer.properties.feature = results.feature;	
-						finishAddFeatureToTematic(f.layer);			
+						findLayerByBusinessId(businessIdCapaOrigen).then(function(layerAct){
+							capaUsrActiva = layerAct;
+							finishAddFeatureToTematic(f.layer).then(function(){
+								updateFeatureCount(null, capaUsrActiva.options.businessId);
+								reloadSingleLayer(controlCapes._layers[capaUsrActiva._leaflet_id], layerServidor);
+							})
+					
+						});		
 					
 						
 					}else{
