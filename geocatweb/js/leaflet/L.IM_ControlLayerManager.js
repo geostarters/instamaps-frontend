@@ -826,7 +826,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 		
 		var layerName=obj.name;			
-    	(layerName.length > 71)?layerName=layerName.substring(0,71)+"...":layerName;		
+    	(layerName!=undefined && layerName.length > 71)?layerName=layerName.substring(0,71)+"...":layerName;		
  
 		nomCapa.innerHTML = ' ' + layerName;
 		//nomCapa.innerHTML = ' ' + obj.name;

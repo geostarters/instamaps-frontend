@@ -1025,7 +1025,7 @@ function objecteUserAdded(f){
 						options: opts
 //							geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b014'//Bid de la geometria q estas afegint						
 				};
-				
+				var businessIdCapaOrigen = data.businessId;
 				addGeometriaToVisualitzacio(data).then(function(results) {
 					if(results.status === 'OK'){
 					
@@ -1091,6 +1091,7 @@ function objecteUserAdded(f){
 				findLayerByBusinessId(businessIdCapaOrigen).then(function(layerAct){
 					capaUsrActiva = layerAct;
 					finishAddFeatureToTematic(f.layer).then(function(){
+						updateFeatureCount(null, capaUsrActiva.options.businessId);
 						reloadSingleLayer(controlCapes._layers[capaUsrActiva._leaflet_id], layerServidor);
 					})
 			
@@ -1360,6 +1361,9 @@ function updateFeatureNameDescr(layer, titol, descr){
 				jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 			}
 			
+			/*findLayerByBusinessId(layer.properties.capaBusinessId).then(function(layerAct){
+				reloadSingleLayer(controlCapes._layers[layerAct._leaflet_id], controlCapes._layers[layerAct._leaflet_id].layer);
+			});*/
 			jQuery('.popup_pres').show();
 			jQuery('.popup_edit').hide();  
 						
@@ -1674,8 +1678,13 @@ function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
 			moveGeometriaToVisualitzacio(data).then(function(resultsMove) {
 				console.debug("moveGeometriaToVisualitzacio:"+ resultsMove.status);
 				if(resultsMove.status === 'OK'){
-					reloadSingleLayer(controlCapes._layers[leafletID], resultsMove.layerFrom);
-					reloadSingleLayer(controlCapes._layers[capaUsrActiva2._leaflet_id], resultsMove.layerTo);
+					findLayerByBusinessId(data.fromBusinessId).then(function(layerAct){
+						reloadSingleLayer(controlCapes._layers[layerAct._leaflet_id], resultsMove.layerFrom);
+						findLayerByBusinessId(data.toBusinessId).then(function(layerAct2){							
+							reloadSingleLayer(controlCapes._layers[layerAct2._leaflet_id], resultsMove.layerTo);
+						});
+					});
+					
 					capaUsrActiva=capaUsrActiva2;
 				}else{
 					console.debug("moveGeometriaToVisualitzacio ERROR");
