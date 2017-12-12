@@ -876,7 +876,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				_menu_item_checkbox.appendChild(col);
 			}
 			// Icona Taula de Dades Sempre
-			if ((obj.layer.options.geometryType=="marker" || obj.layer.options.geometryType=="point" ||  obj.layer.options.geometryType=="polyline" 
+			if ((obj.layer.options.geometryType=="marker" || obj.layer.options.geometryType=="point" ||  obj.layer.options.geometryType=="polyline"  ||  obj.layer.options.geometryType=="linestring" 
 				||  obj.layer.options.geometryType=="polygon")  ) {
 				if (getModeMapa()){
 					if (obj.layer.options.dinamic){
