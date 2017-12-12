@@ -532,7 +532,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Categories creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
-									
+									console.debug(data.results);
 									loadURLfileLayer(data.results).then(function(results){
 										activaPanelCapes(true);
 										//Desactivem la capa mare
@@ -599,7 +599,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 						colY: capaMare.options.colY,
 						dinamic: capaMare.options.dinamic						
 					};
-					$.extend(options, extraOptions);
+					//$.extend(options, extraOptions);
 			
 					var data = {
 						uid:Cookies.get('uid'),
@@ -622,7 +622,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 						paleta: jQuery("#dialog_tematic_rangs").data("paleta"),
 						reverse: jQuery("#dialog_tematic_rangs").data("reverse")
 					};
-					$.extend(data, extraData);
+					//$.extend(data, extraData);
 					callActions(data);
 					/*createServidorInMap(data);/*.then(function(results){
 						busy=false;					

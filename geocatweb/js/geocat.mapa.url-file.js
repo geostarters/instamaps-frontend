@@ -1145,7 +1145,7 @@ function processFileError(data, urlFile){
 }
 
 function loadURLfileLayer(layer){
-
+	console.debug(layer);
 	var defer = $.Deferred();
 
 	var options;
