@@ -1603,7 +1603,7 @@ function loadURLfileLayer(layer){
 							});
 						}
 
-						return false;	
+						return ;	
 					}
 				});	
 
@@ -1624,6 +1624,7 @@ function loadURLfileLayer(layer){
 				}catch(e){
 					console.debug(e);
 				}
+				console.debug(latlng);
 				return latlng;
 			}
 		});	
