@@ -370,7 +370,13 @@ L.Control.Legend = L.Control.extend({
 		self._redrawTabs();
 		if(!self.fromLayer){
 			var idLayer=$(e.target).attr('href').replace('#tab','');
-			$( "#input-"+idLayer).attr("checked")==undefined ? $("#input-"+idLayer).click():null;
+			var object = $( "#input-"+idLayer);
+			if (object[0].classList.contains("checkbox_eye")){
+				$("#input-"+idLayer).click();
+			}
+			else{
+				$( "#input-"+idLayer).attr("checked")==undefined ? $("#input-"+idLayer).click():null;
+			}
 		}else{
 			self.fromLayer = false;
 		}

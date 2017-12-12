@@ -896,14 +896,16 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					}
 				}
 				else {
-					if(downloadableData[obj.layer.options.businessId]){
-	    				if(downloadableData[obj.layer.options.businessId][0].chck) {
-	    					col = L.DomUtil.create('div',
-	    							'data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
-	    						col.layerId = input.layerId;
-	    						L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
-	    						_menu_item_checkbox.appendChild(col);
-	    				}
+					if (obj.layer.options.dinamic==undefined || (obj.layer.options.dinamic!=undefined && !obj.layer.options.dinamic)){
+						if(downloadableData[obj.layer.options.businessId]){
+		    				if(downloadableData[obj.layer.options.businessId][0].chck) {
+		    					col = L.DomUtil.create('div',
+		    							'data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
+		    						col.layerId = input.layerId;
+		    						L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
+		    						_menu_item_checkbox.appendChild(col);
+		    				}
+						}
 					}
 				}
 			}
