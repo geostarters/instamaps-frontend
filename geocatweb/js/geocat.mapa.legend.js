@@ -428,20 +428,23 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							if(labelNomCategoria == "Altres"){
 								labelNomCategoria = window.lang.translate("Altres");
 							}
+							if (layer.options.tem=='sizeTematic'){
+								if (labelNomCategoria.indexOf('('+map[estilRang.estil.simbolSize]+')')==-1){
+									labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.simbolSize]+')';
+								}
+								
+							}
+							else{
+								if (labelNomCategoria.indexOf('('+map[estilRang.estil.color]+')')==-1){
+									labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.color]+')';
+								}
+								
+							}
 							
 						}						
-						if (layer.options.tem=='sizeTematic'){
-							if (labelNomCategoria.indexOf('('+map[estilRang.estil.simbolSize]+')')==-1){
-								labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.simbolSize]+')';
-							}
-							
-						}
-						else{
-							if (labelNomCategoria.indexOf('('+map[estilRang.estil.color]+')')==-1){
-								labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.color]+')';
-							}
-							
-						}
+						
+						
+						
 						
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
@@ -493,24 +496,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						if (undefined!=mapLegend[layer.options.businessId]) {
 							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 						}
-						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
-							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-						}else{
-							if(estilRang.valueMax == estilRang.valueMin){
-								labelNomCategoria = estilRang.valueMax;
-							}else{
-								labelNomCategoria = estilRang.valueMin +" - "+ estilRang.valueMax;
-							}
-							
-							if(labelNomCategoria == "Altres"){
-								labelNomCategoria = window.lang.translate("Altres");
-							}
-						}						
-						
-						if (labelNomCategoria.indexOf("("+map[estilRang.estil.color]+")")==-1){
-							labelNomCategoria = labelNomCategoria+ " ("+map[estilRang.estil.color]+")";
-						}
+						labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 						
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
@@ -574,23 +560,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						if (undefined!=mapLegend[layer.options.businessId]) {
 							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 						}
-						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
-							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-						}else{
-							if(estilRang.valueMax == estilRang.valueMin){
-								labelNomCategoria = estilRang.valueMax;
-							}else{
-								labelNomCategoria = estilRang.valueMin +" - "+ estilRang.valueMax;
-							}
-							
-							if(labelNomCategoria == "Altres"){
-								labelNomCategoria = window.lang.translate("Altres");
-							}
-						}						
-						if (labelNomCategoria.indexOf("("+map[estilRang.estil.color]+")")==-1){
-							labelNomCategoria = labelNomCategoria+ " ("+map[estilRang.estil.color]+")";
-						}
+						labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 						html +=	'<div class="col-md-2 legend-symbol">'+
@@ -1826,11 +1796,12 @@ function getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil){
 		if(labelNomCategoria == "Altres"){
 			labelNomCategoria = window.lang.translate("Altres");
 		}
+		if (labelNomCategoria.indexOf('('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
+			labelNomCategoria = labelNomCategoria +' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+		}
 	}						
 	
-	if (labelNomCategoria.indexOf('('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
-		labelNomCategoria = labelNomCategoria +' ('+layer.options.estil[indexEstil].geometria.features.length+')';
-	}
+	
 	return labelNomCategoria;
 	
 }
