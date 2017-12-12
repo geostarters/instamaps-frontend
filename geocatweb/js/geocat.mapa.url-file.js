@@ -1145,7 +1145,6 @@ function processFileError(data, urlFile){
 }
 
 function loadURLfileLayer(layer){
-	console.debug(layer);
 	var defer = $.Deferred();
 
 	var options;
@@ -1534,6 +1533,7 @@ function loadURLfileLayer(layer){
 				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
+				try{
 				var pp = feature.properties;
 				var dataFieldValue = "";
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
@@ -1621,7 +1621,9 @@ function loadURLfileLayer(layer){
 						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 					});
 				}
-
+				}catch(e){
+					console.debug(e);
+				}
 				return latlng;
 			}
 		});	
