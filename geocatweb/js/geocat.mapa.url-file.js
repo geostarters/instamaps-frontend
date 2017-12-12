@@ -1516,14 +1516,14 @@ function loadURLfileLayer(layer){
 				});	
 				html+='</div></div>';    	
 
-				$.each( estil_do.estils, function( index, estil ) {
+				/*$.each( estil_do.estils, function( index, estil ) {
 					if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
 							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
 						geom = L.circleMarker(latlng, { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.9, isCanvas: true });
 						return;
 					}
 
-				});
+				});*/
 				   	
 				feature.properties.capaNom=layer.serverName;
 				feature.properties.popupData=html;
@@ -1564,7 +1564,7 @@ function loadURLfileLayer(layer){
 				});	
 				html+='</div></div>'; 
 				console.debug(dataFieldValue);
-				$.each( estil_do.estils, function( index, estil ) {
+			/*	$.each( estil_do.estils, function( index, estil ) {
 					if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
 							(parseFloat(dataFieldValue)>=parseFloat(estil.valueMin) && parseFloat(dataFieldValue)<=parseFloat(estil.valueMax))){//per valors	
 
@@ -1608,7 +1608,7 @@ function loadURLfileLayer(layer){
 						return ;	
 					}
 				});	
-
+*/
 				latlng.feature.properties.capaNom = layer.serverName;
 				latlng.feature.properties.popupData=html;
 				latlng.properties={
