@@ -1483,7 +1483,6 @@ function loadURLfileLayer(layer){
 			geometryType: geometryType,
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
-				console.debug(feature);
 				var estilGeom=estil_do;  //ficat default point style????
 				var geom = null;	 
 				var pp = feature.properties;
@@ -1516,15 +1515,19 @@ function loadURLfileLayer(layer){
 				});	
 				html+='</div></div>';    	
 
-				/*$.each( estil_do.estils, function( index, estil ) {
-					if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
-							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
-						geom = L.circleMarker(latlng, { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.9, isCanvas: true });
-						return;
-					}
-
-				});*/
-				geom = L.circleMarker(latlng, estil_do);
+				try{
+					$.each( estil_do.estils, function( index, estil ) {
+						if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
+								(parseFloat(dataFieldValue)>=parseFloat(estil.valueMin) && parseFloat(dataFieldValue)<=parseFloat(estil.valueMax))){//per valors	
+							geom = L.circleMarker(latlng, { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.9, isCanvas: true });
+							return;
+						}
+	
+					});
+				}catch(e){
+					
+				}
+				   	
 				feature.properties.capaNom=layer.serverName;
 				feature.properties.popupData=html;
 				geom.on('click', function(e) {
@@ -1534,11 +1537,10 @@ function loadURLfileLayer(layer){
 				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
-				try{
 				var pp = feature.properties;
 				var dataFieldValue = "";
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
-				$.each( pp, function( key, value ) {					
+				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
 						if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
 								key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
@@ -1563,8 +1565,9 @@ function loadURLfileLayer(layer){
 					if(key.toLowerCase()==estil_do.dataField || key==estil_do.dataField) dataFieldValue = value;
 				});	
 				html+='</div></div>'; 
-				console.debug(dataFieldValue);
-			/*	$.each( estil_do.estils, function( index, estil ) {
+				
+				try{
+				$.each( estil_do.estils, function( index, estil ) {
 					if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
 							(parseFloat(dataFieldValue)>=parseFloat(estil.valueMin) && parseFloat(dataFieldValue)<=parseFloat(estil.valueMax))){//per valors	
 
@@ -1605,10 +1608,13 @@ function loadURLfileLayer(layer){
 							});
 						}
 
-						return ;	
+						return false;	
 					}
 				});	
-*/
+				}catch(e){
+					
+				}
+
 				latlng.feature.properties.capaNom = layer.serverName;
 				latlng.feature.properties.popupData=html;
 				latlng.properties={
@@ -1623,10 +1629,7 @@ function loadURLfileLayer(layer){
 						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 					});
 				}
-				}catch(e){
-					console.debug(e);
-				}
-				console.debug(latlng);
+
 				return latlng;
 			}
 		});	
