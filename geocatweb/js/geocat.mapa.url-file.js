@@ -1483,6 +1483,7 @@ function loadURLfileLayer(layer){
 			geometryType: geometryType,
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
+				console.debug(feature);
 				var estilGeom=estil_do;  //ficat default point style????
 				var geom = null;	 
 				var pp = feature.properties;
