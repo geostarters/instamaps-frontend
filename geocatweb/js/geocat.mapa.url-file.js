@@ -1524,7 +1524,7 @@ function loadURLfileLayer(layer){
 					}
 
 				});*/
-				   	
+				geom = L.circleMarker(latlng, estil_do);
 				feature.properties.capaNom=layer.serverName;
 				feature.properties.popupData=html;
 				geom.on('click', function(e) {
