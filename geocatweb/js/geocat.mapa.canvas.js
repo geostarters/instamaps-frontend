@@ -376,7 +376,7 @@ function restoreClasses(divPerfil, perfilVisible) {
 
 function generaCaptura(_tipusCaptura, w, h, factor) {
 
-   
+  
     map.setView([map.getCenter().lat, map.getCenter().lng], map.getZoom());
     if ((!w) || (w == null)) {
         var d = map.getSize();
@@ -386,19 +386,21 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
     var transform = "";
 
     var divPerfil = ".leaflet-control.elevation";
-    var divActiuCanvas = '#map';
+    var divActiuCanvas = '#map .leaflet-map-pane';
     var perfilVisible = $(divPerfil).is(":visible");
 
     jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore', 'true');
     jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore');
     jQuery(".leaflet-sidebar").attr("data-html2canvas-ignore", "true");
     jQuery(".leaflet-top.leaflet-left").attr("data-html2canvas-ignore", "true");
+   
+    jQuery('#map .leaflet-popup-pane').removeAttr('data-html2canvas-ignore');
 
-    if(perfilVisible)
-        jQuery(".leaflet-top.leaflet-right>div:not(:last-child)").attr("data-html2canvas-ignore", "true");
-    else
+    if(perfilVisible){
+       jQuery(".leaflet-top.leaflet-right>div:not(:last-child)").attr("data-html2canvas-ignore", "true");
+    }else{
         jQuery(".leaflet-top.leaflet-right").attr("data-html2canvas-ignore", "true");
-
+    }
     jQuery(".leaflet-bottom.leaflet-left").attr("data-html2canvas-ignore", "true");
     jQuery(".leaflet-bottom.leaflet-right div").attr("data-html2canvas-ignore", "true");
 
@@ -436,6 +438,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
         transform = hackCaptura();
         var snd = new Audio("/llibreries/sons/camera.wav"); // buffers
         snd.play();
+       
         html2canvas(jQuery(divActiuCanvas), {
             onrendered: function(canvas) {
 
