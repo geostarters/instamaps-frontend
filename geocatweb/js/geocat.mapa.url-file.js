@@ -228,11 +228,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									data: latlng.feature.properties
 								};
 								var tipus = feature.geometry.type; 
-								//if (tipus != 'Point'){
+								if (tipus != 'Point'){
 										latlng.on('click', function(e) {
 										PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 									});
-								//}
+								}
 								return latlng;
 							},			  
 							middleware:function(data){
@@ -482,11 +482,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					data: latlng.feature.properties
 				};
 				var tipus=feature.geometry.type;
-				//if (tipus != 'Point'){
+				if (tipus != 'Point'){
 					latlng.on('click', function(e) {
 					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 					});
-				//}
+				}
 				return latlng;
 			},			  
 			middleware:function(data){
@@ -1444,11 +1444,11 @@ function loadURLfileLayer(layer){
 					feature: latlng.feature,
 					data: latlng.feature.properties
 				};
-				//if (tipus != 'Point'){
+				if (tipus != 'Point'){
 					latlng.on('click', function(e) {
 						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 					});
-				//}
+				}
 				
 				//return PopupManager().createMergedDataPopup(feature, e, controlCapes);;
 			}
@@ -1566,7 +1566,18 @@ function loadURLfileLayer(layer){
 					if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
 							(parseFloat(dataFieldValue)>=parseFloat(estil.valueMin) && parseFloat(dataFieldValue)<=parseFloat(estil.valueMax))){//per valors	
 
-						if(latlng.feature.geometry.type.toLowerCase() == t_polygon ){		
+						if (latlng.feature.geometry.type.toLowerCase() == t_marker || latlng.feature.geometry.type.toLowerCase() == "point"){
+							latlng.setStyle(
+								{ radius : estil.estil.simbolSize, 
+								  fillColor : estil.estil.color, 
+								  color : "#ffffff", 
+								  weight : 2, 
+								  opacity : 1, 
+								  fillOpacity : 0.9, 
+								  isCanvas: true 
+							});
+						}
+						else if(latlng.feature.geometry.type.toLowerCase() == t_polygon ){		
 							latlng.setStyle({
 								weight: 2,
 								fillColor: estil.estil.color,
@@ -1605,11 +1616,11 @@ function loadURLfileLayer(layer){
 					data: latlng.feature.properties
 				};
 				var tipus = feature.geometry.type;
-				//if (tipus != 'Point'){
+				if (tipus != 'Point'){
 					latlng.on('click', function(e) {
 						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 					});
-				//}
+				}
 
 				return latlng;
 			}
@@ -1703,11 +1714,11 @@ function loadURLfileLayer(layer){
 					data: latlng.feature.properties
 				};
 				var tipus = feature.geometry.type;
-				//if (tipus != 'Point'){
+				if (tipus != 'Point'){
 					latlng.on('click', function(e) {
 						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 					});
-				//}
+				}
 				return latlng;
 			}
 		});
