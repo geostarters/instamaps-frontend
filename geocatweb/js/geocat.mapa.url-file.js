@@ -228,11 +228,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									data: latlng.feature.properties
 								};
 								var tipus = feature.geometry.type; 
-								if (tipus != 'Point'){
+								//if (tipus != 'Point'){
 										latlng.on('click', function(e) {
 										PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 									});
-								}
+								//}
 								return latlng;
 							},			  
 							middleware:function(data){
@@ -482,11 +482,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					data: latlng.feature.properties
 				};
 				var tipus=feature.geometry.type;
-				if (tipus != 'Point'){
+				//if (tipus != 'Point'){
 					latlng.on('click', function(e) {
 					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 					});
-				}
+				//}
 				return latlng;
 			},			  
 			middleware:function(data){
@@ -1444,11 +1444,11 @@ function loadURLfileLayer(layer){
 					feature: latlng.feature,
 					data: latlng.feature.properties
 				};
-				if (tipus != 'Point'){
+				//if (tipus != 'Point'){
 					latlng.on('click', function(e) {
 						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 					});
-				}
+				//}
 				
 				//return PopupManager().createMergedDataPopup(feature, e, controlCapes);;
 			}
@@ -1605,11 +1605,11 @@ function loadURLfileLayer(layer){
 					data: latlng.feature.properties
 				};
 				var tipus = feature.geometry.type;
-				if (tipus != 'Point'){
+				//if (tipus != 'Point'){
 					latlng.on('click', function(e) {
 						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 					});
-				}
+				//}
 
 				return latlng;
 			}
@@ -1703,11 +1703,11 @@ function loadURLfileLayer(layer){
 					data: latlng.feature.properties
 				};
 				var tipus = feature.geometry.type;
-				if (tipus != 'Point'){
+				//if (tipus != 'Point'){
 					latlng.on('click', function(e) {
 						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 					});
-				}
+				//}
 				return latlng;
 			}
 		});
