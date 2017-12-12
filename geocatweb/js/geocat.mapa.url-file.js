@@ -1145,7 +1145,6 @@ function processFileError(data, urlFile){
 }
 
 function loadURLfileLayer(layer){
-
 	var defer = $.Deferred();
 
 	var options;
@@ -1516,14 +1515,18 @@ function loadURLfileLayer(layer){
 				});	
 				html+='</div></div>';    	
 
-				$.each( estil_do.estils, function( index, estil ) {
-					if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
-							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
-						geom = L.circleMarker(latlng, { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.9, isCanvas: true });
-						return;
-					}
-
-				});
+				try{
+					$.each( estil_do.estils, function( index, estil ) {
+						if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
+								(parseFloat(dataFieldValue)>=parseFloat(estil.valueMin) && parseFloat(dataFieldValue)<=parseFloat(estil.valueMax))){//per valors	
+							geom = L.circleMarker(latlng, { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.9, isCanvas: true });
+							return;
+						}
+	
+					});
+				}catch(e){
+					
+				}
 				   	
 				feature.properties.capaNom=layer.serverName;
 				feature.properties.popupData=html;
@@ -1562,11 +1565,24 @@ function loadURLfileLayer(layer){
 					if(key.toLowerCase()==estil_do.dataField || key==estil_do.dataField) dataFieldValue = value;
 				});	
 				html+='</div></div>'; 
+				
+				try{
 				$.each( estil_do.estils, function( index, estil ) {
 					if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
 							(parseFloat(dataFieldValue)>=parseFloat(estil.valueMin) && parseFloat(dataFieldValue)<=parseFloat(estil.valueMax))){//per valors	
 
-						if(latlng.feature.geometry.type.toLowerCase() == t_polygon ){		
+						if (latlng.feature.geometry.type.toLowerCase() == t_marker || latlng.feature.geometry.type.toLowerCase() == "point"){
+							latlng.setStyle(
+								{ radius : estil.estil.simbolSize, 
+								  fillColor : estil.estil.color, 
+								  color : "#ffffff", 
+								  weight : 2, 
+								  opacity : 1, 
+								  fillOpacity : 0.9, 
+								  isCanvas: true 
+							});
+						}
+						else if(latlng.feature.geometry.type.toLowerCase() == t_polygon ){		
 							latlng.setStyle({
 								weight: 2,
 								fillColor: estil.estil.color,
@@ -1595,6 +1611,9 @@ function loadURLfileLayer(layer){
 						return false;	
 					}
 				});	
+				}catch(e){
+					
+				}
 
 				latlng.feature.properties.capaNom = layer.serverName;
 				latlng.feature.properties.popupData=html;
