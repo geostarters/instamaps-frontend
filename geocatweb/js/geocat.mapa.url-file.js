@@ -1537,7 +1537,7 @@ function loadURLfileLayer(layer){
 				var pp = feature.properties;
 				var dataFieldValue = "";
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
-				$.each( pp, function( key, value ) {
+				$.each( pp, function( key, value ) {					
 					if(isValidValue(value) && !validateWkt(value)){
 						if ( key != 'businessId' && key != 'slotd50'  && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
 								key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
@@ -1562,6 +1562,7 @@ function loadURLfileLayer(layer){
 					if(key.toLowerCase()==estil_do.dataField || key==estil_do.dataField) dataFieldValue = value;
 				});	
 				html+='</div></div>'; 
+				console.debug(dataFieldValue);
 				$.each( estil_do.estils, function( index, estil ) {
 					if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
 							(parseFloat(dataFieldValue)>=parseFloat(estil.valueMin) && parseFloat(dataFieldValue)<=parseFloat(estil.valueMax))){//per valors	
