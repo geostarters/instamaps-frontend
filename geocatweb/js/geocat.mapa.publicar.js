@@ -241,7 +241,8 @@
 						$('#llegenda_chk2').bootstrapSwitch('state', false, false);
 						$('#txt_llegenda_chk2').html("La llegenda del conjunt de les capes es mostra de manera contínua.");
 					}
-					if (self.mapConfig.options.llegendaOpt && self.mapConfig.options.llegendaOpt=="false"){
+					console.debug(self.mapConfig.options.llegendaOpt);
+					if (!self.mapConfig.options.llegendaOpt){
 						$('#llegenda_chk3').bootstrapSwitch('state', false, false);
 					}
 					else {
