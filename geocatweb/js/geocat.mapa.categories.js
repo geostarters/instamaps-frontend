@@ -243,7 +243,7 @@ function getTipusValuesVisualitzacio(results,geomType){
 		var arr = jQuery.grep(resultats, function( n, i ) {
 			var isText = false;
 			if (!jQuery.isNumeric(n)){
-				if (n == "Sense valor" || n == "Sin valor" || n == "Empty value" || n == NODATA_VALUE){
+				if (n == "Sense valor" || n == "Sin valor" || n == "Empty value" || n == NODATA_VALUE || n == ""){
 					nodata.push(n);
 				}else{
 					isText = true;

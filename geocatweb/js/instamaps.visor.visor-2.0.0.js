@@ -1162,6 +1162,10 @@
 				}
 			}
 			
+			if (_mapConfig.options.contacte){
+				$('#hl_contact').attr("href","mailto:"+_mapConfig.options.contacte);
+			}
+			
 			//TODO quitar la global ya que se usa en el control de capas.
 			downloadableData = (_mapConfig.options && _mapConfig.options.downloadable?
 					_mapConfig.options.downloadable:[]);
