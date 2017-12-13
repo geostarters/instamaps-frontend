@@ -21,9 +21,7 @@ gulp build+dev
 
 The files will be generated under the _/geocatweb/dist/_ directory.
 
-<div class="alert alert-info">
-    :warning: This code is only from the Front-end of Instamaps. The Back-end code is not available at the moment.
-</div>
+:warning: This code is only from the Front-end of Instamaps. The Back-end code is not available at the moment.
 
 
 ## FAQs
