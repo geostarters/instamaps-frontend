@@ -4,6 +4,28 @@ Tool that makes you available so you can explore the geoinformation of Catalonia
 
 **Demo:** https://www.instamaps.cat/
 
+## Building the library
+To build the files the [node package manager](https://www.npmjs.com/) and [gulp](https://gulpjs.com/) task runner are used.
+Clone this repository and, after installing npm, execute the following commands to install all the prerequisites and build the library:
+
+```
+npm install
+gulp build+
+```
+
+To build a dev version execute:
+
+```
+gulp build+dev
+```
+
+The files will be generated under the _/geocatweb/dist/_ directory.
+
+<aside class="warning">
+    This code is only from the Front-end of Instamaps. The Back-end code is not available at the moment.
+</aside>
+
+
 ## FAQs
 http://betaportal.icgc.cat/wordpress/category/instamaps/
 
